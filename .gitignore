@@ -1,0 +1,22 @@
+# Rust
+/backend/target/
+**/*.rs.bk
+
+# Local SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# Node / Astro
+node_modules/
+/frontend/short-shepherd/dist/
+/frontend/short-shepherd/.astro/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+*.swp

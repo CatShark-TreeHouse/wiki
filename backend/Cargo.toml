@@ -1,0 +1,28 @@
+[workspace]
+resolver = "3"
+members = ["api", "bot", "domain", "persistence"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[workspace.dependencies]
+tracing = { version = "0.1.44" }
+domain = { path = "domain" }
+tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"] }
+serde = { version = "1.0.228", features = ["std", "derive"] }
+sqlx = { version = "0.9.0", features = [
+  "runtime-tokio",
+  "derive",
+  "macros",
+  "uuid",
+  "sqlite",
+  "chrono",
+] }
+tower-http = { version = "0.6.11", features = ["cors"] }
+axum = { version = "0.8.9", features = ["macros", "tokio"] }
+teloxide = { version = "0.17.0", features = ["macros"] }
+anyhow = { version = "1.0.102" }
+thiserror = { version = "2.0.18" }
+chrono = { version = "0.4.45", features = ["serde"] }
+async-trait = { version = "0.1.89" }
