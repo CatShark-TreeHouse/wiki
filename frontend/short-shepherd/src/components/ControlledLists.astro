@@ -1,0 +1,308 @@
+---
+// Live view of the controlled-content lists. Data is fetched in the browser
+// at page load — nothing at build time, so the static build never depends on
+// the API being up.
+//
+// The API origin is baked in at build time: set PUBLIC_API_BASE for
+// deployments where the API lives on another origin; the default assumes
+// same-origin in production and the local backend in dev.
+const apiBase =
+  import.meta.env.PUBLIC_API_BASE ??
+  (import.meta.env.DEV ? "http://localhost:8080" : "");
+---
+
+<div class="cs-lists not-content">
+  <div class="cs-controls">
+    <input
+      id="cs-search"
+      type="search"
+      placeholder="Search by name…"
+      autocomplete="off"
+      aria-label="Search controlled content by name"
+    />
+    <select id="cs-type" aria-label="Filter by type">
+      <option value="all">All types</option>
+      <option value="artist">Artists</option>
+      <option value="character">Characters</option>
+      <option value="tag">Kinks & tags</option>
+    </select>
+  </div>
+  <div id="cs-content" aria-live="polite"></div>
+</div>
+
+<style is:global>
+  .cs-lists {
+    margin-top: 1.5rem;
+  }
+
+  .cs-controls {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .cs-controls input,
+  .cs-controls select {
+    background: var(--sl-color-bg-nav);
+    color: var(--sl-color-text);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.5rem;
+    padding: 0.55rem 0.75rem;
+    font-size: var(--sl-text-sm);
+  }
+
+  .cs-controls input {
+    flex: 1 1 240px;
+    min-width: 0;
+  }
+
+  .cs-controls input:focus-visible,
+  .cs-controls select:focus-visible {
+    outline: 2px solid var(--sl-color-accent);
+    outline-offset: 1px;
+  }
+
+  .cs-section {
+    margin-bottom: 2rem;
+  }
+
+  .cs-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--sl-text-h4);
+    color: var(--sl-color-white);
+    margin: 0 0 0.35rem;
+  }
+
+  .cs-section .cs-section-sub {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+    margin: 0 0 0.75rem;
+  }
+
+  .cs-panel {
+    background: var(--sl-color-bg-nav);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.65rem;
+    overflow-x: auto;
+  }
+
+  .cs-panel table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+  }
+
+  .cs-panel th,
+  .cs-panel td {
+    text-align: left;
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+    vertical-align: top;
+  }
+
+  .cs-panel th {
+    font-size: var(--sl-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cs-panel tr:last-child td {
+    border-bottom: none;
+  }
+
+  .cs-alias {
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .cs-type {
+    color: var(--sl-color-gray-3);
+    white-space: nowrap;
+  }
+
+  .cs-reason {
+    color: var(--sl-color-gray-2);
+  }
+
+  .cs-reason.cs-none {
+    font-style: italic;
+    opacity: 0.6;
+  }
+
+  .cs-state {
+    padding: 2.5rem 1rem;
+    text-align: center;
+    color: var(--sl-color-gray-3);
+    border: 1px dashed var(--sl-color-hairline);
+    border-radius: 0.65rem;
+  }
+
+  .cs-state .cs-big {
+    font-size: var(--sl-text-lg);
+    color: var(--sl-color-white);
+    margin-bottom: 0.35rem;
+  }
+
+  .cs-retry {
+    margin-top: 1rem;
+    background: var(--sl-color-accent);
+    color: var(--sl-color-black);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.1rem;
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .cs-retry:hover {
+    filter: brightness(1.1);
+  }
+</style>
+
+<script is:inline define:vars={{ apiBase }}>
+  const contentEl = document.getElementById("cs-content");
+  const searchEl = document.getElementById("cs-search");
+  const typeEl = document.getElementById("cs-type");
+
+  const TYPE_LABELS = { artist: "Artist", character: "Character", tag: "Kink" };
+
+  let allItems = [];
+
+  function esc(value) {
+    return String(value).replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  }
+
+  function showLoading() {
+    contentEl.innerHTML =
+      '<div class="cs-state"><div class="cs-big">Loading…</div>Fetching the controlled-content lists.</div>';
+  }
+
+  function showError() {
+    contentEl.innerHTML =
+      '<div class="cs-state"><div class="cs-big">Couldn’t reach the lists service</div>' +
+      "The lists are temporarily unavailable. Please try again in a moment." +
+      '<div><button class="cs-retry" id="cs-retry">Retry</button></div></div>';
+    document.getElementById("cs-retry")?.addEventListener("click", load);
+  }
+
+  function showEmpty(filtered) {
+    const msg = filtered
+      ? "No entries match your search."
+      : "Nothing is controlled right now.";
+    contentEl.innerHTML =
+      '<div class="cs-state"><div class="cs-big">' + esc(msg) + "</div></div>";
+  }
+
+  function tableFor(items) {
+    let rows = "";
+    for (const item of items) {
+      const reason =
+        item.reason == null || item.reason === ""
+          ? '<span class="cs-reason cs-none">—</span>'
+          : '<span class="cs-reason">' + esc(item.reason) + "</span>";
+      rows +=
+        "<tr>" +
+        '<td class="cs-alias">' +
+        esc(item.alias ?? "") +
+        "</td>" +
+        '<td class="cs-type">' +
+        esc(TYPE_LABELS[item.type] ?? item.type ?? "") +
+        "</td>" +
+        "<td>" +
+        reason +
+        "</td>" +
+        "</tr>";
+    }
+    return (
+      '<div class="cs-panel"><table><thead><tr>' +
+      "<th>Name</th><th>Type</th><th>Reason</th>" +
+      "</tr></thead><tbody>" +
+      rows +
+      "</tbody></table></div>"
+    );
+  }
+
+  function render(items) {
+    if (!items.length) {
+      showEmpty(allItems.length > 0);
+      return;
+    }
+    const banned = items.filter((item) => item.status === "banned");
+    const spoilered = items.filter((item) => item.status === "spoilered");
+
+    let html = "";
+    if (banned.length) {
+      html +=
+        '<section class="cs-section">' +
+        '<h2>Banned <span class="cs-badge banned">' +
+        banned.length +
+        "</span></h2>" +
+        '<p class="cs-section-sub">Not allowed anywhere in the network — stickers included.</p>' +
+        tableFor(banned) +
+        "</section>";
+    }
+    if (spoilered.length) {
+      html +=
+        '<section class="cs-section">' +
+        '<h2>Spoilered <span class="cs-badge spoilered">' +
+        spoilered.length +
+        "</span></h2>" +
+        '<p class="cs-section-sub">Allowed only when spoilered and sent with a content warning.</p>' +
+        tableFor(spoilered) +
+        "</section>";
+    }
+    contentEl.innerHTML = html;
+  }
+
+  function applyFilters() {
+    const query = searchEl.value.trim().toLowerCase();
+    const type = typeEl.value;
+    render(
+      allItems.filter((item) => {
+        const matchesType = type === "all" || item.type === type;
+        const matchesQuery =
+          !query ||
+          String(item.alias ?? "")
+            .toLowerCase()
+            .includes(query);
+        return matchesType && matchesQuery;
+      }),
+    );
+  }
+
+  async function load() {
+    showLoading();
+    try {
+      const response = await fetch(apiBase + "/api/controlled-content", {
+        headers: { Accept: "application/json" },
+      });
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      const data = await response.json();
+      allItems = Array.isArray(data) ? data : [];
+      applyFilters();
+    } catch (error) {
+      console.error("Failed to load controlled content:", error);
+      showError();
+    }
+  }
+
+  searchEl.addEventListener("input", applyFilters);
+  typeEl.addEventListener("change", applyFilters);
+
+  load();
+</script>

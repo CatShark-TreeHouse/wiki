@@ -1,8 +1,12 @@
 # CatShark TreeHouse — Wiki
 
 Monorepo for the Zuri Cat Tree / FurrK network wiki: a Telegram bot for moderators to
-control content, an HTTP API that serves the live ban/spoiler lists, and an Astro site
-that displays the rules (static) and the controlled-content lists (dynamic).
+maintain the controlled-content lists, an HTTP API that serves the live ban/spoiler
+lists, and an Astro site that displays the rules (static) and the controlled-content
+lists (dynamic).
+
+The bot is information-access only — it edits the lists, it does not moderate users
+(user moderation is handled by Group Guardian).
 
 ## Structure
 
@@ -10,7 +14,7 @@ that displays the rules (static) and the controlled-content lists (dynamic).
 |------|------|
 | `backend/domain` | Core types and repository traits |
 | `backend/persistence` | In-memory and SQLite implementations of the repositories |
-| `backend/bot` | Telegram bot: `/ban`, `/spoil`, `/check` (admin-gated) |
+| `backend/bot` | Telegram bot: `/add_ban`, `/add_spoiler`, `/check` (admin-gated) |
 | `backend/api` | axum HTTP API + process entrypoint (runs the API, and the bot if `TELOXIDE_TOKEN` is set) |
 | `frontend/short-shepherd` | Astro + Starlight site |
 

@@ -1,40 +1,69 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: CatShark TreeHouse
+description: The home wiki of the CatShark TreeHouse network — rules, joining, staff, and the live controlled-content lists.
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  title: CatShark TreeHouse
+  tagline: A cozy corner of the internet for cats, sharks, and everything in between. Rules, joining info, and the live content lists — all in one place.
   image:
-    file: ../../assets/houston.webp
+    file: ../../assets/catshark.svg
+    alt: The CatShark TreeHouse mascot — a cat with a shark fin.
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: How to Join
+      link: /start-here/joining/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: Read the Rules
+      link: /rules/network-rules/
+      icon: open-book
       variant: minimal
 ---
 
-import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
 
-## Next steps
+<Card title="Adults only — 18+" icon="warning">
+  Every space in the network — SFW or NSFW — is strictly 18+. Age verification
+  is part of [the joining process](/start-here/joining/). No exceptions.
+</Card>
 
-<CardGrid stagger>
-  <Card title="Update content" icon="pencil">
-    Edit `src/content/docs/index.mdx` to see this page change.
-  </Card>
-  <Card title="Change page layout" icon="document">
-    Delete `template: splash` in `src/content/docs/index.mdx` to display a
-    sidebar on this page.
-  </Card>
-  <Card title="Add new content" icon="add-document">
-    Add Markdown or MDX files to `src/content/docs` to create new pages.
-  </Card>
-  <Card title="Configure your site" icon="setting">
-    Edit your `sidebar` and other config in `astro.config.mjs`.
-  </Card>
-  <Card title="Read the docs" icon="open-book">
-    Learn more in [the Starlight Docs](https://starlight.astro.build/).
-  </Card>
+## Find your way around
+
+<CardGrid>
+  <LinkCard
+    title="Welcome to the TreeHouse"
+    href="/start-here/welcome/"
+    description="What the network is, which chats and channels belong to it, and where to start."
+  />
+  <LinkCard
+    title="How to Join"
+    href="/start-here/joining/"
+    description="The joining process step by step, including age verification and accepted forms of ID."
+  />
+  <LinkCard
+    title="Network Rules"
+    href="/rules/network-rules/"
+    description="The rules that apply across every chat and channel in the network."
+  />
+  <LinkCard
+    title="Banned & Spoilered"
+    href="/controlled/"
+    description="The live list of controlled artists, characters, and kinks — updated by moderators in real time."
+  />
+  <LinkCard
+    title="Roles & Teams"
+    href="/community/roles-and-teams/"
+    description="How the staff is organized: owner, admins, mods, polymorphs, and the four teams."
+  />
+  <LinkCard
+    title="Staff"
+    href="/community/staff/"
+    description="Who runs the place, how to reach them, and who can verify your ID."
+  />
 </CardGrid>
+
+## How this wiki stays current
+
+The rules pages you read here are versioned in the open on
+[GitHub](https://github.com/CatShark-TreeHouse/wiki). The
+[Banned & Spoilered lists](/controlled/) are different: moderators maintain
+them through the network's wiki bot, and this site reads them live — what you
+see is always the current state, not a snapshot.

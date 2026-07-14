@@ -1,0 +1,84 @@
+/* CatShark TreeHouse theme — ocean teal accent, warm and readable.
+   Starlight consumes the --sl-* custom properties; everything else is
+   light polish on top of its (already responsive) defaults. */
+
+/* Accent colors, scoped per resolved theme. This stylesheet is unlayered and
+   Starlight's own styles live in cascade layers, so anything set on a bare
+   :root here would override BOTH themes — scope every override to the
+   data-theme it belongs to. */
+:root[data-theme="dark"] {
+  --sl-color-accent-low: #10312e;
+  --sl-color-accent: #14b8a6;
+  --sl-color-accent-high: #99f6e4;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #ccfbf1;
+  --sl-color-accent: #0f766e;
+  --sl-color-accent-high: #134e4a;
+}
+
+/* Hero: gradient headline + a soft glow behind the mascot. */
+[data-has-hero] .hero h1 {
+  background: linear-gradient(
+    100deg,
+    var(--sl-color-accent-high),
+    var(--sl-color-accent)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+[data-has-hero] .hero img {
+  filter: drop-shadow(0 12px 40px rgba(20, 184, 166, 0.35));
+}
+
+/* Cards: lift on hover, accent border. */
+.sl-link-card,
+.card {
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sl-link-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--sl-color-accent);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Status badges shared by the live controlled-content page. */
+.cs-badge {
+  display: inline-block;
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.cs-badge.banned {
+  background: color-mix(in srgb, #dc3545 16%, transparent);
+  color: var(--sl-color-red-high, #ff8088);
+  border-color: color-mix(in srgb, #dc3545 50%, transparent);
+}
+
+.cs-badge.spoilered {
+  background: color-mix(in srgb, #ffb020 16%, transparent);
+  color: var(--sl-color-orange-high, #ffce6a);
+  border-color: color-mix(in srgb, #ffb020 50%, transparent);
+}
+
+:root[data-theme="light"] .cs-badge.banned {
+  color: #b02a37;
+}
+
+:root[data-theme="light"] .cs-badge.spoilered {
+  color: #9a6700;
+}

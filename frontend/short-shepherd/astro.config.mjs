@@ -6,29 +6,41 @@ import starlight from "@astrojs/starlight";
 export default defineConfig({
   integrations: [
     starlight({
-      title: "Zuri Cat Tree — Rules",
+      title: "CatShark TreeHouse",
+      description:
+        "The wiki of the CatShark TreeHouse network — rules, joining, staff, and the live controlled-content lists.",
+      logo: { src: "./src/assets/catshark.svg" },
+      customCss: ["./src/styles/custom.css"],
       social: [
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/withastro/starlight",
+          href: "https://github.com/CatShark-TreeHouse/wiki",
         },
       ],
       sidebar: [
         {
-          label: "Banned & Spoilered",
-          link: "/controlled",
-        },
-        {
-          label: "Guides",
+          label: "Start Here",
           items: [
-            // Each item here is one entry in the navigation menu.
-            { label: "Example Guide", slug: "guides/example" },
+            { label: "Welcome", slug: "start-here/welcome" },
+            { label: "How to Join", slug: "start-here/joining" },
           ],
         },
         {
-          label: "Reference",
-          items: [{ autogenerate: { directory: "reference" } }],
+          label: "Rules",
+          items: [
+            { label: "Network Rules", slug: "rules/network-rules" },
+            { label: "Controlled Content", slug: "rules/controlled-content" },
+            { label: "Banned & Spoilered (live)", slug: "controlled" },
+          ],
+        },
+        {
+          label: "Community",
+          items: [
+            { label: "Roles & Teams", slug: "community/roles-and-teams" },
+            { label: "Staff", slug: "community/staff" },
+            { label: "FAQ", slug: "community/faq" },
+          ],
         },
       ],
     }),
