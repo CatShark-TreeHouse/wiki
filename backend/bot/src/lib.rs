@@ -12,14 +12,18 @@ type Changelog = Arc<dyn ChangelogRepository + Send + Sync>;
 
 #[derive(BotCommands, Clone)]
 #[command(
-    rename_rule = "lowercase",
-    description = "Catshark wiki control commands."
+    rename_rule = "snake_case",
+    description = "Catshark wiki information commands."
 )]
 pub enum Command {
-    #[command(description = "ban content: /ban <artist|tag|character> <name> [reason]")]
-    Ban(String),
-    #[command(description = "spoiler content: /spoil <artist|tag|character> <name> [reason]")]
-    Spoil(String),
+    #[command(
+        description = "add to the ban list: /add_ban <artist|kink|tag|character> <name> [reason]"
+    )]
+    AddBan(String),
+    #[command(
+        description = "add to the spoiler list: /add_spoiler <artist|kink|tag|character> <name> [reason]"
+    )]
+    AddSpoiler(String),
     #[command(description = "check whether something is controlled: /check <name>")]
     Check(String),
 }
@@ -46,7 +50,7 @@ async fn answer(
     changelog: Changelog,
 ) -> ResponseResult<()> {
     let reply = match cmd {
-        Command::Ban(args) => {
+        Command::AddBan(args) => {
             control(
                 &bot,
                 &msg,
@@ -57,7 +61,7 @@ async fn answer(
             )
             .await
         }
-        Command::Spoil(args) => {
+        Command::AddSpoiler(args) => {
             control(
                 &bot,
                 &msg,
@@ -75,7 +79,7 @@ async fn answer(
     Ok(())
 }
 
-/// Handle `/ban` and `/spoil`: admin-gate, control the content, emit a changelog event.
+/// Handle `/add_ban` and `/add_spoiler`: admin-gate, control the content, emit a changelog event.
 async fn control(
     bot: &Bot,
     msg: &Message,
@@ -162,7 +166,7 @@ fn split_first_word(input: &str) -> (&str, &str) {
 fn parse_control_args(
     args: &str,
 ) -> Result<(ControlledContentType, String, Option<String>), String> {
-    const USAGE: &str = "Usage: <artist|tag|character> <name> [reason]";
+    const USAGE: &str = "Usage: <artist|kink|tag|character> <name> [reason]";
 
     let (type_token, rest) = split_first_word(args);
     if type_token.is_empty() {
@@ -186,7 +190,8 @@ fn parse_control_args(
 fn parse_content_type(token: &str) -> Option<ControlledContentType> {
     match token.to_lowercase().as_str() {
         "artist" => Some(ControlledContentType::Artist),
-        "tag" => Some(ControlledContentType::Tag),
+        // "kink" is the vocabulary moderators use for controlled tags.
+        "tag" | "kink" => Some(ControlledContentType::Tag),
         "character" => Some(ControlledContentType::Character),
         _ => None,
     }
@@ -271,7 +276,19 @@ mod tests {
             parse_content_type("Character"),
             Some(ControlledContentType::Character)
         ));
-        assert!(parse_content_type("kink").is_none());
+        assert!(matches!(
+            parse_content_type("kink"),
+            Some(ControlledContentType::Tag)
+        ));
+        assert!(parse_content_type("kinks").is_none());
+    }
+
+    #[test]
+    fn kink_parses_as_tag_in_full_command_args() {
+        let (ty, name, reason) = parse_control_args("kink Vore rare kink").unwrap();
+        assert_eq!(ty, ControlledContentType::Tag);
+        assert_eq!(name, "Vore");
+        assert_eq!(reason.as_deref(), Some("rare kink"));
     }
 
     #[test]
