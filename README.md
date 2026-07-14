@@ -14,7 +14,7 @@ The bot is information-access only — it edits the lists, it does not moderate 
 |------|------|
 | `backend/domain` | Core types and repository traits |
 | `backend/persistence` | In-memory and SQLite implementations of the repositories |
-| `backend/bot` | Telegram bot: `/add_ban`, `/add_spoiler`, `/check` (admin-gated) |
+| `backend/bot` | Telegram bot: `/add_ban`, `/add_spoiler`, `/check` (admin-gated); DMs the joining checklist to users requesting to join |
 | `backend/api` | axum HTTP API + process entrypoint (runs the API, and the bot if `TELOXIDE_TOKEN` is set) |
 | `frontend/short-shepherd` | Astro + Starlight site |
 

@@ -27,7 +27,8 @@ to delete it in a chat yourself.
 
 ## The steps
 
-1. Request to join a chat through the join button.
+1. Request to join a chat through the join button. Our wiki bot will DM you
+   this checklist right away, so you have everything at hand.
 2. Talk to any of our admins — the [staff page](/community/staff/) shows who
    they are and **who can verify ID**.
 3. Make sure you tell them you are seeking to join a specific chat.

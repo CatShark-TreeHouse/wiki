@@ -4,7 +4,7 @@ use domain::{
     ChangeEvent, ChangelogRepository, ControlMethod, ControlledContentRepository,
     ControlledContentType, RepositoryError, UserId,
 };
-use teloxide::{prelude::*, utils::command::BotCommands};
+use teloxide::{prelude::*, types::ChatJoinRequest, utils::command::BotCommands};
 
 /// Shared handles the dispatcher injects into every handler.
 type ContentRepo = Arc<dyn ControlledContentRepository + Send + Sync>;
@@ -30,9 +30,13 @@ pub enum Command {
 
 /// Build and run the dispatcher until the process is stopped.
 pub async fn run(bot: Bot, content_repo: ContentRepo, changelog: Changelog) {
-    let handler = Update::filter_message()
-        .filter_command::<Command>()
-        .endpoint(answer);
+    let handler = dptree::entry()
+        .branch(
+            Update::filter_message()
+                .filter_command::<Command>()
+                .endpoint(answer),
+        )
+        .branch(Update::filter_chat_join_request().endpoint(greet_join_request));
 
     Dispatcher::builder(bot, handler)
         .dependencies(dptree::deps![content_repo, changelog])
@@ -77,6 +81,59 @@ async fn answer(
 
     bot.send_message(msg.chat.id, reply).await?;
     Ok(())
+}
+
+/// Handle a `chat_join_request` update: DM the requester the joining checklist.
+///
+/// Telegram lets the bot message `user_chat_id` for ~5 minutes after the
+/// request (until it is processed), which is exactly the window where the
+/// checklist helps. Delivery requires the bot to be an admin of a chat with
+/// "Approve New Members" enabled. The request itself is left untouched —
+/// age verification is a human's call, so approval stays with the admins.
+async fn greet_join_request(bot: Bot, request: ChatJoinRequest) -> ResponseResult<()> {
+    let text = welcome_message(
+        &request.from.first_name,
+        request.chat.title().unwrap_or("the network"),
+        &wiki_url(),
+    );
+
+    // Best-effort: the DM window may already be gone (request processed or
+    // user privacy settings); that must not take the dispatcher down.
+    if let Err(error) = bot.send_message(request.user_chat_id, text).await {
+        eprintln!("Could not DM join requester {}: {error}", request.from.id.0);
+    }
+    Ok(())
+}
+
+/// Where the wiki lives, for links in bot messages. Overridable so deploys
+/// can point at the real site once it has a domain.
+fn wiki_url() -> String {
+    std::env::var("WIKI_URL")
+        .unwrap_or_else(|_| "https://github.com/CatShark-TreeHouse/wiki".to_owned())
+}
+
+/// The checklist DM sent to someone requesting to join. Self-contained on
+/// purpose: the steps are spelled out inline so the message stays useful
+/// even if the reader never opens the link.
+fn welcome_message(first_name: &str, chat_title: &str, wiki_url: &str) -> String {
+    format!(
+        "Hi {first_name}! You've requested to join {chat_title} — welcome to the \
+CatShark TreeHouse network!\n\
+\n\
+While an admin reviews your request, here's what you need to know:\n\
+\n\
+1. Every space in the network is strictly 18+, SFW and NSFW alike.\n\
+2. Read the network rules first — admins are instructed not to reply unless \
+you acknowledge them.\n\
+3. To be let in, you'll verify your age with an admin using an ID that shows \
+your date of birth (a driving license or national ID). We never store it.\n\
+4. Once verified, you're set for every chat in the network — no need to do \
+this again.\n\
+\n\
+Rules, the staff list, and the full joining guide: {wiki_url}\n\
+\n\
+See you in the TreeHouse!"
+    )
 }
 
 /// Handle `/add_ban` and `/add_spoiler`: admin-gate, control the content, emit a changelog event.
@@ -300,6 +357,25 @@ mod tests {
         ] {
             assert_eq!(parse_content_type(type_label(ty)), Some(ty));
         }
+    }
+
+    #[test]
+    fn welcome_message_contains_the_essentials() {
+        let msg = welcome_message("Fen", "Zuri Cat Tree", "https://wiki.example");
+        assert!(msg.contains("Hi Fen!"), "greets by first name: {msg}");
+        assert!(msg.contains("Zuri Cat Tree"), "names the chat: {msg}");
+        assert!(msg.contains("18+"), "states the age policy: {msg}");
+        assert!(msg.contains("date of birth"), "explains ID check: {msg}");
+        assert!(
+            msg.contains("https://wiki.example"),
+            "links the wiki: {msg}"
+        );
+    }
+
+    #[test]
+    fn wiki_url_defaults_to_the_repo() {
+        // WIKI_URL is not set in the test environment.
+        assert!(wiki_url().starts_with("https://github.com/CatShark-TreeHouse"));
     }
 
     #[tokio::test]
