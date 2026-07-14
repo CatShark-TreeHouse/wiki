@@ -32,6 +32,10 @@ run-bot token:
 db-reset:
     rm -f {{backend}}/wiki.db {{backend}}/wiki.db-shm {{backend}}/wiki.db-wal
 
+# Seed the DB with the legacy banned/spoilered lists (idempotent).
+db-seed:
+    sqlite3 {{backend}}/wiki.db < {{backend}}/seed.sql
+
 # --- frontend ------------------------------------------------------------
 
 # Install frontend dependencies.
