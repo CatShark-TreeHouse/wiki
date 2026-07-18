@@ -4,6 +4,10 @@ import starlight from "@astrojs/starlight";
 
 // https://astro.build/config
 export default defineConfig({
+  // The public origin of the deployed site (e.g. https://wiki.example.net).
+  // Set SITE_URL at build time once the domain exists — it enables the
+  // sitemap and canonical URLs. Unset, the build works and just skips both.
+  site: process.env.SITE_URL || undefined,
   integrations: [
     starlight({
       title: "CatShark TreeHouse",

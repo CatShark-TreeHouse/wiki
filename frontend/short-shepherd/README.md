@@ -22,9 +22,14 @@ fetches the live controlled-content lists from the backend API in the browser
 
 ## Configuration
 
-- `PUBLIC_API_BASE` — origin of the backend API, baked in at build time. Unset,
-  it defaults to same-origin in production and `http://localhost:8080` in dev
-  (matching `just run-api`).
+Both knobs are baked in at build time; neither is needed for local work.
+
+- `SITE_URL` — public origin of the deployed site (e.g.
+  `https://wiki.example.net`). Enables the sitemap and canonical URLs; unset,
+  the build just skips them.
+- `PUBLIC_API_BASE` — origin of the backend API. Unset, it defaults to
+  same-origin in production and `http://localhost:8080` in dev (matching
+  `just run-api`).
 
 ## Theme
 
