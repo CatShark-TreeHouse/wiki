@@ -1,29 +1,101 @@
-/* CatShark TreeHouse theme — ocean teal accent, warm and readable.
-   Starlight consumes the --sl-* custom properties; everything else is
-   light polish on top of its (already responsive) defaults. */
+/* CatShark TreeHouse theme — ocean depths below, warm treehouse light above.
 
-/* Accent colors, scoped per resolved theme. This stylesheet is unlayered and
+   Starlight consumes the --sl-* custom properties; the rest is polish on top
+   of its (already responsive) defaults. This stylesheet is unlayered and
    Starlight's own styles live in cascade layers, so anything set on a bare
-   :root here would override BOTH themes — scope every override to the
-   data-theme it belongs to. */
+   :root would override BOTH themes — scope every color override to the
+   data-theme it belongs to. Fonts are theme-independent and may sit on :root. */
+
+/* ── Typography ─────────────────────────────────────────────────────────── */
+
+:root {
+  --sl-font: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --cs-font-display: "Bricolage Grotesque Variable", var(--sl-font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-title {
+  font-family: var(--cs-font-display);
+  letter-spacing: -0.015em;
+}
+
+/* ── Color system ───────────────────────────────────────────────────────── */
+
+/* Dark: a night dive — blue-teal blacks instead of neutral gray. The ramp
+   keeps Starlight's default lightness steps so every contrast pair it was
+   designed around still holds; only the hue is ours. */
 :root[data-theme="dark"] {
-  --sl-color-accent-low: #10312e;
+  --sl-color-accent-low: #0b3a35;
   --sl-color-accent: #14b8a6;
   --sl-color-accent-high: #99f6e4;
+
+  --sl-color-white: #f2f7f9;
+  --sl-color-gray-1: #dbe6ec;
+  --sl-color-gray-2: #b4c5ce;
+  --sl-color-gray-3: #7e95a3;
+  --sl-color-gray-4: #4b6272;
+  --sl-color-gray-5: #304350;
+  --sl-color-gray-6: #152430;
+  --sl-color-gray-7: #0e1922;
+  --sl-color-black: #0a141c;
+
+  --cs-warm: #fbbf24;
+  --cs-hero-glow-1: rgba(20, 184, 166, 0.16);
+  --cs-hero-glow-2: rgba(251, 191, 36, 0.09);
+  --cs-card-glow: rgba(20, 184, 166, 0.16);
 }
 
+/* Light: sunlit shallows — cool paper, deep-teal ink. */
 :root[data-theme="light"] {
-  --sl-color-accent-low: #ccfbf1;
-  --sl-color-accent: #0f766e;
-  --sl-color-accent-high: #134e4a;
+  --sl-color-accent-low: #cdf2ec;
+  --sl-color-accent: #0c7c6f;
+  --sl-color-accent-high: #0a4740;
+
+  --sl-color-white: #0f2430;
+  --sl-color-gray-1: #1e3945;
+  --sl-color-gray-2: #33515e;
+  --sl-color-gray-3: #5b7683;
+  --sl-color-gray-4: #91a9b3;
+  --sl-color-gray-5: #c3d5da;
+  --sl-color-gray-6: #e9f2f3;
+  --sl-color-gray-7: #f4f9f9;
+  --sl-color-black: #fbfdfd;
+
+  --cs-warm: #b45309;
+  --cs-hero-glow-1: rgba(13, 148, 136, 0.13);
+  --cs-hero-glow-2: rgba(217, 119, 6, 0.09);
+  --cs-card-glow: rgba(12, 124, 111, 0.14);
 }
 
-/* Hero: gradient headline + a soft glow behind the mascot. */
+/* ── Hero (splash homepage) ─────────────────────────────────────────────── */
+
+/* Soft light sources: teal from the water top-right, amber from the
+   treehouse bottom-left. */
+[data-has-hero] main {
+  background:
+    radial-gradient(
+      52rem 36rem at 82% 4rem,
+      var(--cs-hero-glow-1),
+      transparent 68%
+    ),
+    radial-gradient(
+      48rem 40rem at 8% 95%,
+      var(--cs-hero-glow-2),
+      transparent 70%
+    );
+}
+
 [data-has-hero] .hero h1 {
   background: linear-gradient(
-    100deg,
+    94deg,
     var(--sl-color-accent-high),
-    var(--sl-color-accent)
+    var(--sl-color-accent) 55%,
+    var(--cs-warm)
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -33,11 +105,43 @@
 
 [data-has-hero] .hero img {
   filter: drop-shadow(0 12px 40px rgba(20, 184, 166, 0.35));
+  animation: cs-float 7s ease-in-out infinite;
 }
 
-/* Cards: lift on hover, accent border. */
+@keyframes cs-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.7rem);
+  }
+}
+
+[data-has-hero] .hero .action {
+  border-radius: 999px;
+}
+
+[data-has-hero] .hero .action.primary {
+  box-shadow: 0 10px 28px var(--cs-card-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-has-hero] .hero img {
+    animation: none;
+  }
+}
+
+/* ── Cards ──────────────────────────────────────────────────────────────── */
+
 .sl-link-card,
 .card {
+  border-radius: 0.75rem;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--sl-color-gray-6) 55%, transparent),
+    transparent
+  );
   transition:
     transform 0.15s ease,
     border-color 0.15s ease,
@@ -47,15 +151,66 @@
 .sl-link-card:hover {
   transform: translateY(-2px);
   border-color: var(--sl-color-accent);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 26px var(--cs-card-glow);
 }
 
-/* Status badges shared by the live controlled-content page. */
-.cs-badge {
+/* ── Markdown tables (staff roster, rules, IDs…) ────────────────────────── */
+
+.sl-markdown-content table {
+  /* Starlight makes tables display:block for horizontal scrolling; shrink the
+     box to its columns so the border hugs narrow tables. */
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.65rem;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.sl-markdown-content thead th {
+  background: color-mix(in srgb, var(--sl-color-gray-6) 80%, transparent);
+  font-family: var(--sl-font);
+  font-size: var(--sl-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+}
+
+.sl-markdown-content th,
+.sl-markdown-content td {
+  border: none;
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+.sl-markdown-content tr:last-child > td {
+  border-bottom: none;
+}
+
+.sl-markdown-content tbody tr:nth-child(2n) {
+  background: color-mix(in srgb, var(--sl-color-gray-6) 40%, transparent);
+}
+
+/* ── Asides ─────────────────────────────────────────────────────────────── */
+
+.starlight-aside {
+  border-radius: 0.5rem;
+}
+
+/* Tips ship purple by default — bring them into the teal family. */
+.starlight-aside--tip {
+  --sl-color-asides-text-accent: var(--sl-color-accent-high);
+  --sl-color-asides-border: var(--sl-color-accent);
+  background-color: var(--sl-color-accent-low);
+}
+
+/* ── Status badges & type pills (live controlled-content page) ──────────── */
+
+.cs-badge,
+.cs-pill {
   display: inline-block;
+  font-family: var(--sl-font);
   font-size: var(--sl-text-xs);
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 0.15rem 0.6rem;
   border-radius: 999px;
@@ -63,22 +218,61 @@
   white-space: nowrap;
 }
 
+.cs-badge {
+  text-transform: uppercase;
+}
+
 .cs-badge.banned {
-  background: color-mix(in srgb, #dc3545 16%, transparent);
-  color: var(--sl-color-red-high, #ff8088);
-  border-color: color-mix(in srgb, #dc3545 50%, transparent);
+  background: color-mix(in srgb, #ef4444 15%, transparent);
+  border-color: color-mix(in srgb, #ef4444 45%, transparent);
+  color: #fca5a5;
 }
 
 .cs-badge.spoilered {
-  background: color-mix(in srgb, #ffb020 16%, transparent);
-  color: var(--sl-color-orange-high, #ffce6a);
-  border-color: color-mix(in srgb, #ffb020 50%, transparent);
+  background: color-mix(in srgb, #f59e0b 15%, transparent);
+  border-color: color-mix(in srgb, #f59e0b 45%, transparent);
+  color: #fcd34d;
+}
+
+.cs-pill {
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.cs-pill.artist {
+  background: color-mix(in srgb, #8b5cf6 13%, transparent);
+  border-color: color-mix(in srgb, #8b5cf6 35%, transparent);
+  color: #c4b5fd;
+}
+
+.cs-pill.character {
+  background: color-mix(in srgb, #0ea5e9 13%, transparent);
+  border-color: color-mix(in srgb, #0ea5e9 35%, transparent);
+  color: #7dd3fc;
+}
+
+.cs-pill.tag {
+  background: color-mix(in srgb, #f43f5e 13%, transparent);
+  border-color: color-mix(in srgb, #f43f5e 35%, transparent);
+  color: #fda4af;
 }
 
 :root[data-theme="light"] .cs-badge.banned {
-  color: #b02a37;
+  color: #b91c1c;
 }
 
 :root[data-theme="light"] .cs-badge.spoilered {
-  color: #9a6700;
+  color: #92400e;
+}
+
+:root[data-theme="light"] .cs-pill.artist {
+  color: #6d28d9;
+}
+
+:root[data-theme="light"] .cs-pill.character {
+  color: #075985;
+}
+
+:root[data-theme="light"] .cs-pill.tag {
+  color: #be123c;
 }

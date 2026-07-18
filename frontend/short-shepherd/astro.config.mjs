@@ -10,7 +10,15 @@ export default defineConfig({
       description:
         "The wiki of the CatShark TreeHouse network — rules, joining, staff, and the live controlled-content lists.",
       logo: { src: "./src/assets/catshark.svg" },
-      customCss: ["./src/styles/custom.css"],
+      customCss: [
+        "@fontsource-variable/inter/index.css",
+        "@fontsource-variable/bricolage-grotesque/index.css",
+        "./src/styles/custom.css",
+      ],
+      editLink: {
+        baseUrl:
+          "https://github.com/CatShark-TreeHouse/wiki/edit/main/frontend/short-shepherd/",
+      },
       social: [
         {
           icon: "github",

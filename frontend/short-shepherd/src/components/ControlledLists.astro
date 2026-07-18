@@ -6,20 +6,37 @@
 // The API origin is baked in at build time: set PUBLIC_API_BASE for
 // deployments where the API lives on another origin; the default assumes
 // same-origin in production and the local backend in dev.
+import mascot from "../assets/catshark.svg";
+
 const apiBase =
   import.meta.env.PUBLIC_API_BASE ??
   (import.meta.env.DEV ? "http://localhost:8080" : "");
+const mascotUrl = mascot.src;
 ---
 
 <div class="cs-lists not-content">
   <div class="cs-controls">
-    <input
-      id="cs-search"
-      type="search"
-      placeholder="Search by name…"
-      autocomplete="off"
-      aria-label="Search controlled content by name"
-    />
+    <label class="cs-search-wrap">
+      <svg
+        class="cs-search-icon"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.8-3.8"></path>
+      </svg>
+      <input
+        id="cs-search"
+        type="search"
+        placeholder="Search by name…"
+        autocomplete="off"
+        aria-label="Search controlled content by name"
+      />
+    </label>
     <select id="cs-type" aria-label="Filter by type">
       <option value="all">All types</option>
       <option value="artist">Artists</option>
@@ -42,19 +59,37 @@ const apiBase =
     margin-bottom: 1.25rem;
   }
 
+  .cs-search-wrap {
+    position: relative;
+    flex: 1 1 240px;
+    min-width: 0;
+    display: block;
+  }
+
+  .cs-search-icon {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0.8rem;
+    translate: 0 -50%;
+    width: 1rem;
+    height: 1rem;
+    color: var(--sl-color-gray-3);
+    pointer-events: none;
+  }
+
   .cs-controls input,
   .cs-controls select {
     background: var(--sl-color-bg-nav);
     color: var(--sl-color-text);
     border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.5rem;
-    padding: 0.55rem 0.75rem;
+    border-radius: 999px;
+    padding: 0.55rem 1rem;
     font-size: var(--sl-text-sm);
   }
 
   .cs-controls input {
-    flex: 1 1 240px;
-    min-width: 0;
+    width: 100%;
+    padding-inline-start: 2.4rem;
   }
 
   .cs-controls input:focus-visible,
@@ -83,9 +118,9 @@ const apiBase =
   }
 
   .cs-panel {
-    background: var(--sl-color-bg-nav);
+    background: color-mix(in srgb, var(--sl-color-gray-6) 45%, transparent);
     border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.65rem;
+    border-radius: 0.75rem;
     overflow-x: auto;
   }
 
@@ -106,8 +141,17 @@ const apiBase =
   .cs-panel th {
     font-size: var(--sl-text-xs);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--sl-color-gray-3);
+    background: color-mix(in srgb, var(--sl-color-gray-6) 80%, transparent);
+  }
+
+  .cs-panel tbody tr {
+    transition: background 0.1s ease;
+  }
+
+  .cs-panel tbody tr:hover {
+    background: color-mix(in srgb, var(--sl-color-accent) 7%, transparent);
   }
 
   .cs-panel tr:last-child td {
@@ -120,7 +164,6 @@ const apiBase =
   }
 
   .cs-type {
-    color: var(--sl-color-gray-3);
     white-space: nowrap;
   }
 
@@ -138,38 +181,81 @@ const apiBase =
     text-align: center;
     color: var(--sl-color-gray-3);
     border: 1px dashed var(--sl-color-hairline);
-    border-radius: 0.65rem;
+    border-radius: 0.75rem;
   }
 
   .cs-state .cs-big {
+    font-family: var(--cs-font-display, inherit);
     font-size: var(--sl-text-lg);
     color: var(--sl-color-white);
     margin-bottom: 0.35rem;
   }
 
-  .cs-retry {
+  .cs-state .cs-mascot {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+  }
+
+  .cs-state button {
     margin-top: 1rem;
     background: var(--sl-color-accent);
     color: var(--sl-color-black);
     border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1.1rem;
+    border-radius: 999px;
+    padding: 0.5rem 1.2rem;
     font-size: var(--sl-text-sm);
     font-weight: 600;
     cursor: pointer;
   }
 
-  .cs-retry:hover {
+  .cs-state button:hover {
     filter: brightness(1.1);
+  }
+
+  /* Loading skeleton */
+  .cs-skel {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    padding: 0.9rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .cs-skel-row {
+    height: 1.4rem;
+    border-radius: 0.4rem;
+    background: linear-gradient(
+      100deg,
+      var(--sl-color-gray-6) 40%,
+      var(--sl-color-gray-5) 50%,
+      var(--sl-color-gray-6) 60%
+    );
+    background-size: 200% 100%;
+    animation: cs-shimmer 1.4s linear infinite;
+  }
+
+  @keyframes cs-shimmer {
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cs-skel-row {
+      animation: none;
+    }
   }
 </style>
 
-<script is:inline define:vars={{ apiBase }}>
+<script is:inline define:vars={{ apiBase, mascotUrl }}>
   const contentEl = document.getElementById("cs-content");
   const searchEl = document.getElementById("cs-search");
   const typeEl = document.getElementById("cs-type");
 
   const TYPE_LABELS = { artist: "Artist", character: "Character", tag: "Kink" };
+  const PILL_TYPES = new Set(["artist", "character", "tag"]);
 
   let allItems = [];
 
@@ -189,14 +275,16 @@ const apiBase =
 
   function showLoading() {
     contentEl.innerHTML =
-      '<div class="cs-state"><div class="cs-big">Loading…</div>Fetching the controlled-content lists.</div>';
+      '<div class="cs-skel" role="status" aria-label="Loading the controlled-content lists">' +
+      '<div class="cs-skel-row"></div>'.repeat(5) +
+      "</div>";
   }
 
   function showError() {
     contentEl.innerHTML =
       '<div class="cs-state"><div class="cs-big">Couldn’t reach the lists service</div>' +
       "The lists are temporarily unavailable. Please try again in a moment." +
-      '<div><button class="cs-retry" id="cs-retry">Retry</button></div></div>';
+      '<div><button id="cs-retry">Retry</button></div></div>';
     document.getElementById("cs-retry")?.addEventListener("click", load);
   }
 
@@ -204,8 +292,30 @@ const apiBase =
     const msg = filtered
       ? "No entries match your search."
       : "Nothing is controlled right now.";
+    const clear = filtered
+      ? '<div><button id="cs-clear">Clear filters</button></div>'
+      : "";
     contentEl.innerHTML =
-      '<div class="cs-state"><div class="cs-big">' + esc(msg) + "</div></div>";
+      '<div class="cs-state">' +
+      '<img class="cs-mascot" src="' +
+      mascotUrl +
+      '" alt="" width="72" height="72" />' +
+      '<div class="cs-big">' +
+      esc(msg) +
+      "</div>" +
+      clear +
+      "</div>";
+    document.getElementById("cs-clear")?.addEventListener("click", () => {
+      searchEl.value = "";
+      typeEl.value = "all";
+      applyFilters();
+    });
+  }
+
+  function pillFor(type) {
+    const label = esc(TYPE_LABELS[type] ?? type ?? "");
+    const cls = PILL_TYPES.has(type) ? " " + type : "";
+    return '<span class="cs-pill' + cls + '">' + label + "</span>";
   }
 
   function tableFor(items) {
@@ -221,7 +331,7 @@ const apiBase =
         esc(item.alias ?? "") +
         "</td>" +
         '<td class="cs-type">' +
-        esc(TYPE_LABELS[item.type] ?? item.type ?? "") +
+        pillFor(item.type) +
         "</td>" +
         "<td>" +
         reason +
