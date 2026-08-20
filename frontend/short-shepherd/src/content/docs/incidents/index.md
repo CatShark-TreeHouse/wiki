@@ -32,6 +32,6 @@ mishandled, past situations.
 
 ## Records
 
-| ID                           | Date                 | Chat(s)             | Severity | Status     |
-| :--------------------------- | :------------------- | :------------------ | :------- | :--------- |
-| [260819](/incidents/260819/) | 19 to 20 August 2026 | CatShark Tree House | High     | Monitoring |
+| ID                           | Date                 | Chat(s)            | Severity | Status     |
+| :--------------------------- | :------------------- | :----------------- | :------- | :--------- |
+| [260819](/incidents/260819/) | 19 to 20 August 2026 | CatShark TreeHouse | High     | Monitoring |
