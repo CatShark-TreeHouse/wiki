@@ -1,0 +1,198 @@
+---
+// Starlight PageTitle override: the default H1 plus a collapsible revision
+// history for the page's source file, read from git at build time. Each
+// commit's subject line is the reason for the change, so write commit
+// messages accordingly.
+import { execFileSync } from "node:child_process";
+import path from "node:path";
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+
+const { entry } = Astro.locals.starlightRoute;
+const filePath = entry.filePath;
+
+type Revision = { hash: string; date: string; author: string; reason: string };
+
+let revisions: Revision[] = [];
+let dirty = false;
+let repoUrl = "https://github.com/CatShark-TreeHouse/wiki";
+
+if (filePath) {
+  const abs = path.resolve(filePath);
+  const cwd = path.dirname(abs);
+  try {
+    const out = execFileSync(
+      "git",
+      ["log", "--follow", "--format=%h%x1f%as%x1f%an%x1f%s", "--", abs],
+      { cwd, encoding: "utf8" },
+    ).trim();
+    revisions = out
+      ? out.split("\n").map((line) => {
+          const [hash, date, author, reason] = line.split("\x1f");
+          return { hash, date, author, reason };
+        })
+      : [];
+    const status = execFileSync("git", ["status", "--porcelain", "--", abs], {
+      cwd,
+      encoding: "utf8",
+    }).trim();
+    dirty = status.length > 0;
+  } catch {
+    // Not a git checkout (or git missing): show nothing rather than fail.
+    revisions = [];
+  }
+}
+
+const count = revisions.length;
+const latest = revisions[0];
+const historyUrl = filePath
+  ? `${repoUrl}/commits/main/${filePath.replace(/^\.?\//, "")}`
+  : repoUrl;
+---
+
+<Default><slot /></Default>
+
+{
+  filePath && (
+    <details class="cs-revisions not-content">
+      <summary>
+        <span class="cs-rev-label">Revision history</span>
+        <span class="cs-rev-meta">
+          {count === 0
+            ? "not yet committed"
+            : `${count} revision${count === 1 ? "" : "s"}, last ${latest.date}`}
+          {dirty && count > 0 ? " (unsaved edits)" : ""}
+        </span>
+      </summary>
+      {count === 0 ? (
+        <p class="cs-rev-empty">
+          This page has no recorded revisions yet. Once it lands on{" "}
+          <code>main</code>, every change and its reason will be listed here.
+        </p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Reason</th>
+              <th>By</th>
+              <th>Ref</th>
+            </tr>
+          </thead>
+          <tbody>
+            {revisions.map((r) => (
+              <tr>
+                <td class="cs-rev-date">{r.date}</td>
+                <td>{r.reason}</td>
+                <td class="cs-rev-by">{r.author}</td>
+                <td class="cs-rev-ref">
+                  <a href={`${repoUrl}/commit/${r.hash}`}>{r.hash}</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+      <p class="cs-rev-foot">
+        <a href={historyUrl}>Full history on GitHub</a>
+      </p>
+    </details>
+  )
+}
+
+<style>
+  .cs-revisions {
+    margin-top: 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--cs-card, transparent);
+    font-size: var(--sl-text-sm);
+  }
+
+  .cs-revisions > summary {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 0.55rem 0.9rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .cs-revisions > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cs-revisions > summary::before {
+    content: "";
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid var(--sl-color-gray-3);
+    border-bottom: 2px solid var(--sl-color-gray-3);
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease;
+    align-self: center;
+    flex: 0 0 auto;
+  }
+
+  .cs-revisions[open] > summary::before {
+    transform: rotate(45deg);
+  }
+
+  .cs-rev-label {
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .cs-rev-meta {
+    color: var(--sl-color-gray-3);
+  }
+
+  .cs-revisions table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid var(--sl-color-hairline);
+    margin: 0;
+  }
+
+  .cs-revisions th,
+  .cs-revisions td {
+    text-align: left;
+    padding: 0.45rem 0.9rem;
+    border-bottom: 1px solid var(--sl-color-hairline);
+    vertical-align: top;
+  }
+
+  .cs-revisions th {
+    font-size: var(--sl-text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cs-revisions tr:last-child td {
+    border-bottom: none;
+  }
+
+  .cs-rev-date,
+  .cs-rev-ref {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cs-rev-by {
+    white-space: nowrap;
+    color: var(--sl-color-gray-2);
+  }
+
+  .cs-rev-ref a {
+    font-family: var(--sl-font-mono);
+    font-size: var(--sl-text-xs);
+  }
+
+  .cs-rev-empty,
+  .cs-rev-foot {
+    margin: 0;
+    padding: 0.55rem 0.9rem;
+    color: var(--sl-color-gray-3);
+    border-top: 1px solid var(--sl-color-hairline);
+  }
+</style>
