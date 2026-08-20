@@ -18,18 +18,20 @@ owners and everyone on a Moderation team, and nobody else.
 
 ## Roster
 
-| Name    | Username                                         | Role       | Can verify ID? |
-| :------ | :----------------------------------------------- | :--------- | :------------- |
-| Zuri    | [@ZuriTheChee](https://t.me/ZuriTheChee)         | Owner      | **Yes**        |
-| Cirrus  | [@Mikeisaderp](https://t.me/Mikeisaderp)         | Owner      | **Yes**        |
-| Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail) | Owner      | **Yes**        |
-| Surplus | [@SirSurplus](https://t.me/SirSurplus)           | Head Admin | No             |
-| Haskell | [@Haskell_Z](https://t.me/Haskell_Z)             | Head Admin | **Yes**        |
-| Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)   | Admin      | **Yes**        |
-| Spirit  | [@spiritpaw](https://t.me/spiritpaw)             | Admin      | **Yes**        |
-| Wire    | [@Larzepam](https://t.me/Larzepam)               | Admin      | No             |
-| Starsie | [@Starsie](https://t.me/Starsie)                 | Admin      | **Yes**        |
-| Sirus   | [@sirus_76](https://t.me/sirus_76)               | Moderator  | **Yes**        |
+| Name    | Username                                           | Role       | Can verify ID? |
+| :------ | :------------------------------------------------- | :--------- | :------------- |
+| Zuri    | [@ZuriTheChee](https://t.me/ZuriTheChee)           | Owner      | **Yes**        |
+| Cirrus  | [@Mikeisaderp](https://t.me/Mikeisaderp)           | Owner      | **Yes**        |
+| Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail)   | Owner      | **Yes**        |
+| Surplus | [@SirSurplus](https://t.me/SirSurplus)             | Head Admin | No             |
+| Haskell | [@Haskell_Z](https://t.me/Haskell_Z)               | Head Admin | **Yes**        |
+| Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)     | Admin      | **Yes**        |
+| Spirit  | [@spiritpaw](https://t.me/spiritpaw)               | Admin      | **Yes**        |
+| Wire    | [@Larzepam](https://t.me/Larzepam)                 | Admin      | No             |
+| Starsie | [@Starsie](https://t.me/Starsie)                   | Admin      | **Yes**        |
+| Sirus   | [@sirus_76](https://t.me/sirus_76)                 | Moderator  | **Yes**        |
+| Basil   | [@BasilFuji](https://t.me/BasilFuji)               | Moderator  | **Yes**        |
+| Reggie  | [@ReggieTheCaracal](https://t.me/ReggieTheCaracal) | Moderator  | **Yes**        |
 
 The **Role** column shows each person's highest role. Owners hold that role
 across the whole network; everyone else's roles are per team, below.
@@ -68,6 +70,8 @@ them, Moderators. One person can sit on several teams in different roles.
 | Moderator  | Sirus   |
 | Moderator  | Haskell |
 | Moderator  | Diggy   |
+| Moderator  | Basil   |
+| Moderator  | Reggie  |
 
 ### Telegram Member Satisfaction
 
