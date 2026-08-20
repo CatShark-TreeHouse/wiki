@@ -1,0 +1,66 @@
+{
+  "people": {
+    "zuri": { "name": "Zuri", "username": "ZuriTheChee", "owner": true },
+    "cirrus": { "name": "Cirrus", "username": "Mikeisaderp", "owner": true },
+    "nimbus": {
+      "name": "Nimbus",
+      "username": "NimbusWhitetail",
+      "owner": true
+    },
+    "surplus": { "name": "Surplus", "username": "SirSurplus" },
+    "haskell": { "name": "Haskell", "username": "Haskell_Z" },
+    "diggy": { "name": "Diggy", "username": "TyphlosionTime" },
+    "spirit": { "name": "Spirit", "username": "spiritpaw" },
+    "basil": { "name": "Basil", "username": "BasilFuji" },
+    "wire": { "name": "Wire", "username": "Larzepam" },
+    "starsie": { "name": "Starsie", "username": "Starsie" },
+    "sirus": { "name": "Sirus", "username": "sirus_76" },
+    "reggie": { "name": "Reggie", "username": "ReggieTheCaracal" }
+  },
+  "teams": [
+    {
+      "name": "Network Logistics",
+      "platform": null,
+      "head": "surplus",
+      "admins": ["zuri", "wire"],
+      "moderators": []
+    },
+    {
+      "name": "Telegram Moderation",
+      "platform": "Telegram",
+      "moderation": true,
+      "head": "zuri",
+      "admins": ["diggy"],
+      "moderators": ["sirus", "starsie", "cirrus"]
+    },
+    {
+      "name": "Discord Moderation",
+      "platform": "Discord",
+      "moderation": true,
+      "head": "nimbus",
+      "admins": ["zuri", "spirit", "basil"],
+      "moderators": ["starsie", "sirus", "haskell", "diggy", "reggie"]
+    },
+    {
+      "name": "Telegram Member Satisfaction",
+      "platform": "Telegram",
+      "head": "zuri",
+      "admins": ["starsie"],
+      "moderators": []
+    },
+    {
+      "name": "Discord Member Satisfaction",
+      "platform": "Discord",
+      "head": "haskell",
+      "admins": ["nimbus"],
+      "moderators": ["zuri"]
+    },
+    {
+      "name": "Discord Member Engagement",
+      "platform": "Discord",
+      "head": "haskell",
+      "admins": ["wire"],
+      "moderators": ["zuri"]
+    }
+  ]
+}
