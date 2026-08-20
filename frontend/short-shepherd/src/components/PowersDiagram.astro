@@ -1,0 +1,191 @@
+---
+// Separation of powers, as a triangle: the rules sit in the middle, each
+// branch acts on them, and the arrows show who answers to whom. Colours come
+// from the theme tokens so it follows light/dark.
+---
+
+<figure class="cs-powers not-content">
+  <svg
+    viewBox="0 0 640 470"
+    role="img"
+    aria-labelledby="cs-powers-title cs-powers-desc"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title id="cs-powers-title">Separation of powers</title>
+    <desc id="cs-powers-desc">
+      The Legislative branch writes the Network Rules. The Executive branch
+      applies them in the chats. The Judicial branch reviews executive actions
+      and settles what the rules mean. Appeals flow from the chats to the
+      Judicial branch.
+    </desc>
+    <defs>
+      <marker
+        id="cs-arrow"
+        viewBox="0 0 10 10"
+        refX="9"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto-start-reverse"
+      >
+        <path d="M0 0 L10 5 L0 10 Z" fill="var(--sl-color-gray-3)"></path>
+      </marker>
+    </defs>
+
+    <!-- Legislative (top) -->
+    <g class="cs-node cs-leg">
+      <rect x="200" y="16" width="240" height="92" rx="16"></rect>
+      <text x="320" y="46" class="cs-label">LEGISLATIVE</text>
+      <text x="320" y="70" class="cs-who">Owners, Main Admins,</text>
+      <text x="320" y="90" class="cs-who">Admins of Moderation</text>
+    </g>
+
+    <!-- Executive (bottom left) -->
+    <g class="cs-node cs-exe">
+      <rect x="24" y="312" width="240" height="92" rx="16"></rect>
+      <text x="144" y="342" class="cs-label">EXECUTIVE</text>
+      <text x="144" y="366" class="cs-who">Moderators of the</text>
+      <text x="144" y="386" class="cs-who">Moderation group</text>
+    </g>
+
+    <!-- Judicial (bottom right) -->
+    <g class="cs-node cs-jud">
+      <rect x="376" y="312" width="240" height="92" rx="16"></rect>
+      <text x="496" y="342" class="cs-label">JUDICIAL</text>
+      <text x="496" y="366" class="cs-who">Owners,</text>
+      <text x="496" y="386" class="cs-who">when needed</text>
+    </g>
+
+    <!-- The rules, centre -->
+    <g class="cs-rules">
+      <rect x="250" y="188" width="140" height="56" rx="28"></rect>
+      <text x="320" y="222" class="cs-label">Network Rules</text>
+    </g>
+
+    <!-- Legislative writes the rules -->
+    <path d="M320 108 V186" class="cs-edge" marker-end="url(#cs-arrow)"></path>
+    <text x="334" y="152" class="cs-edge-label">writes, amends</text>
+
+    <!-- Rules are applied by the Executive -->
+    <path d="M262 236 L176 310" class="cs-edge" marker-end="url(#cs-arrow)"
+    ></path>
+    <text x="166" y="266" class="cs-edge-label" text-anchor="end"
+      >applied by</text
+    >
+
+    <!-- Rules are interpreted by the Judicial -->
+    <path d="M378 236 L464 310" class="cs-edge" marker-end="url(#cs-arrow)"
+    ></path>
+    <text x="474" y="266" class="cs-edge-label">interpreted by</text>
+
+    <!-- Judicial reviews the Executive: loop under both boxes -->
+    <path
+      d="M496 404 C 496 446, 144 446, 144 406"
+      class="cs-edge"
+      marker-end="url(#cs-arrow)"></path>
+    <text x="320" y="450" class="cs-edge-label" text-anchor="middle"
+      >reviews, hears appeals</text
+    >
+
+    <!-- Owners and Main Admins sit above everything via the hierarchy -->
+    <path
+      d="M130 312 C 90 210, 160 130, 198 80"
+      class="cs-edge cs-edge-dashed"
+      marker-end="url(#cs-arrow)"></path>
+    <text x="92" y="196" class="cs-edge-label" text-anchor="end"
+      >answers to</text
+    >
+
+    <path
+      d="M510 312 C 550 210, 480 130, 442 80"
+      class="cs-edge cs-edge-dashed"
+      marker-end="url(#cs-arrow)"></path>
+    <text x="548" y="190" class="cs-edge-label">proposes</text>
+    <text x="548" y="206" class="cs-edge-label">changes to</text>
+  </svg>
+  <figcaption>
+    The Legislative branch owns the rules, the Executive applies them, the
+    Judicial reviews both.
+  </figcaption>
+</figure>
+
+<style>
+  .cs-powers {
+    margin: 1.5rem 0 2rem;
+  }
+
+  .cs-powers svg {
+    width: 100%;
+    height: auto;
+    max-width: 40rem;
+    display: block;
+    margin-inline: auto;
+    font-family: var(--sl-font);
+  }
+
+  .cs-powers figcaption {
+    text-align: center;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+    margin-top: 0.75rem;
+  }
+
+  .cs-node rect {
+    fill: var(--cs-card, var(--sl-color-gray-7));
+    stroke: var(--sl-color-hairline);
+    stroke-width: 1.5;
+  }
+
+  .cs-node text,
+  .cs-rules text {
+    text-anchor: middle;
+  }
+
+  .cs-label {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    fill: var(--sl-color-white);
+  }
+
+  .cs-who {
+    font-size: 13px;
+    fill: var(--sl-color-gray-2);
+  }
+
+  .cs-leg rect {
+    stroke: var(--sl-color-accent);
+  }
+  .cs-exe rect {
+    stroke: var(--cs-blue, var(--sl-color-accent));
+  }
+  .cs-jud rect {
+    stroke: var(--cs-rose, var(--sl-color-accent));
+  }
+
+  .cs-rules rect {
+    fill: var(--sl-color-accent-low);
+    stroke: var(--sl-color-accent);
+    stroke-width: 1.5;
+  }
+  .cs-rules .cs-label {
+    font-size: 14px;
+    letter-spacing: 0;
+    fill: var(--sl-color-accent-high);
+  }
+
+  .cs-edge {
+    fill: none;
+    stroke: var(--sl-color-gray-3);
+    stroke-width: 1.75;
+  }
+  .cs-edge-dashed {
+    stroke-dasharray: 5 5;
+    stroke: var(--sl-color-gray-4);
+  }
+
+  .cs-edge-label {
+    font-size: 12px;
+    fill: var(--sl-color-gray-3);
+  }
+</style>

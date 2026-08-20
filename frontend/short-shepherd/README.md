@@ -1,49 +1,38 @@
-# Starlight Starter Kit: Basics
+# short-shepherd
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+The CatShark TreeHouse wiki site: [Astro](https://astro.build) +
+[Starlight](https://starlight.astro.build).
 
-```
-npm create astro@latest -- --template starlight
-```
+Pages live in `src/content/docs/`. The
+[Banned & Controlled page](src/content/docs/controlled.mdx) renders
+`src/data/controlled-content.json` at build time
+(`src/components/ControlledLists.astro`); edit that file through a pull
+request to change the lists.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Commands
 
-## 🚀 Project Structure
+| Command                | Action                                               |
+| :--------------------- | :--------------------------------------------------- |
+| `npm install`          | Install dependencies                                 |
+| `npm run dev`          | Dev server at `localhost:4321`                       |
+| `npm run build`        | Production build to `./dist/`                        |
+| `npm run preview`      | Preview the production build                         |
+| `npm run check`        | `astro check` (types + content)                      |
+| `npm run format`       | Prettier write (run before pushing to keep CI green) |
+| `npm run format:check` | Prettier check (what CI runs)                        |
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+## Configuration
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
-```
+Both knobs are baked in at build time; neither is needed for local work.
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+- `SITE_URL`: public origin of the deployed site (e.g.
+  `https://wiki.example.net`). Enables the sitemap and canonical URLs; unset,
+  the build just skips them.
+- `SITE_BASE`: sub-path the site is served from, e.g. `/wiki` for a GitHub
+  Pages project site. Unset for a custom domain or local work.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## Theme
 
-Static assets, like favicons, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+The look lives in `src/styles/custom.css` (a Bluesky-style shell in gold and charcoal) and
+`astro.config.mjs`. Fonts are self-hosted via Fontsource: Bricolage Grotesque
+for headings, Inter for body text.

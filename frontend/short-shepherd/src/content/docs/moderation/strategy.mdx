@@ -1,0 +1,111 @@
+---
+title: Moderation Strategy
+description: "How the CatShark TreeHouse team moderates its spaces: principles, procedures, and the lines admins hold themselves to."
+---
+
+import PowersDiagram from "../../../components/PowersDiagram.astro";
+
+## Supremacy Clause
+
+The [Network Rules](/rules/network-rules/) are the highest authority in the
+CatShark TreeHouse network. They apply in every chat, channel and server that
+belongs to the network, on every platform, and they override anything that
+conflicts with them.
+
+In practice:
+
+1. **Network over chat.** Any individual chat may add its own rules, but only
+   to be stricter or more specific. A chat rule that contradicts a network
+   rule is void, and the network rule applies.
+2. **Later over earlier.** The rules are written in amendment style. When two
+   network rules conflict, the later rule prevails, and it must say which
+   earlier rule it overrides or extends.
+3. **Rules over staff.** Staff act under the rules, not above them. A
+   moderation action that has no basis in the rules can be appealed to the
+   owners and undone.
+4. **Owners over the rest.** Where the rules are silent or unclear, the
+   owners decide. Their decision stands until it is written into the rules as
+   an amendment.
+5. **Higher role over lower role.** Within the staff, authority follows the
+   hierarchy: Owner over Head Admin, Head Admin over Admin, Admin over
+   Moderator. A higher role may overrule, pause or reverse a decision made by
+   a lower one, and a lower role may not overrule a higher one. Disagreements
+   go up the chain, never into the member chat.
+
+### Separation of Powers
+
+<PowersDiagram />
+
+The staff is organized in three branches, loosely modelled on a government:
+
+| Branch          | Who                                                              | What they do                                                                                                          |
+| :-------------- | :--------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------- |
+| **Legislative** | Owners, every Head Admin, and the Admins of the Moderation teams | Write, amend and repeal the rules. No rule change is valid unless it comes out of this body.                          |
+| **Executive**   | The Moderators of the Moderation teams                           | Apply the rules in the chats day to day: warnings, mutes, removals, and the live handling of incidents.               |
+| **Judicial**    | Owners, when needed                                              | Hear appeals, settle disputes over what a rule means, and review executive actions. Their reading of a rule is final. |
+
+The branches are kept apart on purpose. The people who write a rule are not
+the ones who enforce it in the moment, and the people who enforce it are not
+the ones who judge whether it was enforced correctly.
+
+### Limited Ex Post Facto
+
+Rules are never applied backwards, and closed cases stay closed; only
+offenses discovered after the fact can open a new case, and rarely. This is
+written into the rules as
+[§ 17](/rules/network-rules/#17-limited-ex-post-facto), so that members and
+staff can hold the team to it.
+
+## Telegram Chat Moderation
+
+Moderation of a Telegram chat is divided into **roles**. Each role is
+accountable to the one above it, so every person knows exactly who they
+coordinate with.
+
+### Roles
+
+| Role           | Scope                                                                                    |
+| :------------- | :--------------------------------------------------------------------------------------- |
+| **Owner**      | The network as a whole.                                                                  |
+| **Head Admin** | Leads one coordination team (for example Telegram Moderation) and answers to the owners. |
+| **Admin**      | Runs part of a coordination team under its Head Admin.                                   |
+| **Moderator**  | Day-to-day moderation within the scope of their Admin.                                   |
+
+### Structure
+
+```
+Owners
+└── Head Admin (one per coordination team)
+    └── Admins
+        └── Moderators
+```
+
+### Handling a Ticket
+
+Every report, complaint or incident is a **ticket**, whether it arrives by
+direct message, in the chat, or is spotted by staff. This is the other half
+of [§ 4.2](/rules/network-rules/#42-report-dont-fight): members are asked not to fight it out in public, and in return the team promises to handle things
+quietly and in order.
+
+1. **One admin is assigned.** A ticket is picked up by exactly one admin, who
+   owns it from start to finish. They are the only staff member who acts on
+   it in the member chat.
+2. **Supporting admins, if necessary.** The assigned admin may bring in
+   others for a second opinion, for context, or because the situation is
+   bigger than one person. Supporting admins work through the assigned
+   admin, in the staff chat, and do not step into the member chat on that
+   ticket unless asked to.
+3. **Nobody else joins in.** Staff who are not assigned stay out of the
+   situation in the member chat, even if they have an opinion about it. If
+   they disagree with how it is being handled, that goes up the hierarchy,
+   not into the chat.
+4. **Topics that have died stay dead.** If a situation has already calmed
+   down on its own, the ticket is handled in private, not by reopening it in
+   the chat.
+5. **Private matters stay private.** Warnings, deletion requests and anything
+   about a specific member are handled in direct messages.
+6. **No rule changes mid-ticket.** If a ticket shows that a rule is missing
+   or unclear, that is noted and taken to the legislative body afterwards.
+   The ticket itself is handled under the rules as they stand.
+7. **Close and record.** The ticket is closed by the assigned admin. Anything
+   significant enough becomes an [incident record](/incidents/).

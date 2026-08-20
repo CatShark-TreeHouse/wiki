@@ -1,40 +1,28 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: CatShark TreeHouse
+description: The home wiki of the CatShark TreeHouse network.
+template: splash
+tableOfContents: false
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  title: CatShark TreeHouse
+  tagline: A cozy corner of the internet for cats, sharks, and everything in between.
   image:
-    file: ../../assets/houston.webp
+    # Raw <img> instead of `file`: Starlight crops `file` images to 400x400,
+    # which cuts the crown off the flag. Relative src so it works under any base.
+    html: >-
+      <img src="flag.png" width="1036" height="675"
+      alt="The CatShark TreeHouse flag: a golden paw over grey spots, with a small crown."
+      loading="eager" />
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: Welcome
+      link: start-here/welcome/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: How to Join
+      link: start-here/joining/
+      icon: add-document
+      variant: secondary
+    - text: Read the Rules
+      link: rules/network-rules/
+      icon: open-book
       variant: minimal
 ---
-
-import { Card, CardGrid } from "@astrojs/starlight/components";
-
-## Next steps
-
-<CardGrid stagger>
-  <Card title="Update content" icon="pencil">
-    Edit `src/content/docs/index.mdx` to see this page change.
-  </Card>
-  <Card title="Change page layout" icon="document">
-    Delete `template: splash` in `src/content/docs/index.mdx` to display a
-    sidebar on this page.
-  </Card>
-  <Card title="Add new content" icon="add-document">
-    Add Markdown or MDX files to `src/content/docs` to create new pages.
-  </Card>
-  <Card title="Configure your site" icon="setting">
-    Edit your `sidebar` and other config in `astro.config.mjs`.
-  </Card>
-  <Card title="Read the docs" icon="open-book">
-    Learn more in [the Starlight Docs](https://starlight.astro.build/).
-  </Card>
-</CardGrid>

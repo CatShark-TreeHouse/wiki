@@ -1,0 +1,280 @@
+---
+// Roster + per-team org trees, both rendered from src/data/staff.json so the
+// chart and the tables cannot drift apart. Verification rights follow the
+// rule on the Staff page: owners and anyone on a Moderation team.
+import data from "../data/staff.json";
+
+type Person = { name: string; username: string; owner?: boolean };
+type Team = {
+  name: string;
+  platform: string | null;
+  moderation?: boolean;
+  head: string;
+  admins: string[];
+  moderators: string[];
+};
+
+const people = data.people as Record<string, Person>;
+const teams = data.teams as Team[];
+
+const RANK = { Owner: 0, "Head Admin": 1, Admin: 2, Moderator: 3 } as const;
+type Role = keyof typeof RANK;
+
+function rolesOf(id: string): Role[] {
+  const roles: Role[] = [];
+  if (people[id].owner) roles.push("Owner");
+  for (const t of teams) {
+    if (t.head === id) roles.push("Head Admin");
+    if (t.admins.includes(id)) roles.push("Admin");
+    if (t.moderators.includes(id)) roles.push("Moderator");
+  }
+  return roles;
+}
+
+function highestRole(id: string): Role {
+  return rolesOf(id).sort((a, b) => RANK[a] - RANK[b])[0] ?? "Moderator";
+}
+
+function canVerify(id: string): boolean {
+  if (people[id].owner) return true;
+  return teams.some(
+    (t) =>
+      t.moderation &&
+      (t.head === id || t.admins.includes(id) || t.moderators.includes(id)),
+  );
+}
+
+const roster = Object.keys(people)
+  .map((id) => ({
+    id,
+    ...people[id],
+    role: highestRole(id),
+    verify: canVerify(id),
+  }))
+  .sort((a, b) => RANK[a.role] - RANK[b.role] || a.name.localeCompare(b.name));
+
+const owners = roster.filter((p) => p.owner);
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+
+<h2 id="roster">Roster</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Role</th>
+      <th>Can verify ID?</th>
+    </tr>
+  </thead>
+  <tbody>
+    {
+      roster.map((p) => (
+        <tr>
+          <td>{p.name}</td>
+          <td>
+            <a href={`https://t.me/${p.username}`}>@{p.username}</a>
+          </td>
+          <td>{p.role}</td>
+          <td>{p.verify ? <strong>Yes</strong> : "No"}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<p>
+  The <strong>Role</strong> column shows each person's highest role. Owners hold that
+  role across the whole network; everyone else's roles are per team, below.
+</p>
+
+<h2 id="teams">Teams</h2>
+
+<p>
+  Each coordination team has a Head Admin, Admins, and, where the team needs
+  them, Moderators. One person can sit on several teams in different roles. The
+  owners sit above every team.
+</p>
+
+<div class="cs-org not-content">
+  <div class="cs-org-owners">
+    <span class="cs-org-label">Owners</span>
+    <ul>
+      {owners.map((p) => <li class="cs-person cs-owner">{p.name}</li>)}
+    </ul>
+  </div>
+
+  {
+    teams.map((t) => (
+      <section class="cs-team" id={slug(t.name)}>
+        <h3>{t.name}</h3>
+        <ul class="cs-tree">
+          <li>
+            <span class="cs-node cs-head">
+              <span class="cs-role">Head Admin</span>
+              <span class="cs-person">{people[t.head].name}</span>
+            </span>
+            <ul>
+              {t.admins.map((a) => (
+                <li>
+                  <span class="cs-node cs-admin">
+                    <span class="cs-role">Admin</span>
+                    <span class="cs-person">{people[a].name}</span>
+                  </span>
+                </li>
+              ))}
+              {t.moderators.length > 0 && (
+                <li>
+                  <span class="cs-node cs-mods">
+                    <span class="cs-role">Moderators</span>
+                    <span class="cs-people">
+                      {t.moderators.map((m) => (
+                        <span class="cs-person">{people[m].name}</span>
+                      ))}
+                    </span>
+                  </span>
+                </li>
+              )}
+            </ul>
+          </li>
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .cs-org {
+    margin-top: 1rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .cs-org-owners {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--cs-card, transparent);
+  }
+
+  .cs-org-owners ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cs-org-label,
+  .cs-role {
+    font-size: var(--sl-text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sl-color-gray-3);
+  }
+
+  .cs-person {
+    display: inline-block;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid var(--sl-color-hairline);
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-white);
+    font-weight: 600;
+    font-size: var(--sl-text-sm);
+  }
+
+  .cs-owner {
+    border-color: color-mix(in srgb, var(--sl-color-accent) 50%, transparent);
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent-high);
+  }
+
+  .cs-team {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--cs-card, transparent);
+    padding: 0.9rem 1.1rem 1rem;
+  }
+
+  .cs-team h3 {
+    margin: 0 0 0.6rem;
+    font-size: var(--sl-text-base);
+    font-weight: 700;
+  }
+
+  /* The tree: a vertical spine with elbow connectors, pure CSS. */
+  .cs-tree,
+  .cs-tree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cs-tree ul {
+    margin-inline-start: 1.1rem;
+    padding-inline-start: 1.1rem;
+    border-inline-start: 2px solid var(--sl-color-hairline);
+  }
+
+  .cs-tree ul > li {
+    position: relative;
+    padding-block: 0.3rem;
+  }
+
+  .cs-tree ul > li::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: -1.1rem;
+    top: 1.05rem;
+    width: 0.9rem;
+    border-top: 2px solid var(--sl-color-hairline);
+  }
+
+  .cs-tree ul > li:last-child {
+    /* Mask the spine below the last elbow. */
+    background: linear-gradient(
+      to bottom,
+      transparent 1.1rem,
+      var(--cs-card, var(--sl-color-bg)) 1.1rem
+    );
+    margin-inline-start: -2px;
+    padding-inline-start: 2px;
+    border-inline-start: 0;
+  }
+
+  .cs-node {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .cs-head .cs-person {
+    border-color: color-mix(in srgb, var(--sl-color-accent) 50%, transparent);
+    background: var(--sl-color-accent-low);
+    color: var(--sl-color-accent-high);
+  }
+
+  .cs-people {
+    display: inline-flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  @media (min-width: 50rem) {
+    .cs-org {
+      grid-template-columns: 1fr 1fr;
+    }
+    .cs-org-owners {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

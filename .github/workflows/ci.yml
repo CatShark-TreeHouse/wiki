@@ -14,34 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  backend:
-    name: Backend (fmt, clippy, test)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          components: rustfmt, clippy
-
-      - name: Cache cargo build
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: backend
-
-      - name: Format check
-        run: cargo fmt --all --check
-
-      - name: Clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
-
-      - name: Test
-        run: cargo test --all
-
   frontend:
     name: Frontend (format, check, build)
     runs-on: ubuntu-latest
@@ -50,6 +22,9 @@ jobs:
         working-directory: frontend/short-shepherd
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history: the site renders each page's revision log from git.
+          fetch-depth: 0
 
       - name: Install Node
         uses: actions/setup-node@v4

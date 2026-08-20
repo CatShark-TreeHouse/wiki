@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Patel",
+    "username": "PatelSnepp",
+    "date": "2026-08-20",
+    "reason": "Repeated instigation, including in past incidents (§ 4.1, § 16.1).",
+    "incident": "260819"
+  },
+  {
+    "name": "Halley",
+    "username": "HalleyNorth",
+    "date": "2026-08-20",
+    "reason": "Discrimination by ethnicity: generalising remarks about white people made in a side chat during the incident (§ 2.5, § 2.6).",
+    "incident": "260819",
+    "detail": "evidence/260819-halley.png"
+  },
+  {
+    "name": "Latte",
+    "username": "Lattefiend",
+    "date": "2026-08-20",
+    "until": "2026-08-27",
+    "reason": "Conduct during the incident (§ 4.4, § 4.5), after an earlier warning not to bring such topics into the chat. Temporary ban, one week.",
+    "incident": "260819"
+  }
+]

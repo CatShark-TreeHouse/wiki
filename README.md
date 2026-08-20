@@ -1,18 +1,18 @@
-# CatShark TreeHouse — Wiki
+# CatShark TreeHouse Wiki
 
-Monorepo for the Zuri Cat Tree / FurrK network wiki: a Telegram bot for moderators to
-control content, an HTTP API that serves the live ban/spoiler lists, and an Astro site
-that displays the rules (static) and the controlled-content lists (dynamic).
+The CatShark TreeHouse network wiki: an Astro + Starlight site in
+`frontend/short-shepherd` with the rules, joining guide, staff, moderation strategy,
+incident records, ban register, and the controlled-content lists. Everything is static
+and edited through pull requests; it deploys to GitHub Pages.
 
 ## Structure
 
-| Path | What |
-|------|------|
-| `backend/domain` | Core types and repository traits |
-| `backend/persistence` | In-memory and SQLite implementations of the repositories |
-| `backend/bot` | Telegram bot: `/ban`, `/spoil`, `/check` (admin-gated) |
-| `backend/api` | axum HTTP API + process entrypoint (runs the API, and the bot if `TELOXIDE_TOKEN` is set) |
-| `frontend/short-shepherd` | Astro + Starlight site |
+| Path                                         | What                                                    |
+|----------------------------------------------|---------------------------------------------------------|
+| `frontend/short-shepherd/src/content/docs`   | The pages (Markdown / MDX)                              |
+| `frontend/short-shepherd/src/data`           | Data files: controlled-content lists, staff, bans       |
+| `frontend/short-shepherd/src/components`     | Components that render those data files                 |
+| `.github/workflows`                          | CI (format, check, build) and the GitHub Pages deploy   |
 
 ## Development
 
@@ -20,18 +20,25 @@ Tasks are run via [`just`](https://github.com/casey/just):
 
 ```sh
 just            # list recipes
-just build      # build the Rust workspace
-just test       # run backend tests
-just run-api    # run the API (and bot, if TELOXIDE_TOKEN is set) on :8080
-just fe-dev     # run the Astro dev server
+just install    # npm install
+just dev        # Astro dev server on :4321
+just check      # what CI runs: format check, astro check, build
 ```
+
+## Deployment
+
+The domain is pure configuration; no code changes needed when it exists.
+Everything is set through environment variables:
+
+| Variable          | Where                | What                                                                                              |
+| ----------------- | -------------------- | ------------------------------------------------------------------------------------------------- |
+| `SITE_URL`        | frontend build       | Public origin of the wiki site; enables sitemap + canonical URLs (unset: build works, skips both) |
+| `SITE_BASE`       | frontend build       | Sub-path for a GitHub Pages project site (e.g. `/wiki`); unset for a custom domain                |
 
 ## Contributing
 
-- `main` is protected — **no direct pushes**.
+- `main` is protected: **no direct pushes**.
 - Every change lands through a **squash-merged pull request**.
-- CI (lint + format + tests) must pass before a PR can merge:
-  - Backend: `cargo fmt --check`, `cargo clippy -D warnings`, `cargo test`
-  - Frontend: `prettier --check`, `astro check`, `astro build`
+- CI must pass before a PR can merge: `prettier --check`, `astro check`, `astro build`.
 
-Run `cargo fmt` and `npm run format` (in `frontend/short-shepherd`) before pushing to keep CI green.
+Run `just fmt` before pushing to keep CI green.
