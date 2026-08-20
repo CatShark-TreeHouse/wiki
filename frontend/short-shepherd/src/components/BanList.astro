@@ -7,6 +7,7 @@ type Ban = {
   name: string;
   username?: string | null;
   date: string;
+  until?: string | null;
   reason?: string | null;
   incident?: string | null;
 };
@@ -27,6 +28,7 @@ const rows = (bans as Ban[])
           <th>Name</th>
           <th>Username</th>
           <th>Date</th>
+          <th>Until</th>
           <th>Reason</th>
           <th>Incident</th>
         </tr>
@@ -37,6 +39,7 @@ const rows = (bans as Ban[])
             <td>{b.name}</td>
             <td>{b.username ? `@${b.username}` : "unknown"}</td>
             <td>{b.date}</td>
+            <td>{b.until ? b.until : "permanent"}</td>
             <td>{b.reason ? b.reason : <em>not stated</em>}</td>
             <td>
               {b.incident ? (
