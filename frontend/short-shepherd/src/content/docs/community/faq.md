@@ -62,7 +62,7 @@ merge. If you think an entry is missing or wrong, tell a
 ## What Are Roles and Teams?
 
 The staff structure is explained on the
-[Roles & Teams page](/community/roles-and-teams/): owners, main admins,
+[Roles & Teams page](/community/roles-and-teams/): owners, head admins,
 admins, and moderators, plus the four teams they organize into.
 
 ## How Can I Join the Staff?
