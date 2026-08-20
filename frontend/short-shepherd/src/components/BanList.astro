@@ -10,6 +10,8 @@ type Ban = {
   until?: string | null;
   reason?: string | null;
   incident?: string | null;
+  /** Path under public/ (or a full URL) to a screenshot or other static evidence. */
+  detail?: string | null;
 };
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -31,6 +33,7 @@ const rows = (bans as Ban[])
           <th>Ban</th>
           <th>Reason</th>
           <th>Incident</th>
+          <th>Extra detail</th>
         </tr>
       </thead>
       <tbody>
@@ -46,6 +49,19 @@ const rows = (bans as Ban[])
             <td>
               {b.incident ? (
                 <a href={`${base}/incidents/${b.incident}/`}>{b.incident}</a>
+              ) : (
+                "none"
+              )}
+            </td>
+            <td>
+              {b.detail ? (
+                <a
+                  href={
+                    /^https?:/.test(b.detail) ? b.detail : `${base}/${b.detail}`
+                  }
+                >
+                  view
+                </a>
               ) : (
                 "none"
               )}
