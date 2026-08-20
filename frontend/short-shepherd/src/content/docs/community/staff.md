@@ -29,8 +29,8 @@ owners and everyone on a Moderation team, and nobody else.
 | Spirit  | [@spiritpaw](https://t.me/spiritpaw)               | Admin      | **Yes**        |
 | Wire    | [@Larzepam](https://t.me/Larzepam)                 | Admin      | No             |
 | Starsie | [@Starsie](https://t.me/Starsie)                   | Admin      | **Yes**        |
+| Basil   | [@BasilFuji](https://t.me/BasilFuji)               | Admin      | **Yes**        |
 | Sirus   | [@sirus_76](https://t.me/sirus_76)                 | Moderator  | **Yes**        |
-| Basil   | [@BasilFuji](https://t.me/BasilFuji)               | Moderator  | **Yes**        |
 | Reggie  | [@ReggieTheCaracal](https://t.me/ReggieTheCaracal) | Moderator  | **Yes**        |
 
 The **Role** column shows each person's highest role. Owners hold that role
@@ -66,11 +66,11 @@ them, Moderators. One person can sit on several teams in different roles.
 | Head Admin | Nimbus  |
 | Admin      | Zuri    |
 | Admin      | Spirit  |
+| Admin      | Basil   |
 | Moderator  | Starsie |
 | Moderator  | Sirus   |
 | Moderator  | Haskell |
 | Moderator  | Diggy   |
-| Moderator  | Basil   |
 | Moderator  | Reggie  |
 
 ### Telegram Member Satisfaction
