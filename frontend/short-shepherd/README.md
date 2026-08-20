@@ -1,12 +1,13 @@
 # short-shepherd
 
-The CatShark TreeHouse wiki site — [Astro](https://astro.build) +
+The CatShark TreeHouse wiki site: [Astro](https://astro.build) +
 [Starlight](https://starlight.astro.build).
 
-Static pages (rules, joining, staff…) live in `src/content/docs/`. The
-[Banned & Spoilered page](src/content/docs/controlled.mdx) is different: it
-fetches the live controlled-content lists from the backend API in the browser
-(`src/components/ControlledLists.astro`).
+Pages live in `src/content/docs/`. The
+[Banned & Controlled page](src/content/docs/controlled.mdx) renders
+`src/data/controlled-content.json` at build time
+(`src/components/ControlledLists.astro`); edit that file through a pull
+request to change the lists.
 
 ## Commands
 
@@ -24,15 +25,14 @@ fetches the live controlled-content lists from the backend API in the browser
 
 Both knobs are baked in at build time; neither is needed for local work.
 
-- `SITE_URL` — public origin of the deployed site (e.g.
+- `SITE_URL`: public origin of the deployed site (e.g.
   `https://wiki.example.net`). Enables the sitemap and canonical URLs; unset,
   the build just skips them.
-- `PUBLIC_API_BASE` — origin of the backend API. Unset, it defaults to
-  same-origin in production and `http://localhost:8080` in dev (matching
-  `just run-api`).
+- `SITE_BASE`: sub-path the site is served from, e.g. `/wiki` for a GitHub
+  Pages project site. Unset for a custom domain or local work.
 
 ## Theme
 
-The look lives in `src/styles/custom.css` (ocean-teal dark, sunlit light) and
+The look lives in `src/styles/custom.css` (a Bluesky-style shell in gold and charcoal) and
 `astro.config.mjs`. Fonts are self-hosted via Fontsource: Bricolage Grotesque
 for headings, Inter for body text.

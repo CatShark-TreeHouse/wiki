@@ -1,12 +1,12 @@
-# CatShark TreeHouse — Wiki
+# CatShark TreeHouse Wiki
 
-Monorepo for the Zuri Cat Tree / FurrK network wiki: a Telegram bot for moderators to
-maintain the controlled-content lists, an HTTP API that serves the live ban/spoiler
-lists, and an Astro site that displays the rules (static) and the controlled-content
-lists (dynamic).
+Monorepo for the CatShark TreeHouse network wiki. The live site is the Astro project in
+`frontend/short-shepherd`: rules, joining guide, staff, moderation strategy, incident
+records, and the controlled-content lists, all static and edited through pull requests.
+It deploys to GitHub Pages.
 
-The bot is information-access only — it edits the lists, it does not moderate users
-(user moderation is handled by Group Guardian).
+The `backend/` workspace (Telegram bot + HTTP API for the lists) is retained but no
+longer used by the site.
 
 ## Structure
 
@@ -16,7 +16,7 @@ The bot is information-access only — it edits the lists, it does not moderate 
 | `backend/persistence` | In-memory and SQLite implementations of the repositories |
 | `backend/bot` | Telegram bot: `/add_ban`, `/add_spoiler`, `/check` (admin-gated); DMs the joining checklist to users requesting to join |
 | `backend/api` | axum HTTP API + process entrypoint (runs the API, and the bot if `TELOXIDE_TOKEN` is set) |
-| `frontend/short-shepherd` | Astro + Starlight site |
+| `frontend/short-shepherd` | Astro + Starlight site (the deployed wiki) |
 
 ## Development
 
@@ -32,20 +32,20 @@ just fe-dev     # run the Astro dev server
 
 ## Deployment
 
-The domain is pure configuration — no code changes needed when it exists.
+The domain is pure configuration; no code changes needed when it exists.
 Everything is set through environment variables:
 
 | Variable          | Where                | What                                                                                              |
 | ----------------- | -------------------- | ------------------------------------------------------------------------------------------------- |
 | `SITE_URL`        | frontend build       | Public origin of the wiki site; enables sitemap + canonical URLs (unset: build works, skips both) |
-| `PUBLIC_API_BASE` | frontend build       | Origin of the HTTP API if it is not same-origin with the site                                     |
+| `SITE_BASE`       | frontend build       | Sub-path for a GitHub Pages project site (e.g. `/wiki`); unset for a custom domain                |
 | `WIKI_URL`        | bot (runtime)        | Wiki link used in bot DMs (default: this GitHub repo)                                             |
 | `DATABASE_URL`    | API/bot (runtime)    | SQLite URL (default: `sqlite://wiki.db?mode=rwc`)                                                 |
 | `TELOXIDE_TOKEN`  | bot (runtime)        | Telegram bot token; unset runs the HTTP API only                                                  |
 
 ## Contributing
 
-- `main` is protected — **no direct pushes**.
+- `main` is protected: **no direct pushes**.
 - Every change lands through a **squash-merged pull request**.
 - CI (lint + format + tests) must pass before a PR can merge:
   - Backend: `cargo fmt --check`, `cargo clippy -D warnings`, `cargo test`
