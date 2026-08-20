@@ -42,7 +42,7 @@ async fn main() -> anyhow::Result<()> {
             _ = bot::run(bot, content_repo, changelog) => {}
         }
     } else {
-        eprintln!("TELOXIDE_TOKEN not set — running HTTP API only (bot disabled).");
+        eprintln!("TELOXIDE_TOKEN not set, running HTTP API only (bot disabled).");
         server.await?;
     }
 

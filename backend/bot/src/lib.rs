@@ -88,7 +88,7 @@ async fn answer(
 /// Telegram lets the bot message `user_chat_id` for ~5 minutes after the
 /// request (until it is processed), which is exactly the window where the
 /// checklist helps. Delivery requires the bot to be an admin of a chat with
-/// "Approve New Members" enabled. The request itself is left untouched —
+/// "Approve New Members" enabled. The request itself is left untouched;
 /// age verification is a human's call, so approval stays with the admins.
 async fn greet_join_request(bot: Bot, request: ChatJoinRequest) -> ResponseResult<()> {
     let text = welcome_message(
@@ -117,17 +117,17 @@ fn wiki_url() -> String {
 /// even if the reader never opens the link.
 fn welcome_message(first_name: &str, chat_title: &str, wiki_url: &str) -> String {
     format!(
-        "Hi {first_name}! You've requested to join {chat_title} — welcome to the \
+        "Hi {first_name}! You've requested to join {chat_title}, welcome to the \
 CatShark TreeHouse network!\n\
 \n\
 While an admin reviews your request, here's what you need to know:\n\
 \n\
 1. Every space in the network is strictly 18+, SFW and NSFW alike.\n\
-2. Read the network rules first — admins are instructed not to reply unless \
+2. Read the network rules first; admins are instructed not to reply unless \
 you acknowledge them.\n\
 3. To be let in, you'll verify your age with an admin using an ID that shows \
 your date of birth (a driving license or national ID). We never store it.\n\
-4. Once verified, you're set for every chat in the network — no need to do \
+4. Once verified, you're set for every chat in the network, no need to do \
 this again.\n\
 \n\
 Rules, the staff list, and the full joining guide: {wiki_url}\n\
@@ -218,7 +218,7 @@ fn split_first_word(input: &str) -> (&str, &str) {
     }
 }
 
-/// `<type> <name> [reason...]` — type and name are single tokens, the rest is the reason.
+/// `<type> <name> [reason...]`: type and name are single tokens, the rest is the reason.
 /// Extra whitespace between tokens is tolerated; whitespace inside the reason is preserved.
 fn parse_control_args(
     args: &str,

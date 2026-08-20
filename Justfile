@@ -1,4 +1,4 @@
-# Catshark wiki — task runner. Run `just` to list recipes.
+# Catshark wiki task runner. Run `just` to list recipes.
 
 # SQLite lives as a single file in backend/. `mode=rwc` creates it on first run.
 export DATABASE_URL := env_var_or_default("DATABASE_URL", "sqlite://" + justfile_directory() + "/backend/wiki.db?mode=rwc")
