@@ -1,0 +1,53 @@
+---
+// The ban register, rendered from src/data/bans.json. Reason and incident
+// are optional; a missing reason is shown as such rather than invented.
+import bans from "../data/bans.json";
+
+type Ban = {
+  name: string;
+  username?: string | null;
+  date: string;
+  reason?: string | null;
+  incident?: string | null;
+};
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const rows = (bans as Ban[])
+  .slice()
+  .sort((a, b) => b.date.localeCompare(a.date));
+---
+
+{
+  rows.length === 0 ? (
+    <p>Nobody is currently banned from the network.</p>
+  ) : (
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Date</th>
+          <th>Reason</th>
+          <th>Incident</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((b) => (
+          <tr>
+            <td>{b.name}</td>
+            <td>{b.username ? `@${b.username}` : "unknown"}</td>
+            <td>{b.date}</td>
+            <td>{b.reason ? b.reason : <em>not stated</em>}</td>
+            <td>
+              {b.incident ? (
+                <a href={`${base}/incidents/${b.incident}/`}>{b.incident}</a>
+              ) : (
+                "none"
+              )}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
