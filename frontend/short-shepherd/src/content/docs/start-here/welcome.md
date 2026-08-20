@@ -9,7 +9,7 @@ known as the _Zuri Cat Tree_ / _FurrK Network_. Same tree, new treehouse.
 
 First of all: a warm **welcome** to you.
 
-:::caution[Adults only]
+:::caution[Adults Only]
 We are a series of chats that do not accept minors in our spaces **at all**,
 be it SFW or NSFW ([§ 1](/rules/network-rules/#1-18-only)). This is an **active** decision made by all of us, given the
 nature of adult spaces. It is final and not going to change.

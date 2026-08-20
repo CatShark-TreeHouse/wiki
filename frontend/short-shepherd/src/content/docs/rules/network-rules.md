@@ -77,7 +77,7 @@ Verification is done once and is valid in every chat of the network.
 
 #### <span class="cs-num">1.5</span> Accepted Forms of ID
 
-A driving licence or a national ID that shows your date of birth. Staff do
+A driving license or a national ID that shows your date of birth. Staff do
 not store your documentation; delete it from the chat yourself once you are
 verified.
 
@@ -109,7 +109,7 @@ _Introduced because of [incident 260819](/incidents/260819/)._
 This applies no matter which ethnic group is being talked about. Claims like "white people can't experience racism" break this rule: they judge a person by the group they were born into.
 _Introduced because of [incident 260819](/incidents/260819/)._
 
-:::note[For the record]
+:::note[For the Record]
 None of the owners of this network is ethnically white. These clauses are not
 written to protect ourselves; they are written so that they protect everyone.
 They are also not commentary on historical events or social issues. They say
@@ -161,9 +161,9 @@ Do not share, or threaten to share, anybody's personal information without their
 
 It does not matter who the target is, what they did, whether they are still here, or whether the information is "already out there". Doxxing can be a crime and exposes the doxxer and the people running the chat to legal consequences.
 
-#### <span class="cs-num">5.3</span> Ban on First Offence
+#### <span class="cs-num">5.3</span> Ban on First Offense
 
-Doxxing is a ban on the first offence.
+Doxxing is a ban on the first offense.
 
 #### <span class="cs-num">5.4</span> Safety Concerns Go to Staff
 
@@ -207,7 +207,7 @@ After 3 iterations, you will be banned.
 
 #### <span class="cs-num">9.1</span> Approval Required
 
-Do not advertise without permission from an admin or mod.
+Do not advertise without permission from an admin or moderator.
 
 #### <span class="cs-num">9.2</span> Approval Is Per Post
 
@@ -219,7 +219,7 @@ Any post meant to send people elsewhere or get them to spend money: invites to o
 
 #### <span class="cs-num">9.4</span> What Does Not Count
 
-Sharing your own art, saying where to follow you, sourcing somebody else's work, or answering a direct question. See the [FAQ](/community/faq/#what-counts-as-advertising) for examples. Unsure? [Ask a mod](/community/staff/).
+Sharing your own art, saying where to follow you, sourcing somebody else's work, or answering a direct question. See the [FAQ](/community/faq/#what-counts-as-advertising) for examples. Unsure? [Ask a moderator](/community/staff/).
 
 ### <span class="cs-num">10</span> <span class="cs-title">Don't Spam</span>
 
@@ -315,9 +315,9 @@ banned for something that was allowed when they did it.
 A closed case is not reopened, and the same facts are not judged twice. A
 new rule or clause does not reopen cases closed before it.
 
-#### <span class="cs-num">17.3</span> New Offences
+#### <span class="cs-num">17.3</span> New Offenses
 
-If offences that were not known at the time come to light after a case is
+If offenses that were not known at the time come to light after a case is
 closed, they form a new case. Only the new facts are judged. This is rare
 and is meant to stay rare.
 

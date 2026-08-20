@@ -50,7 +50,7 @@ type, a status, an optional reason, and the date they were added. Removing
 an entry is also a revision, so the history shows when something stopped
 being controlled and why.
 
-:::note[Not sure about something?]
+:::note[Not Sure About Something?]
 If you're unsure whether a piece of art, an artist, or a kink is okay to
 post, ask one of the [staff](/community/staff/) first. That's always the
 safe move, and the same advice the rules give for real-life NSFW

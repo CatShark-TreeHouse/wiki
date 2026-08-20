@@ -23,7 +23,7 @@ always on the [Banned & Controlled page](/controlled/). Also keep in mind
 
 ## What Counts as Advertising?
 
-[§ 9](/rules/network-rules/#9-no-unapproved-advertising) says advertising needs approval from a mod first. Advertising is any post whose
+[§ 9](/rules/network-rules/#9-no-unapproved-advertising) says advertising needs approval from a moderator first. Advertising is any post whose
 purpose is to send people somewhere else or to get them to spend money.
 
 **Needs approval:**
@@ -48,10 +48,10 @@ purpose is to send people somewhere else or to get them to spend money.
 | Answering "where can I commission you?" when somebody asks           | Replying to a direct question      |
 | Linking a wiki, tutorial, or tool that is useful to the conversation | Not promotion                      |
 
-Unsure which side a post lands on? [Ask a mod](/community/staff/) before
+Unsure which side a post lands on? [Ask a moderator](/community/staff/) before
 posting it. Permission is per post, not forever.
 
-## How Do the Banned/Controlled Lists Get Updated?
+## How Do the Banned & Controlled Lists Get Updated?
 
 The moderation team edits them through pull requests on
 [GitHub](https://github.com/CatShark-TreeHouse/wiki); the

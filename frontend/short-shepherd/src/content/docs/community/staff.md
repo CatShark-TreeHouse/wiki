@@ -14,16 +14,16 @@ Only staff marked **Can verify ID: yes** can complete
 [age verification](/start-here/joining/) for you ([§ 1.2](/rules/network-rules/#12-verification-required)).
 :::
 
-| Name    | Username                                           | Role  | Division                        | Can verify ID? |
-| :------ | :------------------------------------------------- | :---- | :------------------------------ | :------------- |
-| Zuri    | [@ZuriTheChee](https://t.me/ZuriTheChee)           | Owner | All                             | **Yes**        |
-| Mike    | [@Mikeisaderp](https://t.me/Mikeisaderp)           | Owner | All                             | **Yes**        |
-| Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail)   | Owner | All                             | **Yes**        |
-| Surplus | [@SirSurplus](https://t.me/SirSurplus)             | Admin | Network Logistics               | **Yes**        |
-| Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)     | Admin | Moderation                      | **Yes**        |
-| Kalsie  | [@KalsieArt](https://t.me/KalsieArt)               | Admin | Member Engagement               | No             |
-| Sirus   | [@sirus_76](https://t.me/sirus_76)                 | Mod   | Moderation, Discord             | **Yes**        |
-| Edu     | [@ed_wolf](https://t.me/ed_wolf)                   | Mod   | Moderation                      | **Yes**        |
-| Starsie | [@Starsie](https://t.me/Starsie)                   | Mod   | Member Satisfaction             | No             |
-| Klauth  | [@Klauthra](https://t.me/Klauthra)                 | Mod   | Member Satisfaction, Moderation | **Yes**        |
-| Reggie  | [@ReggieTheCaracal](https://t.me/ReggieTheCaracal) | Mod   | Discord, Member Satisfaction    | **Yes**        |
+| Name    | Username                                           | Role      | Division                        | Can verify ID? |
+| :------ | :------------------------------------------------- | :-------- | :------------------------------ | :------------- |
+| Zuri    | [@ZuriTheChee](https://t.me/ZuriTheChee)           | Owner     | All                             | **Yes**        |
+| Mike    | [@Mikeisaderp](https://t.me/Mikeisaderp)           | Owner     | All                             | **Yes**        |
+| Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail)   | Owner     | All                             | **Yes**        |
+| Surplus | [@SirSurplus](https://t.me/SirSurplus)             | Admin     | Network Logistics               | **Yes**        |
+| Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)     | Admin     | Moderation                      | **Yes**        |
+| Kalsie  | [@KalsieArt](https://t.me/KalsieArt)               | Admin     | Member Engagement               | No             |
+| Sirus   | [@sirus_76](https://t.me/sirus_76)                 | Moderator | Moderation, Discord             | **Yes**        |
+| Edu     | [@ed_wolf](https://t.me/ed_wolf)                   | Moderator | Moderation                      | **Yes**        |
+| Starsie | [@Starsie](https://t.me/Starsie)                   | Moderator | Member Satisfaction             | No             |
+| Klauth  | [@Klauthra](https://t.me/Klauthra)                 | Moderator | Member Satisfaction, Moderation | **Yes**        |
+| Reggie  | [@ReggieTheCaracal](https://t.me/ReggieTheCaracal) | Moderator | Discord, Member Satisfaction    | **Yes**        |

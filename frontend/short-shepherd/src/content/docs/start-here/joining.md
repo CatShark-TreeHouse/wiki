@@ -5,7 +5,7 @@ description: The CatShark TreeHouse joining process, step by step, age verificat
 
 So you want in? Great. Here's how it works.
 
-:::caution[Read the rules first]
+:::caution[Read the Rules First]
 Go read the [Network Rules](/rules/network-rules/) before you do anything
 else. Admins are instructed to **not reply** to you if you try to join without
 acknowledging them first.
@@ -28,7 +28,7 @@ to delete it in a chat yourself.
    open a ticket in the server instead; the ticket system walks you through
    it.
 3. Make sure you tell them you are seeking to join a specific chat.
-4. Send your ID: a driving licence or national ID showing your date of birth
+4. Send your ID: a driving license or national ID showing your date of birth
    ([§ 1.5](/rules/network-rules/#15-accepted-forms-of-id)). No ID at hand?
    A trusted member of the network can vouch for you instead
    ([§ 1.3](/rules/network-rules/#13-attestation)): either tell the admin
