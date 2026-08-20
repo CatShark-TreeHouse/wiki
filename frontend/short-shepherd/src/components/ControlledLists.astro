@@ -1,16 +1,10 @@
 ---
-// Live view of the controlled-content lists. Data is fetched in the browser
-// at page load — nothing at build time, so the static build never depends on
-// the API being up.
-//
-// The API origin is baked in at build time: set PUBLIC_API_BASE for
-// deployments where the API lives on another origin; the default assumes
-// same-origin in production and the local backend in dev.
-import mascot from "../assets/catshark.svg";
+// The controlled-content lists. Entries live in src/data/controlled-content.json
+// and are edited through pull requests; the page is rendered at build time
+// and the search / type filter run in the browser over the baked-in data.
+import mascot from "../assets/paw.png";
+import items from "../data/controlled-content.json";
 
-const apiBase =
-  import.meta.env.PUBLIC_API_BASE ??
-  (import.meta.env.DEV ? "http://localhost:8080" : "");
 const mascotUrl = mascot.src;
 ---
 
@@ -41,7 +35,7 @@ const mascotUrl = mascot.src;
       <option value="all">All types</option>
       <option value="artist">Artists</option>
       <option value="character">Characters</option>
-      <option value="tag">Kinks & tags</option>
+      <option value="tag">Kinks</option>
     </select>
   </div>
   <div id="cs-content" aria-live="polite"></div>
@@ -117,11 +111,133 @@ const mascotUrl = mascot.src;
     margin: 0 0 0.75rem;
   }
 
+  .cs-group {
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: 0.75rem;
+    background: var(--cs-card, transparent);
+    margin-bottom: 0.6rem;
+    overflow: hidden;
+  }
+
+  .cs-group > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.7rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: var(--sl-color-white);
+  }
+
+  .cs-group > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cs-group > summary::before {
+    content: "";
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 2px solid var(--sl-color-gray-3);
+    border-bottom: 2px solid var(--sl-color-gray-3);
+    transform: rotate(-45deg);
+    transition: transform 0.15s ease;
+    margin-inline-end: 0.25rem;
+    flex: 0 0 auto;
+  }
+
+  .cs-group[open] > summary::before {
+    transform: rotate(45deg);
+  }
+
+  .cs-group > summary:hover {
+    background: color-mix(in srgb, var(--sl-color-accent) 7%, transparent);
+  }
+
+  .cs-group-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+  }
+
+  .cs-anchor,
+  .cs-anchor-h {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .cs-anchor {
+    color: var(--sl-color-gray-4);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.12s ease;
+    padding-inline: 0.25rem;
+  }
+
+  .cs-group > summary:hover .cs-anchor,
+  .cs-anchor:focus-visible {
+    opacity: 1;
+  }
+
+  .cs-row-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .cs-row-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  .cs-panel tr.cs-hit {
+    background: color-mix(in srgb, var(--sl-color-accent) 18%, transparent);
+  }
+
+  .cs-panel tr[id] {
+    scroll-margin-top: calc(var(--sl-nav-height) + 1rem);
+  }
+
+  .cs-group,
+  .cs-section {
+    scroll-margin-top: calc(var(--sl-nav-height) + 1rem);
+  }
+
+  .cs-count {
+    font-size: var(--sl-text-xs);
+    font-weight: 700;
+    color: var(--sl-color-gray-3);
+    background: var(--sl-color-gray-6);
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+  }
+
+  .cs-group .cs-panel {
+    border: none;
+    border-top: 1px solid var(--sl-color-hairline);
+    border-radius: 0;
+    background: transparent;
+  }
+
   .cs-panel {
     background: color-mix(in srgb, var(--sl-color-gray-6) 45%, transparent);
     border: 1px solid var(--sl-color-hairline);
     border-radius: 0.75rem;
     overflow-x: auto;
+  }
+
+  /* The global markdown-table theme rounds tables and their corner cells;
+     inside a group the table is flush with the summary, so square it off. */
+  .cs-group .cs-panel table,
+  .cs-group .cs-panel table th,
+  .cs-group .cs-panel table td {
+    border-radius: 0 !important;
+  }
+
+  .cs-group .cs-panel table {
+    border: none !important;
+    width: 100% !important;
   }
 
   .cs-panel table {
@@ -169,6 +285,13 @@ const mascotUrl = mascot.src;
 
   .cs-reason {
     color: var(--sl-color-gray-2);
+  }
+
+  .cs-added {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
   }
 
   .cs-reason.cs-none {
@@ -249,7 +372,7 @@ const mascotUrl = mascot.src;
   }
 </style>
 
-<script is:inline define:vars={{ apiBase, mascotUrl }}>
+<script is:inline define:vars={{ items, mascotUrl }}>
   const contentEl = document.getElementById("cs-content");
   const searchEl = document.getElementById("cs-search");
   const typeEl = document.getElementById("cs-type");
@@ -257,7 +380,15 @@ const mascotUrl = mascot.src;
   const TYPE_LABELS = { artist: "Artist", character: "Character", tag: "Kink" };
   const PILL_TYPES = new Set(["artist", "character", "tag"]);
 
-  let allItems = [];
+  let allItems = Array.isArray(items) ? items : [];
+
+  function slug(value) {
+    return String(value)
+      .toLowerCase()
+      .normalize("NFKD")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
 
   function esc(value) {
     return String(value).replace(
@@ -271,21 +402,6 @@ const mascotUrl = mascot.src;
           "'": "&#39;",
         })[c],
     );
-  }
-
-  function showLoading() {
-    contentEl.innerHTML =
-      '<div class="cs-skel" role="status" aria-label="Loading the controlled-content lists">' +
-      '<div class="cs-skel-row"></div>'.repeat(5) +
-      "</div>";
-  }
-
-  function showError() {
-    contentEl.innerHTML =
-      '<div class="cs-state"><div class="cs-big">Couldn’t reach the lists service</div>' +
-      "The lists are temporarily unavailable. Please try again in a moment." +
-      '<div><button id="cs-retry">Retry</button></div></div>';
-    document.getElementById("cs-retry")?.addEventListener("click", load);
   }
 
   function showEmpty(filtered) {
@@ -321,60 +437,121 @@ const mascotUrl = mascot.src;
   function tableFor(items) {
     let rows = "";
     for (const item of items) {
+      const id = slug(item.alias ?? "");
       const reason =
         item.reason == null || item.reason === ""
-          ? '<span class="cs-reason cs-none">—</span>'
+          ? '<span class="cs-reason cs-none">none</span>'
           : '<span class="cs-reason">' + esc(item.reason) + "</span>";
       rows +=
-        "<tr>" +
-        '<td class="cs-alias">' +
+        '<tr id="' +
+        esc(id) +
+        '">' +
+        '<td class="cs-alias"><a class="cs-row-link" href="#' +
+        esc(id) +
+        '">' +
         esc(item.alias ?? "") +
-        "</td>" +
-        '<td class="cs-type">' +
-        pillFor(item.type) +
-        "</td>" +
+        "</a></td>" +
         "<td>" +
         reason +
+        "</td>" +
+        '<td class="cs-added">' +
+        esc(item.added ?? "") +
         "</td>" +
         "</tr>";
     }
     return (
       '<div class="cs-panel"><table><thead><tr>' +
-      "<th>Name</th><th>Type</th><th>Reason</th>" +
+      "<th>Name</th><th>Reason</th><th>Added</th>" +
       "</tr></thead><tbody>" +
       rows +
       "</tbody></table></div>"
     );
   }
 
-  function render(items) {
+  const GROUPS = [
+    ["artist", "Artists"],
+    ["character", "Characters"],
+    ["tag", "Kinks"],
+  ];
+
+  function groupFor(status, type, label, items, forceOpen) {
+    const open = forceOpen ? " open" : "";
+    const id = status + "-" + slug(label);
+    return (
+      '<details class="cs-group cs-group-' +
+      type +
+      '" id="' +
+      id +
+      '"' +
+      open +
+      ">" +
+      '<summary><span class="cs-group-title">' +
+      esc(label) +
+      '</span><a class="cs-anchor" href="#' +
+      id +
+      '" aria-label="Link to this list">#</a><span class="cs-count">' +
+      items.length +
+      "</span></summary>" +
+      tableFor(items) +
+      "</details>"
+    );
+  }
+
+  function sectionFor(status, title, sub, items, forceOpen) {
+    let groups = "";
+    for (const [type, label] of GROUPS) {
+      const subset = items.filter((item) => item.type === type);
+      if (subset.length)
+        groups += groupFor(status, type, label, subset, forceOpen);
+    }
+    return (
+      '<section class="cs-section" id="' +
+      status +
+      '">' +
+      '<h2><a class="cs-anchor-h" href="#' +
+      status +
+      '">' +
+      esc(title) +
+      "</a>" +
+      ' <span class="cs-badge ' +
+      status +
+      '">' +
+      items.length +
+      "</span></h2>" +
+      '<p class="cs-section-sub">' +
+      esc(sub) +
+      "</p>" +
+      groups +
+      "</section>"
+    );
+  }
+
+  function render(items, forceOpen) {
     if (!items.length) {
       showEmpty(allItems.length > 0);
       return;
     }
     const banned = items.filter((item) => item.status === "banned");
-    const spoilered = items.filter((item) => item.status === "spoilered");
+    const controlled = items.filter((item) => item.status === "controlled");
 
     let html = "";
     if (banned.length) {
-      html +=
-        '<section class="cs-section">' +
-        '<h2>Banned <span class="cs-badge banned">' +
-        banned.length +
-        "</span></h2>" +
-        '<p class="cs-section-sub">Not allowed anywhere in the network — stickers included.</p>' +
-        tableFor(banned) +
-        "</section>";
+      html += sectionFor(
+        "banned",
+        "Banned",
+        "Not allowed anywhere in the network, stickers included.",
+        banned,
+        forceOpen,
+      );
     }
-    if (spoilered.length) {
-      html +=
-        '<section class="cs-section">' +
-        '<h2>Spoilered <span class="cs-badge spoilered">' +
-        spoilered.length +
-        "</span></h2>" +
-        '<p class="cs-section-sub">Allowed only when spoilered and sent with a content warning.</p>' +
-        tableFor(spoilered) +
-        "</section>";
+    if (controlled.length) {
+      html += sectionFor(
+        "controlled",
+        "Controlled",
+        "Allowed only behind a spoiler and with a content warning.",
+        controlled,
+        forceOpen,
+      );
     }
     contentEl.innerHTML = html;
   }
@@ -382,6 +559,9 @@ const mascotUrl = mascot.src;
   function applyFilters() {
     const query = searchEl.value.trim().toLowerCase();
     const type = typeEl.value;
+    // Groups start collapsed (the lists will grow); a search or a type
+    // filter means the reader is looking for something, so open them.
+    const forceOpen = Boolean(query) || type !== "all";
     render(
       allItems.filter((item) => {
         const matchesType = type === "all" || item.type === type;
@@ -392,27 +572,30 @@ const mascotUrl = mascot.src;
             .includes(query);
         return matchesType && matchesQuery;
       }),
+      forceOpen,
     );
   }
 
-  async function load() {
-    showLoading();
-    try {
-      const response = await fetch(apiBase + "/api/controlled-content", {
-        headers: { Accept: "application/json" },
-      });
-      if (!response.ok) throw new Error("HTTP " + response.status);
-      const data = await response.json();
-      allItems = Array.isArray(data) ? data : [];
-      applyFilters();
-    } catch (error) {
-      console.error("Failed to load controlled content:", error);
-      showError();
+  // Deep links: #banned, #banned-artists, or #<alias>. Open the group that
+  // contains the target and scroll to it.
+  function revealHash() {
+    const id = decodeURIComponent(location.hash.slice(1));
+    if (!id) return;
+    const target = document.getElementById(id);
+    if (!target || !contentEl.contains(target)) return;
+    let node = target;
+    while (node && node !== contentEl) {
+      if (node.tagName === "DETAILS") node.open = true;
+      node = node.parentElement;
     }
+    if (target.tagName === "TR") target.classList.add("cs-hit");
+    target.scrollIntoView({ block: "start" });
   }
 
   searchEl.addEventListener("input", applyFilters);
   typeEl.addEventListener("change", applyFilters);
+  window.addEventListener("hashchange", revealHash);
 
-  load();
+  applyFilters();
+  revealHash();
 </script>
