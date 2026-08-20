@@ -23,10 +23,10 @@ Only staff marked **Can verify ID: yes** can complete
 | Cirrus  | [@Mikeisaderp](https://t.me/Mikeisaderp)         | Owner      | **Yes**        |
 | Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail) | Owner      | **Yes**        |
 | Surplus | [@SirSurplus](https://t.me/SirSurplus)           | Head Admin | **Yes**        |
-| Haskell | TBD                                              | Head Admin | No             |
+| Haskell | [@Haskell_Z](https://t.me/Haskell_Z)             | Head Admin | No             |
 | Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)   | Admin      | **Yes**        |
-| Spirit  | TBD                                              | Admin      | No             |
-| Wire    | TBD                                              | Admin      | No             |
+| Spirit  | [@spiritpaw](https://t.me/spiritpaw)             | Admin      | No             |
+| Wire    | [@Larzepam](https://t.me/Larzepam)               | Admin      | No             |
 | Starsie | [@Starsie](https://t.me/Starsie)                 | Admin      | No             |
 | Sirus   | [@sirus_76](https://t.me/sirus_76)               | Moderator  | **Yes**        |
 
