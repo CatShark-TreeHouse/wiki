@@ -1,90 +1,404 @@
-/* CatShark TreeHouse theme — ocean depths below, warm treehouse light above.
+/* CatShark TreeHouse theme: a Bluesky-style app shell in Zuri's colours.
 
-   Starlight consumes the --sl-* custom properties; the rest is polish on top
-   of its (already responsive) defaults. This stylesheet is unlayered and
-   Starlight's own styles live in cascade layers, so anything set on a bare
-   :root would override BOTH themes — scope every color override to the
-   data-theme it belongs to. Fonts are theme-independent and may sit on :root. */
+   Palette comes from the sona ref sheet: king-cheetah charcoal and light grey
+   for the surfaces, gold (#e7b656) as the accent, burnt orange (#bf7627) and
+   rose (#b8715f) as warm secondaries, eye-blue (#7fcada) for informational
+   bits, cream (#e7e2d7) for the light theme's paper.
+
+   Shell: a calm left rail with pill nav items, one hairline-bordered centre
+   column that reads like a feed (each H2 is a separator, like a post), and a
+   sticky "On this page" card on the right. Starlight consumes the --sl-*
+   custom properties; its own styles live in cascade layers, so every colour
+   override below is scoped to a data-theme. */
 
 /* ── Typography ─────────────────────────────────────────────────────────── */
 
 :root {
   --sl-font: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
   --cs-font-display: "Bricolage Grotesque Variable", var(--sl-font);
+
+  /* Bluesky proportions: narrow feed, roomy rails. */
+  --sl-content-width: 42rem;
+  --sl-sidebar-width: 17rem;
+  --sl-content-pad-x: 1.25rem;
+  --cs-radius: 1rem;
+  --cs-radius-sm: 0.65rem;
+}
+
+@media (min-width: 50rem) {
+  :root {
+    --sl-content-pad-x: 1.75rem;
+  }
 }
 
 h1,
+.site-title {
+  font-family: var(--cs-font-display);
+  letter-spacing: -0.02em;
+}
+
 h2,
 h3,
 h4,
 h5,
-h6,
-.site-title {
-  font-family: var(--cs-font-display);
-  letter-spacing: -0.015em;
+h6 {
+  font-family: var(--sl-font);
+  letter-spacing: -0.012em;
 }
 
 /* ── Color system ───────────────────────────────────────────────────────── */
 
-/* Dark: a night dive — blue-teal blacks instead of neutral gray. The ramp
-   keeps Starlight's default lightness steps so every contrast pair it was
-   designed around still holds; only the hue is ours. */
+/* Dark: the charcoal coat, warm near-blacks, gold accent. */
 :root[data-theme="dark"] {
-  --sl-color-accent-low: #0b3a35;
-  --sl-color-accent: #14b8a6;
-  --sl-color-accent-high: #99f6e4;
+  --sl-color-accent-low: #3b3014;
+  --sl-color-accent: #e7b656;
+  --sl-color-accent-high: #f6dc9a;
 
-  --sl-color-white: #f2f7f9;
-  --sl-color-gray-1: #dbe6ec;
-  --sl-color-gray-2: #b4c5ce;
-  --sl-color-gray-3: #7e95a3;
-  --sl-color-gray-4: #4b6272;
-  --sl-color-gray-5: #304350;
-  --sl-color-gray-6: #152430;
-  --sl-color-gray-7: #0e1922;
-  --sl-color-black: #0a141c;
+  --sl-color-white: #f4f2ee;
+  --sl-color-gray-1: #dbdbdb;
+  --sl-color-gray-2: #bcb9bf;
+  --sl-color-gray-3: #8f8c94;
+  --sl-color-gray-4: #656368;
+  --sl-color-gray-5: #37363b;
+  --sl-color-gray-6: #232227;
+  --sl-color-gray-7: #1a191d;
+  --sl-color-black: #131215;
 
-  --cs-warm: #fbbf24;
-  --cs-hero-glow-1: rgba(20, 184, 166, 0.16);
-  --cs-hero-glow-2: rgba(251, 191, 36, 0.09);
-  --cs-card-glow: rgba(20, 184, 166, 0.16);
+  --sl-color-bg-sidebar: var(--sl-color-black);
+  --sl-color-bg-nav: rgba(19, 18, 21, 0.78);
+  --sl-color-hairline: #2c2b30;
+  --sl-color-hairline-light: #2c2b30;
+  --sl-color-hairline-shade: #2c2b30;
+
+  /* Links & text accent: gold reads better than the default dark-theme
+     accent-high on charcoal. */
+  --sl-color-text-accent: var(--sl-color-accent);
+
+  --cs-warm: #bf7627;
+  --cs-rose: #b8715f;
+  --cs-blue: #7fcada;
+  --cs-mint: #d7efc2;
+  --cs-card: #1a191d;
+  --cs-card-raised: #202024;
+  --cs-hero-glow-1: rgba(231, 182, 86, 0.14);
+  --cs-hero-glow-2: rgba(127, 202, 218, 0.08);
+  --cs-glow: rgba(231, 182, 86, 0.2);
+  --cs-on-accent: #1a1408;
 }
 
-/* Light: sunlit shallows — cool paper, deep-teal ink. */
+/* Light: the cream of the ref sheet, charcoal ink, burnt-orange accent. */
 :root[data-theme="light"] {
-  --sl-color-accent-low: #cdf2ec;
-  --sl-color-accent: #0c7c6f;
-  --sl-color-accent-high: #0a4740;
+  --sl-color-accent-low: #f8e7c2;
+  --sl-color-accent: #b36a1d;
+  --sl-color-accent-high: #6f3f0c;
 
-  --sl-color-white: #0f2430;
-  --sl-color-gray-1: #1e3945;
-  --sl-color-gray-2: #33515e;
-  --sl-color-gray-3: #5b7683;
-  --sl-color-gray-4: #91a9b3;
-  --sl-color-gray-5: #c3d5da;
-  --sl-color-gray-6: #e9f2f3;
-  --sl-color-gray-7: #f4f9f9;
-  --sl-color-black: #fbfdfd;
+  --sl-color-white: #232227;
+  --sl-color-gray-1: #37363b;
+  --sl-color-gray-2: #55535a;
+  --sl-color-gray-3: #77747c;
+  --sl-color-gray-4: #aaa39a;
+  --sl-color-gray-5: #d9d3c7;
+  --sl-color-gray-6: #ebe6dc;
+  --sl-color-gray-7: #f4f1ea;
+  --sl-color-black: #faf8f3;
 
-  --cs-warm: #b45309;
-  --cs-hero-glow-1: rgba(13, 148, 136, 0.13);
-  --cs-hero-glow-2: rgba(217, 119, 6, 0.09);
-  --cs-card-glow: rgba(12, 124, 111, 0.14);
+  --sl-color-bg-sidebar: var(--sl-color-black);
+  --sl-color-bg-nav: rgba(250, 248, 243, 0.8);
+  --sl-color-hairline: #e2dccf;
+  --sl-color-hairline-light: #e2dccf;
+  --sl-color-hairline-shade: #e2dccf;
+
+  --sl-color-text-accent: var(--sl-color-accent);
+
+  --cs-warm: #bf7627;
+  --cs-rose: #a65d4b;
+  --cs-blue: #2f8aa3;
+  --cs-mint: #9fd18a;
+  --cs-card: #fffdf8;
+  --cs-card-raised: #ffffff;
+  --cs-hero-glow-1: rgba(231, 182, 86, 0.3);
+  --cs-hero-glow-2: rgba(215, 239, 194, 0.55);
+  --cs-glow: rgba(191, 118, 39, 0.18);
+  --cs-on-accent: #ffffff;
+}
+
+/* ── Shell: header ──────────────────────────────────────────────────────── */
+
+/* Bluesky's feed header: translucent, blurred, hairline below. */
+.page > header.header {
+  background: var(--sl-color-bg-nav);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--sl-color-hairline);
+}
+
+.site-title {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+.site-title img {
+  border-radius: 0.35rem;
+}
+
+[data-has-hero] .hero img {
+  border-radius: var(--cs-radius);
+}
+
+/* Search as a soft pill. */
+site-search > button[data-open-modal] {
+  border-radius: 999px;
+  background: var(--sl-color-gray-6);
+  border-color: transparent;
+  color: var(--sl-color-gray-2);
+}
+
+site-search > button[data-open-modal]:hover {
+  border-color: var(--sl-color-gray-5);
+  color: var(--sl-color-white);
+}
+
+/* ── Shell: left rail ───────────────────────────────────────────────────── */
+
+.sidebar-pane {
+  background: var(--sl-color-bg-sidebar);
+}
+
+.sidebar-content {
+  gap: 1.25rem;
+  padding-inline: 0.9rem;
+}
+
+@media (min-width: 50rem) {
+  .sidebar-content {
+    padding-top: 1.25rem;
+  }
+}
+
+.sidebar-content ul {
+  --sl-sidebar-item-padding-inline: 0.9rem;
+}
+
+/* Flatten the nested-list guide lines; the rail should read as one column
+   of pills, not an outline. */
+.sidebar-content ul ul li {
+  margin-inline-start: 0;
+  border-inline-start: none;
+  padding-inline-start: 0;
+}
+
+.sidebar-content .top-level > li + li {
+  margin-top: 1.25rem;
+}
+
+/* Breathing room between the pills themselves. */
+.sidebar-content ul ul > li + li {
+  margin-top: 0.25rem;
+}
+
+.sidebar-content .group-label .large {
+  display: block;
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+  padding-inline: var(--sl-sidebar-item-padding-inline);
+  margin-bottom: 0.25rem;
+}
+
+.sidebar-content summary {
+  padding-block: 0.2rem;
+}
+
+.sidebar-content summary .caret {
+  color: var(--sl-color-gray-4);
+}
+
+.sidebar-content a {
+  border-radius: 999px;
+  padding: 0.5rem var(--sl-sidebar-item-padding-inline);
+  font-size: var(--sl-text-base);
+  font-weight: 500;
+  color: var(--sl-color-gray-2);
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.sidebar-content a:hover,
+.sidebar-content a:focus-visible {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-white);
+}
+
+.sidebar-content a[aria-current="page"],
+.sidebar-content a[aria-current="page"]:hover,
+.sidebar-content a[aria-current="page"]:focus-visible {
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-accent-high);
+  font-weight: 700;
+}
+
+/* A nested group is a sub-feed: indent its pills a notch. */
+.sidebar-content ul ul ul a {
+  padding-inline-start: calc(var(--sl-sidebar-item-padding-inline) + 0.75rem);
+  font-size: var(--sl-text-sm);
+}
+
+/* ── Shell: feed column ─────────────────────────────────────────────────── */
+
+@media (min-width: 50rem) {
+  .sidebar-pane {
+    border-inline-end: 1px solid var(--sl-color-hairline);
+  }
+}
+
+/* On wide screens the centre column gets Bluesky's hairlines on both sides. */
+@media (min-width: 72rem) {
+  [data-has-sidebar][data-has-toc] .main-pane {
+    border-inline-end: 1px solid var(--sl-color-hairline);
+  }
+
+  .right-sidebar {
+    border-inline-start: none;
+  }
+}
+
+.content-panel {
+  padding-block: 1.75rem;
+}
+
+.content-panel + .content-panel {
+  border-top: 1px solid var(--sl-color-hairline);
+}
+
+/* Page title block reads like a profile header: title, then the description
+   in muted text (Starlight puts the description in meta only, so the H1 alone
+   carries it). */
+.content-panel h1 {
+  font-size: clamp(1.8rem, 1.2rem + 1.6vw, 2.4rem);
+  font-weight: 700;
+}
+
+/* Each H2 is a new "post": hairline above, breathing room. Starlight wraps
+   anchored headings in .sl-heading-wrapper, so the rule lives there. */
+.sl-markdown-content .sl-heading-wrapper.level-h2:not(:where(.not-content *)) {
+  margin-top: 2.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--sl-color-hairline);
+}
+
+/* A page that opens straight with an H2 has nothing to separate from. */
+.sl-markdown-content
+  > .sl-heading-wrapper.level-h2:first-child:not(:where(.not-content *)) {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.sl-markdown-content h2:not(:where(.not-content *)) {
+  font-size: var(--sl-text-h3);
+  font-weight: 700;
+}
+
+.sl-markdown-content h3:not(:where(.not-content *)) {
+  font-size: var(--sl-text-h4);
+  font-weight: 650;
+}
+
+.sl-markdown-content :is(h2, h3, h4):not(:where(.not-content *)) + * {
+  margin-top: 0.9rem;
+}
+
+.sl-markdown-content a:not(:where(.not-content *)) {
+  color: var(--sl-color-text-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.sl-markdown-content code:not(:where(.not-content *)) {
+  border-radius: 0.35rem;
+}
+
+.sl-markdown-content pre:not(:where(.not-content *)) {
+  border-radius: var(--cs-radius-sm);
+  border-color: var(--sl-color-hairline);
+}
+
+/* Prev/next pagination as two cards. */
+.pagination-links a {
+  border-radius: var(--cs-radius);
+  border-color: var(--sl-color-hairline);
+  background: var(--cs-card);
+  box-shadow: none;
+}
+
+.pagination-links a:hover {
+  border-color: var(--sl-color-accent);
+}
+
+/* ── Shell: right rail (TOC) ────────────────────────────────────────────── */
+
+@media (min-width: 72rem) {
+  .right-sidebar-panel {
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+  }
+
+  .right-sidebar-panel > * {
+    background: var(--cs-card);
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--cs-radius);
+    padding: 1rem 1.1rem;
+  }
+}
+
+.right-sidebar-panel h2 {
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+}
+
+.right-sidebar-panel a {
+  border-radius: 999px;
+  color: var(--sl-color-gray-2);
+}
+
+.right-sidebar-panel a:hover {
+  color: var(--sl-color-white);
+}
+
+.right-sidebar-panel a[aria-current="true"] {
+  color: var(--sl-color-accent-high);
+  font-weight: 600;
+}
+
+/* Mobile TOC bar matches the header. */
+mobile-starlight-toc nav {
+  background: var(--sl-color-bg-nav);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--sl-color-hairline);
 }
 
 /* ── Hero (splash homepage) ─────────────────────────────────────────────── */
 
-/* Soft light sources: teal from the water top-right, amber from the
-   treehouse bottom-left. */
 [data-has-hero] main {
   background:
     radial-gradient(
-      52rem 36rem at 82% 4rem,
+      50rem 34rem at 78% 2rem,
       var(--cs-hero-glow-1),
       transparent 68%
     ),
     radial-gradient(
-      48rem 40rem at 8% 95%,
+      46rem 38rem at 6% 95%,
       var(--cs-hero-glow-2),
       transparent 70%
     );
@@ -104,8 +418,7 @@ h6,
 }
 
 [data-has-hero] .hero img {
-  filter: drop-shadow(0 12px 40px rgba(20, 184, 166, 0.35));
-  animation: cs-float 7s ease-in-out infinite;
+  filter: drop-shadow(0 12px 40px var(--cs-glow));
 }
 
 @keyframes cs-float {
@@ -118,30 +431,64 @@ h6,
   }
 }
 
-[data-has-hero] .hero .action {
-  border-radius: 999px;
-}
-
-[data-has-hero] .hero .action.primary {
-  box-shadow: 0 10px 28px var(--cs-card-glow);
-}
-
 @media (prefers-reduced-motion: reduce) {
   [data-has-hero] .hero img {
     animation: none;
   }
 }
 
+/* ── Buttons: Bluesky pills ─────────────────────────────────────────────── */
+
+.sl-link-button,
+[data-has-hero] .hero .action {
+  border-radius: 999px;
+  font-weight: 700;
+  padding-inline: 1.4rem;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease;
+}
+
+.sl-link-button.primary,
+[data-has-hero] .hero .action.primary {
+  background: var(--sl-color-accent);
+  border-color: var(--sl-color-accent);
+  color: var(--cs-on-accent);
+  box-shadow: 0 8px 24px var(--cs-glow);
+}
+
+.sl-link-button.primary:hover,
+[data-has-hero] .hero .action.primary:hover {
+  transform: translateY(-1px);
+  background: var(--sl-color-accent-high);
+  border-color: var(--sl-color-accent-high);
+}
+
+.sl-link-button.secondary,
+.sl-link-button.minimal,
+[data-has-hero] .hero .action.secondary,
+[data-has-hero] .hero .action.minimal {
+  border: 1px solid var(--sl-color-hairline);
+  background: var(--cs-card);
+  color: var(--sl-color-white);
+}
+
+.sl-link-button.secondary:hover,
+.sl-link-button.minimal:hover,
+[data-has-hero] .hero .action.secondary:hover,
+[data-has-hero] .hero .action.minimal:hover {
+  border-color: var(--sl-color-accent);
+}
+
 /* ── Cards ──────────────────────────────────────────────────────────────── */
 
 .sl-link-card,
 .card {
-  border-radius: 0.75rem;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--sl-color-gray-6) 55%, transparent),
-    transparent
-  );
+  border-radius: var(--cs-radius);
+  border: 1px solid var(--sl-color-hairline);
+  background: var(--cs-card);
+  box-shadow: none;
   transition:
     transform 0.15s ease,
     border-color 0.15s ease,
@@ -151,10 +498,22 @@ h6,
 .sl-link-card:hover {
   transform: translateY(-2px);
   border-color: var(--sl-color-accent);
-  box-shadow: 0 8px 26px var(--cs-card-glow);
+  box-shadow: 0 8px 26px var(--cs-glow);
 }
 
-/* ── Markdown tables (staff roster, rules, IDs…) ────────────────────────── */
+.sl-link-card .title {
+  font-weight: 700;
+}
+
+.card .icon {
+  color: var(--sl-color-accent);
+  background: var(--sl-color-accent-low);
+  border-radius: 999px;
+  padding: 0.25rem;
+  box-sizing: content-box;
+}
+
+/* ── Markdown tables ────────────────────────────────────────────────────── */
 
 .sl-markdown-content table {
   /* Starlight makes tables display:block for horizontal scrolling; shrink the
@@ -162,45 +521,106 @@ h6,
   width: fit-content;
   max-width: 100%;
   border: 1px solid var(--sl-color-hairline);
-  border-radius: 0.65rem;
+  border-radius: var(--cs-radius);
   border-collapse: separate;
   border-spacing: 0;
+  background: var(--cs-card);
 }
 
 .sl-markdown-content thead th {
-  background: color-mix(in srgb, var(--sl-color-gray-6) 80%, transparent);
+  background: var(--sl-color-gray-6);
   font-family: var(--sl-font);
   font-size: var(--sl-text-xs);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--sl-color-gray-3);
+  padding-block: 0.6rem;
 }
 
 .sl-markdown-content th,
 .sl-markdown-content td {
   border: none;
   border-bottom: 1px solid var(--sl-color-hairline);
+  padding: 0.7rem 1rem;
+  vertical-align: top;
+  line-height: 1.5;
 }
 
 .sl-markdown-content tr:last-child > td {
   border-bottom: none;
 }
 
-.sl-markdown-content tbody tr:nth-child(2n) {
-  background: color-mix(in srgb, var(--sl-color-gray-6) 40%, transparent);
+/* Key/value-ish first columns (rule names, roles, fields) shouldn't wrap. */
+.sl-markdown-content td:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+
+.sl-markdown-content tbody tr {
+  transition: background 0.1s ease;
+}
+
+.sl-markdown-content tbody tr:hover {
+  background: color-mix(in srgb, var(--sl-color-accent) 7%, transparent);
+}
+
+.sl-markdown-content thead tr:first-child > th:first-child {
+  border-start-start-radius: var(--cs-radius);
+}
+.sl-markdown-content thead tr:first-child > th:last-child {
+  border-start-end-radius: var(--cs-radius);
+}
+.sl-markdown-content tbody tr:last-child > td:first-child {
+  border-end-start-radius: var(--cs-radius);
+}
+.sl-markdown-content tbody tr:last-child > td:last-child {
+  border-end-end-radius: var(--cs-radius);
+}
+
+/* ── Lists: numbered rules as feed items ────────────────────────────────── */
+
+.sl-markdown-content ol:not(:where(.not-content *)) > li {
+  padding-block: 0.25rem;
+}
+
+.sl-markdown-content ol:not(:where(.not-content *)) > li::marker {
+  color: var(--sl-color-gray-3);
+  font-weight: 600;
 }
 
 /* ── Asides ─────────────────────────────────────────────────────────────── */
 
 .starlight-aside {
-  border-radius: 0.5rem;
+  border-radius: var(--cs-radius);
+  border-inline-start-width: 1px;
+  border: 1px solid var(--sl-color-asides-border);
+  background-color: color-mix(
+    in srgb,
+    var(--sl-color-asides-border) 10%,
+    var(--cs-card)
+  );
 }
 
-/* Tips ship purple by default — bring them into the teal family. */
+/* Tips go gold; notes go eye-blue; cautions go burnt orange; danger rose. */
 .starlight-aside--tip {
   --sl-color-asides-text-accent: var(--sl-color-accent-high);
   --sl-color-asides-border: var(--sl-color-accent);
-  background-color: var(--sl-color-accent-low);
+}
+
+.starlight-aside--note {
+  --sl-color-asides-text-accent: var(--cs-blue);
+  --sl-color-asides-border: var(--cs-blue);
+}
+
+.starlight-aside--caution {
+  --sl-color-asides-text-accent: var(--cs-warm);
+  --sl-color-asides-border: var(--cs-warm);
+}
+
+.starlight-aside--danger {
+  --sl-color-asides-text-accent: var(--cs-rose);
+  --sl-color-asides-border: var(--cs-rose);
 }
 
 /* ── Status badges & type pills (live controlled-content page) ──────────── */
@@ -223,15 +643,15 @@ h6,
 }
 
 .cs-badge.banned {
-  background: color-mix(in srgb, #ef4444 15%, transparent);
-  border-color: color-mix(in srgb, #ef4444 45%, transparent);
-  color: #fca5a5;
+  background: color-mix(in srgb, var(--cs-rose) 16%, transparent);
+  border-color: color-mix(in srgb, var(--cs-rose) 50%, transparent);
+  color: #e7a896;
 }
 
-.cs-badge.spoilered {
-  background: color-mix(in srgb, #f59e0b 15%, transparent);
-  border-color: color-mix(in srgb, #f59e0b 45%, transparent);
-  color: #fcd34d;
+.cs-badge.controlled {
+  background: color-mix(in srgb, var(--sl-color-accent) 15%, transparent);
+  border-color: color-mix(in srgb, var(--sl-color-accent) 50%, transparent);
+  color: var(--sl-color-accent-high);
 }
 
 .cs-pill {
@@ -240,39 +660,294 @@ h6,
 }
 
 .cs-pill.artist {
-  background: color-mix(in srgb, #8b5cf6 13%, transparent);
-  border-color: color-mix(in srgb, #8b5cf6 35%, transparent);
-  color: #c4b5fd;
+  background: color-mix(in srgb, var(--cs-blue) 14%, transparent);
+  border-color: color-mix(in srgb, var(--cs-blue) 40%, transparent);
+  color: var(--cs-blue);
 }
 
 .cs-pill.character {
-  background: color-mix(in srgb, #0ea5e9 13%, transparent);
-  border-color: color-mix(in srgb, #0ea5e9 35%, transparent);
-  color: #7dd3fc;
+  background: color-mix(in srgb, var(--cs-warm) 14%, transparent);
+  border-color: color-mix(in srgb, var(--cs-warm) 40%, transparent);
+  color: #e6a662;
 }
 
 .cs-pill.tag {
-  background: color-mix(in srgb, #f43f5e 13%, transparent);
-  border-color: color-mix(in srgb, #f43f5e 35%, transparent);
-  color: #fda4af;
+  background: color-mix(in srgb, var(--cs-mint) 12%, transparent);
+  border-color: color-mix(in srgb, var(--cs-mint) 40%, transparent);
+  color: var(--cs-mint);
 }
 
 :root[data-theme="light"] .cs-badge.banned {
-  color: #b91c1c;
-}
-
-:root[data-theme="light"] .cs-badge.spoilered {
-  color: #92400e;
-}
-
-:root[data-theme="light"] .cs-pill.artist {
-  color: #6d28d9;
+  color: #8c4332;
 }
 
 :root[data-theme="light"] .cs-pill.character {
-  color: #075985;
+  color: #8a5318;
 }
 
 :root[data-theme="light"] .cs-pill.tag {
-  color: #be123c;
+  color: #3f6d2c;
+}
+
+/* ── Rule markers ───────────────────────────────────────────────────────── */
+
+.cs-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--sl-color-hairline);
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+  vertical-align: middle;
+}
+
+.cs-flag-hot {
+  border-color: color-mix(in srgb, var(--cs-warm) 50%, transparent);
+  background: color-mix(in srgb, var(--cs-warm) 14%, transparent);
+  color: var(--cs-warm);
+}
+
+/* When the marker is the first thing under a heading, tuck it up close. */
+.sl-markdown-content :is(h2, h3) + p > .cs-flag:only-child {
+  margin-top: -0.25rem;
+}
+
+/* Rule clauses (1.1, 1.2, …) lay out as a two-column grid, table-like
+   without the lines: a fixed label column (the clause heading) and a text
+   column. The H4 wrapper and the paragraph that follows are siblings, so the
+   grid is faked with inline-blocks of fixed width. Major rules (H3) keep
+   their distance. */
+:root {
+  --cs-clause-col: 13rem;
+  --cs-clause-gap: 1rem;
+  --cs-clause-num: 3.4rem;
+}
+
+.sl-markdown-content
+  .sl-heading-wrapper.level-h3.level-h3:not(:where(.not-content *)) {
+  margin-top: 3rem;
+}
+
+.sl-markdown-content
+  .sl-heading-wrapper.level-h4.level-h4:not(:where(.not-content *)) {
+  float: left;
+  clear: both;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25em;
+  width: var(--cs-clause-col);
+  margin: 0.45rem var(--cs-clause-gap) 0 0;
+  font-size: var(--sl-text-base);
+  line-height: inherit;
+}
+
+.sl-markdown-content h4:not(:where(.not-content *)) {
+  display: flex !important;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+  font-size: var(--sl-text-base);
+  font-weight: 700;
+  line-height: inherit;
+  color: var(--sl-color-white);
+  padding-inline-end: 0;
+}
+
+/* The clause number gets its own fixed cell so titles line up. */
+.sl-markdown-content h4 .cs-num {
+  flex: 0 0 var(--cs-clause-num);
+  font-variant-numeric: tabular-nums;
+  color: var(--sl-color-accent);
+}
+
+.sl-markdown-content
+  .sl-heading-wrapper.level-h4:not(:where(.not-content *))
+  + p {
+  margin: 0.45rem 0 0 calc(var(--cs-clause-col) + var(--cs-clause-gap));
+}
+
+/* Clear the float so whatever comes next starts on its own row. */
+.sl-markdown-content
+  .sl-heading-wrapper.level-h4:not(:where(.not-content *))
+  + p::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Anchor icon: no reserved gap, show on hover only. */
+.sl-markdown-content .sl-heading-wrapper.level-h4 .sl-anchor-link {
+  margin: 0;
+  align-self: center;
+  opacity: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h4:hover .sl-anchor-link,
+.sl-markdown-content .sl-heading-wrapper.level-h4 .sl-anchor-link:focus {
+  opacity: 1;
+}
+
+/* A block that follows a clause (a list, a note) keeps a normal gap. */
+.sl-markdown-content
+  .sl-heading-wrapper.level-h4:not(:where(.not-content *))
+  + :not(p) {
+  margin-top: 0.25rem;
+}
+
+/* Narrow screens: stack label over text. */
+@media (max-width: 40rem) {
+  .sl-markdown-content
+    .sl-heading-wrapper.level-h4.level-h4:not(:where(.not-content *)) {
+    float: none;
+    width: auto;
+    margin: 0.6rem 0 0;
+  }
+  .sl-markdown-content
+    .sl-heading-wrapper.level-h4:not(:where(.not-content *))
+    + p {
+    margin: 0;
+  }
+}
+
+/* Major rule titles share the number cell, so "1" sits over "1.1" and the
+   title over the clause titles. */
+.sl-markdown-content
+  .sl-heading-wrapper.level-h3.level-h3:not(:where(.not-content *)) {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.sl-markdown-content h3:not(:where(.not-content *)) {
+  display: flex !important;
+  gap: 0.6rem;
+  align-items: baseline;
+  padding-inline-end: 0;
+}
+
+.sl-markdown-content h3 .cs-num {
+  flex: 0 0 var(--cs-clause-num);
+  font-variant-numeric: tabular-nums;
+  color: var(--sl-color-accent);
+}
+
+.sl-markdown-content .sl-heading-wrapper.level-h3 .sl-anchor-link {
+  margin-inline-start: 0.35em;
+  align-self: center;
+  line-height: 1;
+}
+
+/* Section sign on rule and clause numbers: "§ 1" and "§ 1.1". */
+.sl-markdown-content :is(h3, h4) .cs-num::before {
+  content: "§ ";
+}
+
+/* Inside flex headings the icon no longer needs Starlight's line-height
+   nudge. */
+.sl-markdown-content :is(.level-h3, .level-h4) .sl-anchor-icon > svg {
+  transform: none;
+}
+
+/* A rule title has to carry the rule on its own: make it unmissable. */
+.sl-markdown-content h3 .cs-title {
+  text-decoration: underline;
+  text-decoration-color: var(--sl-color-accent);
+  text-decoration-thickness: 0.14em;
+  text-underline-offset: 0.22em;
+}
+
+/* ── Rules index ────────────────────────────────────────────────────────── */
+
+.cs-index {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  columns: 2 16rem;
+  column-gap: 1.5rem;
+}
+
+.cs-index li {
+  break-inside: avoid;
+  margin: 0 0 0.3rem;
+}
+
+.cs-index a {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: var(--sl-color-white);
+  font-weight: 600;
+}
+
+.cs-index a:hover {
+  background: var(--sl-color-gray-6);
+}
+
+.cs-index .cs-num {
+  flex: 0 0 var(--cs-clause-num);
+  font-variant-numeric: tabular-nums;
+  color: var(--sl-color-accent);
+}
+
+.cs-index .cs-num::before {
+  content: "§ ";
+}
+
+/* ── Landing page: one centred column ───────────────────────────────────── */
+
+/* Flag on top, title, tagline, three buttons; vertically centred in the
+   viewport. Starlight's default is a two-column hero, which leaves the page
+   lopsided once the cards below it are gone. */
+[data-has-hero] .hero {
+  grid-template-columns: 100% !important;
+  gap: 2rem !important;
+  padding-block: clamp(2rem, 8vh, 5rem) !important;
+  min-height: calc(100vh - var(--sl-nav-height) - 8rem);
+  align-content: center;
+  justify-items: center;
+}
+
+[data-has-hero] .hero > .hero-html {
+  order: 0 !important;
+  width: min(100%, 34rem) !important;
+}
+
+[data-has-hero] .hero > .hero-html img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--cs-radius);
+  border: 1px solid var(--sl-color-hairline);
+  box-shadow: 0 24px 60px var(--cs-glow);
+}
+
+[data-has-hero] .hero .stack {
+  text-align: center !important;
+  gap: 1.5rem !important;
+}
+
+[data-has-hero] .hero .copy {
+  align-items: center !important;
+}
+
+[data-has-hero] .hero .tagline {
+  max-width: 38ch;
+}
+
+[data-has-hero] .hero .actions {
+  justify-content: center !important;
+}
+
+/* No edit link, pagination or footer clutter on the splash. */
+[data-has-hero] .meta,
+[data-has-hero] .pagination-links,
+[data-has-hero] footer.sl-flex {
+  display: none;
 }
