@@ -12,7 +12,8 @@ You can learn more about what the roles and teams mean on the
 :::tip[Joining?]
 Only staff marked **Can verify ID: yes** can complete
 [age verification](/start-here/joining/) for you
-([§ 1.2](/rules/network-rules/#12-verification-required)).
+([§ 1.2](/rules/network-rules/#12-verification-required)). That is the
+owners and everyone on a Moderation team, and nobody else.
 :::
 
 ## Roster
@@ -22,12 +23,12 @@ Only staff marked **Can verify ID: yes** can complete
 | Zuri    | [@ZuriTheChee](https://t.me/ZuriTheChee)         | Owner      | **Yes**        |
 | Cirrus  | [@Mikeisaderp](https://t.me/Mikeisaderp)         | Owner      | **Yes**        |
 | Nimbus  | [@NimbusWhitetail](https://t.me/NimbusWhitetail) | Owner      | **Yes**        |
-| Surplus | [@SirSurplus](https://t.me/SirSurplus)           | Head Admin | **Yes**        |
-| Haskell | [@Haskell_Z](https://t.me/Haskell_Z)             | Head Admin | No             |
+| Surplus | [@SirSurplus](https://t.me/SirSurplus)           | Head Admin | No             |
+| Haskell | [@Haskell_Z](https://t.me/Haskell_Z)             | Head Admin | **Yes**        |
 | Diggy   | [@TyphlosionTime](https://t.me/TyphlosionTime)   | Admin      | **Yes**        |
-| Spirit  | [@spiritpaw](https://t.me/spiritpaw)             | Admin      | No             |
+| Spirit  | [@spiritpaw](https://t.me/spiritpaw)             | Admin      | **Yes**        |
 | Wire    | [@Larzepam](https://t.me/Larzepam)               | Admin      | No             |
-| Starsie | [@Starsie](https://t.me/Starsie)                 | Admin      | No             |
+| Starsie | [@Starsie](https://t.me/Starsie)                 | Admin      | **Yes**        |
 | Sirus   | [@sirus_76](https://t.me/sirus_76)               | Moderator  | **Yes**        |
 
 The **Role** column shows each person's highest role. Owners hold that role
