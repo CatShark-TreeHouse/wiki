@@ -19,7 +19,7 @@ nature of adult spaces. It is final and not going to change.
 
 | Name               | Type             |                                    Link |
 | :----------------- | :--------------- | --------------------------------------: |
-| CatShark TreeHouse | Telegram Chat    |    [Join](https://tg.zuri-cat-tree.net) |
+| CatShark TreeHouse | Telegram Chat    |  [Join](https://t.me/CatSharkTreeHouse) |
 | Zuri Posting       | Telegram Channel | [Join](https://channel.zuricheetah.com) |
 | CatShark TreeHouse | Discord Server   |  [Join](https://discord.gg/sharkcorner) |
 
