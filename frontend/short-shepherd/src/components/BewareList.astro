@@ -1,7 +1,5 @@
 ---
-// The bewares list, rendered from src/data/bewares.json: people whose
-// behaviour pattern the team has verified and thinks members should know
-// about, especially in private messages where staff cannot see.
+// Alphabetical index of Bewares entries, each linking to its own page.
 import bewares from "../data/bewares.json";
 
 type Beware = {
@@ -9,131 +7,43 @@ type Beware = {
   username?: string | null;
   date: string;
   pattern: string;
-  advice?: string | null;
-  details?: { label: string; path: string }[] | null;
-  incident?: string | null;
   status?: string | null;
 };
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const rows = (bewares as Beware[])
   .slice()
-  .sort((a, b) => b.date.localeCompare(a.date));
-const href = (d: string) => (/^https?:/.test(d) ? d : `${base}/${d}`);
+  .sort((a, b) => a.name.localeCompare(b.name));
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 ---
 
 {
   rows.length === 0 ? (
     <p>There is nobody on this list right now.</p>
   ) : (
-    <div class="cs-bewares not-content">
-      {rows.map((b) => (
-        <article class="cs-beware" id={b.name.toLowerCase()}>
-          <header>
-            <h3>
-              {b.name}
-              {b.username && <span class="cs-handle">@{b.username}</span>}
-            </h3>
-            <span class="cs-meta">
-              {b.date}
-              {b.status ? ` · ${b.status}` : ""}
-            </span>
-          </header>
-          <p>
-            <strong>Pattern.</strong> {b.pattern}
-          </p>
-          {b.advice && (
-            <p>
-              <strong>What to do.</strong> {b.advice}
-            </p>
-          )}
-          {b.details && b.details.length > 0 && (
-            <p>
-              <strong>Evidence.</strong>
-            </p>
-          )}
-          {b.details && b.details.length > 0 && (
-            <ol class="cs-evidence">
-              {b.details.map((d) => (
-                <li>
-                  <a href={href(d.path)}>{d.label}</a>
-                </li>
-              ))}
-            </ol>
-          )}
-          {b.incident && (
-            <p class="cs-links">
-              <a href={`${base}/incidents/${b.incident}/`}>
-                Incident {b.incident}
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Listed</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((b) => (
+          <tr>
+            <td>
+              <a href={`${base}/moderation/bewares/${slug(b.name)}/`}>
+                {b.name}
               </a>
-            </p>
-          )}
-        </article>
-      ))}
-    </div>
+            </td>
+            <td>{b.username ? `@${b.username}` : "unknown"}</td>
+            <td>{b.date}</td>
+            <td>{b.status ?? ""}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
-
-<style>
-  .cs-bewares {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-
-  .cs-beware {
-    border: 1px solid var(--sl-color-hairline);
-    border-radius: 0.75rem;
-    background: var(--cs-card, transparent);
-    padding: 1rem 1.1rem;
-  }
-
-  .cs-beware header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
-  }
-
-  .cs-beware h3 {
-    margin: 0;
-    font-size: var(--sl-text-lg);
-    font-weight: 700;
-    display: flex;
-    gap: 0.6rem;
-    align-items: baseline;
-  }
-
-  .cs-handle {
-    font-size: var(--sl-text-sm);
-    font-weight: 500;
-    color: var(--sl-color-gray-3);
-  }
-
-  .cs-meta {
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .cs-beware p {
-    margin: 0.4rem 0 0;
-    line-height: 1.6;
-  }
-
-  .cs-evidence {
-    margin: 0.2rem 0 0 1.25rem;
-    padding: 0;
-    font-size: var(--sl-text-sm);
-    line-height: 1.7;
-  }
-
-  .cs-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 0.75rem !important;
-    font-size: var(--sl-text-sm);
-  }
-</style>

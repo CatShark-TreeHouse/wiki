@@ -1,4 +1,5 @@
-node_modules/
 dist/
 .astro/
-package-lock.json
+node_modules/
+# Static evidence artifacts (screenshots, exported transcripts) are not code.
+public/evidence/
