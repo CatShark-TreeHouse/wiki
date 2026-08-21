@@ -1,0 +1,25 @@
+[
+  {
+    "name": "Patel",
+    "username": "PatelSnepp",
+    "date": "2026-08-20",
+    "pattern": "Manipulation, in private messages and between groups. When a member said they were leaving a chat because they were tired, the response was to make that choice about Patel's own feelings, demand the member take accountability for it, and escalate when told to stop. In the same exchange, \"what if I killed myself\" and \"what if I killed my dad\", each followed by \"thoughts? feelings?\", were used to keep the other person engaged. More broadly: tells different people different versions of events, keeps a foot in every camp while a conflict is open, and commits only once it is clear which side is winning. Treat anything relayed second-hand by this person as unverified.",
+    "advice": "You do not owe anyone an explanation for leaving a chat or stepping back. If a conversation turns into this, you can stop replying and, if you want, forward it to a member of staff. If you are told what somebody else supposedly said or did, ask that person directly. If someone raises self-harm to keep you talking, you are not responsible for carrying that alone: step back and tell a member of staff. If you believe someone is genuinely in danger, contact emergency services where they live.",
+    "incident": "260819",
+    "status": "Banned",
+    "details": [
+      {
+        "label": "Leaving a chat turned into a guilt trip",
+        "path": "evidence/patel-manipulation.jpg"
+      },
+      {
+        "label": "Escalation when told to stop",
+        "path": "evidence/patel-emotional-manipulation.png"
+      },
+      {
+        "label": "Self-harm and violence raised as leverage",
+        "path": "evidence/patel-self-harm-leverage.png"
+      }
+    ]
+  }
+]
