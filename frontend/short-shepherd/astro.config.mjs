@@ -58,6 +58,7 @@ export default defineConfig({
           items: [
             { label: "Moderation Strategy", slug: "moderation/strategy" },
             { label: "Bans", slug: "moderation/bans" },
+            { label: "Bewares", slug: "moderation/bewares" },
             {
               label: "Incidents",
               items: [
