@@ -17,11 +17,11 @@ nature of adult spaces. It is final and not going to change.
 
 ## Chats & Channels in the Network
 
-| Name          | Type            |                                      Link |
-| :------------ | :-------------- | ----------------------------------------: |
-| Zuri Cat Tree | Chat            |      [Join](https://tg.zuri-cat-tree.net) |
-| Zuri Posting  | Channel         |   [Join](https://channel.zuricheetah.com) |
-| Cat Tree      | Discord Channel | [Join](https://discord.zuri-cat-tree.net) |
+| Name               | Type             |                                    Link |
+| :----------------- | :--------------- | --------------------------------------: |
+| CatShark TreeHouse | Telegram Chat    |  [Join](https://t.me/CatSharkTreeHouse) |
+| Zuri Posting       | Telegram Channel | [Join](https://channel.zuricheetah.com) |
+| CatShark TreeHouse | Discord Server   |  [Join](https://discord.gg/sharkcorner) |
 
 ## Where to Go from Here
 
