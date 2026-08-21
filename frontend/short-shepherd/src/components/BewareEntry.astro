@@ -1,0 +1,88 @@
+---
+// One person's Bewares entry, looked up by name in src/data/bewares.json.
+import bewares from "../data/bewares.json";
+
+interface Props {
+  name: string;
+}
+
+type Beware = {
+  name: string;
+  username?: string | null;
+  date: string;
+  pattern: string;
+  advice?: string | null;
+  details?: { label: string; path: string }[] | null;
+  incident?: string | null;
+  status?: string | null;
+};
+
+const { name } = Astro.props;
+const b = (bewares as Beware[]).find((x) => x.name === name);
+if (!b) throw new Error(`No bewares entry named "${name}"`);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (d: string) => (/^https?:/.test(d) ? d : `${base}/${d}`);
+---
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Username</strong></td>
+      <td>{b.username ? `@${b.username}` : "unknown"}</td>
+    </tr>
+    <tr>
+      <td><strong>Listed</strong></td>
+      <td>{b.date}</td>
+    </tr>
+    {
+      b.status && (
+        <tr>
+          <td>
+            <strong>Status</strong>
+          </td>
+          <td>{b.status}</td>
+        </tr>
+      )
+    }
+    {
+      b.incident && (
+        <tr>
+          <td>
+            <strong>Incident</strong>
+          </td>
+          <td>
+            <a href={`${base}/incidents/${b.incident}/`}>{b.incident}</a>
+          </td>
+        </tr>
+      )
+    }
+  </tbody>
+</table>
+
+<h2 id="pattern">Pattern</h2>
+<p>{b.pattern}</p>
+
+{
+  b.advice && (
+    <>
+      <h2 id="what-to-do">What to Do</h2>
+      <p>{b.advice}</p>
+    </>
+  )
+}
+
+{
+  b.details && b.details.length > 0 && (
+    <>
+      <h2 id="evidence">Evidence</h2>
+      <ol>
+        {b.details.map((d) => (
+          <li>
+            <a href={href(d.path)}>{d.label}</a>
+          </li>
+        ))}
+      </ol>
+    </>
+  )
+}
