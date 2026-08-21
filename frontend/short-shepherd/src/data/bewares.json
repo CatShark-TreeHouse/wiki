@@ -25,5 +25,20 @@
         "path": "evidence/patel-attention-exchange.html"
       }
     ]
+  },
+  {
+    "name": "AshenDerg",
+    "username": "AshenDarg",
+    "aliases": ["RuneDerg", "DragonRune", "Rune", "@DragonRune"],
+    "date": "2026-08-21",
+    "pattern": "Runs a second identity, RuneDerg (Telegram @DragonRune, also DragonRune or Rune), which he uses to commission and share \"cub\" art: sexual art of underage characters, much of it tagged rape or non-consensual, with his own characters as the adult. The two identities are linked by shared group membership, by the same money-help posts, and by InkBunny pieces tagged RuneDerg that use AshenDerg's older fursona design. Under both names he has posted in public chats about wanting to see \"cubs\" sexually abused, runs a private invite-only channel for this material, and keeps a circle of \"kids\" (adults roleplaying as children) who mark themselves with his emoji and are written into the same abuse scenarios. He has also openly said he uses Discord for this despite knowing it is banned there. The friendly AshenDerg persona most people know is the same person.",
+    "advice": "Do not share art, commissions, or contact details with this person, and do not accept invitations to private channels from either account. If you have been drawn into this material or pressured into one of these roleplays, you are not in trouble for telling a member of staff; do so, and do not go looking for the source material yourself. If he is present in a chat you run, ban both usernames.",
+    "status": "Banned",
+    "details": [
+      {
+        "label": "Public chat messages, both identities (text only: the source images are sexual material depicting minors and cannot be hosted)",
+        "path": "evidence/ashenderg-messages.html"
+      }
+    ]
   }
 ]
