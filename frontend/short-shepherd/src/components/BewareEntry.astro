@@ -1,6 +1,7 @@
 ---
 // One person's Bewares entry, looked up by name in src/data/bewares.json.
 import bewares from "../data/bewares.json";
+import { linkRules } from "../lib/rules";
 
 interface Props {
   name: string;
@@ -61,13 +62,13 @@ const href = (d: string) => (/^https?:/.test(d) ? d : `${base}/${d}`);
 </table>
 
 <h2 id="pattern">Pattern</h2>
-<p>{b.pattern}</p>
+<p set:html={linkRules(base, b.pattern)} />
 
 {
   b.advice && (
     <>
       <h2 id="what-to-do">What to Do</h2>
-      <p>{b.advice}</p>
+      <p set:html={linkRules(base, b.advice)} />
     </>
   )
 }

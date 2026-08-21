@@ -10,18 +10,18 @@
     "details": [
       {
         "label": "Leaving a chat turned into a guilt trip",
-        "path": "evidence/patel-manipulation.jpg"
+        "path": "evidence/patel-manipulation.html"
       },
       {
         "label": "Escalation when told to stop",
-        "path": "evidence/patel-emotional-manipulation.png"
+        "path": "evidence/patel-emotional-manipulation.html"
       },
       {
         "label": "Self-harm and violence raised as leverage",
-        "path": "evidence/patel-self-harm-leverage.png"
+        "path": "evidence/patel-self-harm-leverage.html"
       },
       {
-        "label": "Pushing for attention, then hostility when asked to stop (transcript)",
+        "label": "Pushing for attention, then hostility when asked to stop",
         "path": "evidence/patel-attention-exchange.html"
       }
     ]
