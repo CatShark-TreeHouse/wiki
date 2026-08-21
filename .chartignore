@@ -7,3 +7,5 @@ build/
 .venv/
 __pycache__/
 .understand/
+# Astro publishes every file under content/docs, so that directory gets no node (see src/NODE.md).
+frontend/short-shepherd/src/content/docs/
