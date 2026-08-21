@@ -2,6 +2,7 @@
 // The ban register, rendered from src/data/bans.json. Reason and incident
 // are optional; a missing reason is shown as such rather than invented.
 import bans from "../data/bans.json";
+import { linkRules } from "../lib/rules";
 
 type Ban = {
   name: string;
@@ -45,7 +46,13 @@ const rows = (bans as Ban[])
             <td>
               <code>{b.until ? `Until(${b.until})` : "Permanent"}</code>
             </td>
-            <td>{b.reason ? b.reason : <em>not stated</em>}</td>
+            <td>
+              {b.reason ? (
+                <Fragment set:html={linkRules(base, b.reason)} />
+              ) : (
+                <em>not stated</em>
+              )}
+            </td>
             <td>
               {b.incident ? (
                 <a href={`${base}/incidents/${b.incident}/`}>{b.incident}</a>
