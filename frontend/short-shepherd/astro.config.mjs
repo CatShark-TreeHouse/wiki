@@ -62,6 +62,7 @@ export default defineConfig({
               label: "Bewares",
               items: [
                 { label: "Overview", slug: "moderation/bewares" },
+                { label: "AshenDerg", slug: "moderation/bewares/ashenderg" },
                 { label: "Patel", slug: "moderation/bewares/patel" },
               ],
             },
