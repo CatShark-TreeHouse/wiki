@@ -3,3 +3,5 @@ dist/
 node_modules/
 # Static evidence artifacts (screenshots, exported transcripts) are not code.
 public/evidence/
+# /chart node files are not site content.
+NODE.md

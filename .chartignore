@@ -1,0 +1,11 @@
+# /chart — directories not worth a node. gitignore syntax. .gitignore is also honored.
+.git/
+target/
+node_modules/
+dist/
+build/
+.venv/
+__pycache__/
+.understand/
+# Astro publishes every file under content/docs, so that directory gets no node (see src/NODE.md).
+frontend/short-shepherd/src/content/docs/
