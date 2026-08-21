@@ -17,6 +17,7 @@ type Beware = {
   details?: { label: string; path: string }[] | null;
   incident?: string | null;
   status?: string | null;
+  approvedBy?: string[] | null;
 };
 
 const { name } = Astro.props;
@@ -54,6 +55,16 @@ const href = (d: string) => (/^https?:/.test(d) ? d : `${base}/${d}`);
             <strong>Status</strong>
           </td>
           <td>{b.status}</td>
+        </tr>
+      )
+    }
+    {
+      b.approvedBy && b.approvedBy.length > 0 && (
+        <tr>
+          <td>
+            <strong>Approved by</strong>
+          </td>
+          <td>{b.approvedBy.join(", ")}</td>
         </tr>
       )
     }
