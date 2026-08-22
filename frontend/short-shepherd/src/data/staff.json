@@ -50,6 +50,10 @@
     "reggie": {
       "name": "Reggie",
       "username": "ReggieTheCaracal"
+    },
+    "klauth": {
+      "name": "Klauth",
+      "username": "Klauthra"
     }
   },
   "teams": [
@@ -65,7 +69,7 @@
       "platform": "Telegram",
       "moderation": true,
       "head": "zuri",
-      "admins": ["diggy"],
+      "admins": ["diggy", "klauth"],
       "moderators": ["sirus", "starsie", "cirrus", "basil"]
     },
     {
