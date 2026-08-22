@@ -4,7 +4,7 @@
 // rule on the Staff page: owners and anyone on a Moderation team.
 import data from "../data/staff.json";
 
-type Person = { name: string; username: string; owner?: boolean };
+type Person = { name: string; username: string | null; owner?: boolean };
 type Team = {
   name: string;
   platform: string | null;
@@ -74,7 +74,11 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
         <tr>
           <td>{p.name}</td>
           <td>
-            <a href={`https://t.me/${p.username}`}>@{p.username}</a>
+            {p.username ? (
+              <a href={`https://t.me/${p.username}`}>@{p.username}</a>
+            ) : (
+              "unknown"
+            )}
           </td>
           <td>{p.role}</td>
           <td>{p.verify ? <strong>Yes</strong> : "No"}</td>
