@@ -9,7 +9,7 @@ type Team = {
   name: string;
   platform: string | null;
   moderation?: boolean;
-  head: string;
+  heads: string[];
   admins: string[];
   moderators: string[];
 };
@@ -24,7 +24,7 @@ function rolesOf(id: string): Role[] {
   const roles: Role[] = [];
   if (people[id].owner) roles.push("Owner");
   for (const t of teams) {
-    if (t.head === id) roles.push("Head Admin");
+    if (t.heads.includes(id)) roles.push("Head Admin");
     if (t.admins.includes(id)) roles.push("Admin");
     if (t.moderators.includes(id)) roles.push("Moderator");
   }
@@ -40,7 +40,9 @@ function canVerify(id: string): boolean {
   return teams.some(
     (t) =>
       t.moderation &&
-      (t.head === id || t.admins.includes(id) || t.moderators.includes(id)),
+      (t.heads.includes(id) ||
+        t.admins.includes(id) ||
+        t.moderators.includes(id)),
   );
 }
 
@@ -117,7 +119,9 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
           <li>
             <span class="cs-node cs-head">
               <span class="cs-role">Head Admin</span>
-              <span class="cs-person">{people[t.head].name}</span>
+              {t.heads.map((h) => (
+                <span class="cs-person">{people[h].name}</span>
+              ))}
             </span>
             <ul>
               {t.admins.map((a) => (
