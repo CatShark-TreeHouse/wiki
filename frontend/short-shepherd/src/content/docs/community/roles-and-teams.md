@@ -28,7 +28,8 @@ moderators specialize within it. Head Admins act as coordinators between their
 team and the others, and the owners step in when needed.
 
 Teams that touch a platform exist once per platform: there is a Telegram
-Moderation team and a Discord Moderation team, each with its own Head Admin.
+Moderation team, a Discord Moderation team, and a VRChat Moderation team, each
+with its own Head Admin.
 Network Logistics is a single team for the whole network. Who sits on which
 team is on the [Staff page](/community/staff/#teams).
 

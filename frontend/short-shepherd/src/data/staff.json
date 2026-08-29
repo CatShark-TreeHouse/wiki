@@ -54,6 +54,10 @@
     "klauth": {
       "name": "Klauth",
       "username": "Klauthra"
+    },
+    "jericho": {
+      "name": "Jericho",
+      "username": null
     }
   },
   "teams": [
@@ -79,6 +83,14 @@
       "heads": ["nimbus", "cirrus"],
       "admins": ["zuri", "spirit", "basil"],
       "moderators": ["starsie", "sirus", "haskell", "diggy", "reggie"]
+    },
+    {
+      "name": "VRChat Moderation",
+      "platform": "VRChat",
+      "moderation": true,
+      "heads": ["cirrus"],
+      "admins": [],
+      "moderators": ["jericho", "haskell"]
     },
     {
       "name": "Telegram Member Satisfaction",
