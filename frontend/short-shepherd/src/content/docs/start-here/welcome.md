@@ -4,7 +4,7 @@ description: What the CatShark TreeHouse network is, which chats and channels be
 ---
 
 **CatShark TreeHouse** is a network of adult furry chats and channels spread
-across Telegram and Discord, the continuation of the community previously
+across Telegram, Discord, and VRChat, the continuation of the community previously
 known as the _Zuri Cat Tree_ / _FurrK Network_. Same tree, new treehouse.
 
 First of all: a warm **welcome** to you.
@@ -17,11 +17,12 @@ nature of adult spaces. It is final and not going to change.
 
 ## Chats & Channels in the Network
 
-| Name               | Type             |                                    Link |
-| :----------------- | :--------------- | --------------------------------------: |
-| CatShark TreeHouse | Telegram Chat    |  [Join](https://t.me/CatSharkTreeHouse) |
-| Zuri Posting       | Telegram Channel | [Join](https://channel.zuricheetah.com) |
-| CatShark TreeHouse | Discord Server   |  [Join](https://discord.gg/sharkcorner) |
+| Name               | Type             |                                                                           Link |
+| :----------------- | :--------------- | -----------------------------------------------------------------------------: |
+| CatShark TreeHouse | Telegram Chat    |                                         [Join](https://t.me/CatSharkTreeHouse) |
+| Zuri Posting       | Telegram Channel |                                        [Join](https://channel.zuricheetah.com) |
+| CatShark TreeHouse | Discord Server   |                                         [Join](https://discord.gg/sharkcorner) |
+| CatShark TreeHouse | VRChat Group     | [Join](https://vrchat.com/home/group/grp_45309de5-40b7-42f8-b6a6-51a9ae8c756f) |
 
 ## Where to Go from Here
 
