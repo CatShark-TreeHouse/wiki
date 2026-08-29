@@ -60,7 +60,7 @@
     {
       "name": "Network Logistics",
       "platform": null,
-      "head": "surplus",
+      "heads": ["surplus"],
       "admins": ["zuri", "wire", "basil"],
       "moderators": []
     },
@@ -68,7 +68,7 @@
       "name": "Telegram Moderation",
       "platform": "Telegram",
       "moderation": true,
-      "head": "zuri",
+      "heads": ["zuri"],
       "admins": ["diggy", "klauth"],
       "moderators": ["sirus", "starsie", "cirrus", "basil"]
     },
@@ -76,28 +76,28 @@
       "name": "Discord Moderation",
       "platform": "Discord",
       "moderation": true,
-      "head": "nimbus",
+      "heads": ["nimbus", "cirrus"],
       "admins": ["zuri", "spirit", "basil"],
       "moderators": ["starsie", "sirus", "haskell", "diggy", "reggie"]
     },
     {
       "name": "Telegram Member Satisfaction",
       "platform": "Telegram",
-      "head": "zuri",
+      "heads": ["zuri"],
       "admins": ["starsie"],
       "moderators": ["basil"]
     },
     {
       "name": "Discord Member Satisfaction",
       "platform": "Discord",
-      "head": "haskell",
+      "heads": ["haskell"],
       "admins": ["nimbus", "basil"],
       "moderators": ["zuri"]
     },
     {
       "name": "Discord Member Engagement",
       "platform": "Discord",
-      "head": "haskell",
+      "heads": ["haskell"],
       "admins": ["wire", "basil"],
       "moderators": ["zuri"]
     }
