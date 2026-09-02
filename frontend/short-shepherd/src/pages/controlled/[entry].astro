@@ -1,0 +1,37 @@
+---
+// A profile page per controlled-content entry, so an entry can be linked and
+// embedded on its own ("/controlled/lugiem/"). Title, description and the
+// Open Graph tags carry the name and the reason, which is what Discord and
+// Telegram show in a link preview.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import EntryCard from "../../components/EntryCard.astro";
+import { entries, entrySlug, toView, type EntryView } from "../../lib/entries";
+
+export function getStaticPaths() {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return entries.map((entry) => ({
+    params: { entry: entrySlug(entry.alias) },
+    props: { entry: toView(entry, base) },
+  }));
+}
+
+const { entry } = Astro.props as { entry: EntryView };
+// The list's own history is the history of this page.
+Astro.locals.revisionSource = "src/data/controlled-content.json";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const ogTitle = `${entry.alias} (${entry.status} ${entry.typeLabel.toLowerCase()})`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: entry.alias,
+    description: entry.description,
+    tableOfContents: false,
+    prev: false,
+    next: false,
+    head: [{ tag: "meta", attrs: { property: "og:title", content: ogTitle } }],
+  }}
+>
+  <EntryCard entry={entry} />
+  <p><a href={`${base}/controlled/`}>Back to the full list</a></p>
+</StarlightPage>

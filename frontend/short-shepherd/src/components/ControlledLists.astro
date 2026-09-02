@@ -3,9 +3,13 @@
 // and are edited through pull requests; the page is rendered at build time
 // and the search / type filter run in the browser over the baked-in data.
 import mascot from "../assets/paw.png";
-import items from "../data/controlled-content.json";
+import { entryViews } from "../lib/entries";
 
 const mascotUrl = mascot.src;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// Each entry carries its slug, permalink and labels so the modal and the
+// per-entry page (/controlled/<alias>/) agree on both.
+const items = entryViews(base);
 ---
 
 <div class="cs-lists not-content">
@@ -40,6 +44,38 @@ const mascotUrl = mascot.src;
   </div>
   <div id="cs-content" aria-live="polite"></div>
 </div>
+
+<dialog id="cs-modal" class="cs-modal" aria-labelledby="cs-modal-name">
+  <div class="cs-card not-content">
+    <div class="cs-card-head">
+      <span class="cs-card-name" id="cs-modal-name"></span>
+      <span class="cs-pill" id="cs-modal-type"></span>
+      <span class="cs-badge" id="cs-modal-status"></span>
+      <button id="cs-modal-close" type="button" aria-label="Close">
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <dl class="cs-card-facts">
+      <dt>Reason</dt>
+      <dd id="cs-modal-reason"></dd>
+      <dt>Added</dt>
+      <dd class="cs-added" id="cs-modal-added"></dd>
+    </dl>
+    <p class="cs-card-note">
+      <span id="cs-modal-note"></span>
+      <a id="cs-modal-link" href="">Open the full profile</a>
+    </p>
+  </div>
+</dialog>
 
 <style is:global>
   .cs-lists {
@@ -370,6 +406,76 @@ const mascotUrl = mascot.src;
       animation: none;
     }
   }
+
+  /* Profile modal. The card itself is styled in custom.css, shared with the
+     per-entry page; this is only the dialog chrome around it. */
+  .cs-modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    color: var(--sl-color-text);
+    width: min(30rem, calc(100vw - 2rem));
+    max-width: none;
+    /* The global reset zeroes margins, which would pin the dialog to the
+       top-left corner instead of centring it. */
+    margin: auto;
+  }
+
+  .cs-modal::backdrop {
+    /* Same overlay as Starlight's own search dialog. */
+    background: var(--sl-color-backdrop-overlay);
+    backdrop-filter: blur(0.25rem);
+  }
+
+  .cs-modal .cs-card {
+    background: var(--sl-color-bg);
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.35);
+  }
+
+  #cs-modal-link {
+    margin-inline-start: 0.35rem;
+  }
+
+  .cs-modal[open] {
+    animation: cs-pop 0.14s ease-out;
+  }
+
+  #cs-modal-close {
+    margin-inline-start: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: none;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sl-color-gray-3);
+    cursor: pointer;
+  }
+
+  #cs-modal-close svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  #cs-modal-close:hover {
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-white);
+  }
+
+  @keyframes cs-pop {
+    from {
+      opacity: 0;
+      transform: translateY(4px) scale(0.98);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cs-modal[open] {
+      animation: none;
+    }
+  }
 </style>
 
 <script is:inline define:vars={{ items, mascotUrl }}>
@@ -377,8 +483,10 @@ const mascotUrl = mascot.src;
   const searchEl = document.getElementById("cs-search");
   const typeEl = document.getElementById("cs-type");
 
-  const TYPE_LABELS = { artist: "Artist", character: "Character", tag: "Kink" };
-  const PILL_TYPES = new Set(["artist", "character", "tag"]);
+  const STATUS_NOTES = {
+    banned: "Not allowed anywhere in the network, stickers included.",
+    controlled: "Allowed only behind a spoiler and with a content warning.",
+  };
 
   let allItems = Array.isArray(items) ? items : [];
 
@@ -428,16 +536,10 @@ const mascotUrl = mascot.src;
     });
   }
 
-  function pillFor(type) {
-    const label = esc(TYPE_LABELS[type] ?? type ?? "");
-    const cls = PILL_TYPES.has(type) ? " " + type : "";
-    return '<span class="cs-pill' + cls + '">' + label + "</span>";
-  }
-
   function tableFor(items) {
     let rows = "";
     for (const item of items) {
-      const id = slug(item.alias ?? "");
+      const id = item.slug;
       const reason =
         item.reason == null || item.reason === ""
           ? '<span class="cs-reason cs-none">none</span>'
@@ -446,7 +548,9 @@ const mascotUrl = mascot.src;
         '<tr id="' +
         esc(id) +
         '">' +
-        '<td class="cs-alias"><a class="cs-row-link" href="#' +
+        '<td class="cs-alias"><a class="cs-row-link" href="' +
+        esc(item.href) +
+        '" data-slug="' +
         esc(id) +
         '">' +
         esc(item.alias ?? "") +
@@ -539,7 +643,7 @@ const mascotUrl = mascot.src;
       html += sectionFor(
         "banned",
         "Banned",
-        "Not allowed anywhere in the network, stickers included.",
+        STATUS_NOTES.banned,
         banned,
         forceOpen,
       );
@@ -548,7 +652,7 @@ const mascotUrl = mascot.src;
       html += sectionFor(
         "controlled",
         "Controlled",
-        "Allowed only behind a spoiler and with a content warning.",
+        STATUS_NOTES.controlled,
         controlled,
         forceOpen,
       );
@@ -591,6 +695,93 @@ const mascotUrl = mascot.src;
     if (target.tagName === "TR") target.classList.add("cs-hit");
     target.scrollIntoView({ block: "start" });
   }
+
+  // The profile modal. A row's name links to the entry's own page, so a
+  // middle-click or a copied link still works; a plain click opens the modal
+  // here and pushes that same URL, which keeps the address bar shareable.
+  const modal = document.getElementById("cs-modal");
+  const modalFields = {
+    name: document.getElementById("cs-modal-name"),
+    type: document.getElementById("cs-modal-type"),
+    status: document.getElementById("cs-modal-status"),
+    reason: document.getElementById("cs-modal-reason"),
+    added: document.getElementById("cs-modal-added"),
+    note: document.getElementById("cs-modal-note"),
+    link: document.getElementById("cs-modal-link"),
+  };
+  const bySlug = new Map(allItems.map((item) => [item.slug, item]));
+  const listUrl = location.pathname + location.search;
+  // Set while a restore is in flight, so the several ways of closing the
+  // dialog cannot each push the browser back.
+  let restoring = false;
+
+  function openEntry(entrySlug, push) {
+    const item = bySlug.get(entrySlug);
+    if (!item) return;
+    modalFields.name.textContent = item.alias ?? "";
+    modalFields.type.textContent = item.typeLabel ?? "";
+    modalFields.type.className = "cs-pill " + (item.type ?? "");
+    modalFields.status.textContent = item.statusLabel ?? "";
+    modalFields.status.className = "cs-badge " + (item.status ?? "");
+    modalFields.reason.textContent = item.reason || "none recorded";
+    modalFields.reason.classList.toggle("cs-none", !item.reason);
+    modalFields.reason.classList.toggle("cs-reason", !item.reason);
+    modalFields.added.textContent = item.added ?? "";
+    modalFields.note.textContent = STATUS_NOTES[item.status] ?? "";
+    modalFields.link.href = item.href;
+    if (push) history.pushState({ csEntry: entrySlug }, "", item.href);
+    if (!modal.open) modal.showModal();
+  }
+
+  // Put the list URL back after the dialog is dismissed: step back over the
+  // entry we pushed, or rewrite the URL if the browser refuses the traversal.
+  function restoreListUrl() {
+    if (restoring) return;
+    if (location.pathname + location.search === listUrl) return;
+    restoring = true;
+    if (history.state && history.state.csEntry) history.back();
+    else history.replaceState(null, "", listUrl);
+    setTimeout(() => {
+      if (location.pathname + location.search !== listUrl)
+        history.replaceState(null, "", listUrl);
+      restoring = false;
+    }, 200);
+  }
+
+  function closeEntry() {
+    restoreListUrl();
+    if (modal.open) modal.close();
+  }
+
+  contentEl.addEventListener("click", (event) => {
+    const link = event.target.closest("a.cs-row-link");
+    if (!link || !link.dataset.slug) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    if (event.button !== 0) return;
+    event.preventDefault();
+    openEntry(link.dataset.slug, true);
+  });
+
+  document
+    .getElementById("cs-modal-close")
+    .addEventListener("click", closeEntry);
+
+  // Clicking the backdrop (anything outside the card) closes the dialog.
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeEntry();
+  });
+
+  // Escape: the dialog closes itself, so only the URL needs restoring. The
+  // "close" event covers any other way it might be dismissed.
+  modal.addEventListener("cancel", restoreListUrl);
+  modal.addEventListener("close", restoreListUrl);
+
+  window.addEventListener("popstate", (event) => {
+    const entrySlug = event.state && event.state.csEntry;
+    if (entrySlug) openEntry(entrySlug, false);
+    else if (modal.open) modal.close();
+  });
 
   searchEl.addEventListener("input", applyFilters);
   typeEl.addEventListener("change", applyFilters);

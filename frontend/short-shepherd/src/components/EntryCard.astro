@@ -1,0 +1,48 @@
+---
+// One controlled-content entry as a profile card. Rendered on the per-entry
+// page (/controlled/<alias>/); the modal on the list page builds the same
+// markup in the browser, so both share the .cs-card styles in custom.css.
+import type { EntryView } from "../lib/entries";
+
+interface Props {
+  entry: EntryView;
+}
+
+const { entry } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const NOTES: Record<string, string> = {
+  banned: "Not allowed anywhere in the network, stickers included.",
+  controlled: "Allowed only behind a spoiler and with a content warning.",
+};
+const note = NOTES[entry.status];
+---
+
+<div class="cs-card not-content">
+  <div class="cs-card-head">
+    <span class="cs-card-name">{entry.alias}</span>
+    <span class:list={["cs-pill", entry.type]}>{entry.typeLabel}</span>
+    <span class:list={["cs-badge", entry.status]}>{entry.statusLabel}</span>
+  </div>
+  <dl class="cs-card-facts">
+    <dt>Reason</dt>
+    <dd>
+      {
+        entry.reason ? (
+          entry.reason
+        ) : (
+          <span class="cs-reason cs-none">none recorded</span>
+        )
+      }
+    </dd>
+    <dt>Added</dt>
+    <dd class="cs-added">{entry.added}</dd>
+  </dl>
+  {
+    note && (
+      <p class="cs-card-note">
+        {note} <a href={`${base}/rules/controlled-content/`}>Read the policy</a>
+      </p>
+    )
+  }
+</div>

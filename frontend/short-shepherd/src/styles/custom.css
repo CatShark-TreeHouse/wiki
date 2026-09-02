@@ -689,6 +689,59 @@ mobile-starlight-toc nav {
   color: #3f6d2c;
 }
 
+/* ── Entry profile card (modal + /controlled/<alias>/) ──────────────────── */
+
+.cs-card {
+  border: 1px solid var(--sl-color-hairline);
+  border-radius: 0.9rem;
+  background: color-mix(in srgb, var(--sl-color-gray-6) 45%, transparent);
+  padding: 1.1rem 1.2rem;
+}
+
+.cs-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.9rem;
+}
+
+.cs-card-name {
+  font-family: var(--cs-font-display, inherit);
+  font-size: var(--sl-text-h4);
+  font-weight: 700;
+  color: var(--sl-color-white);
+  margin-inline-end: 0.15rem;
+}
+
+.cs-card-facts {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.45rem 1rem;
+  margin: 0;
+}
+
+.cs-card-facts dt {
+  font-size: var(--sl-text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  padding-top: 0.15rem;
+}
+
+.cs-card-facts dd {
+  margin: 0;
+  color: var(--sl-color-gray-2);
+}
+
+.cs-card-note {
+  margin: 1rem 0 0;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--sl-color-hairline);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+
 /* ── Rule markers ───────────────────────────────────────────────────────── */
 
 .cs-flag {

@@ -8,13 +8,18 @@ import path from "node:path";
 import Default from "@astrojs/starlight/components/PageTitle.astro";
 
 const { entry } = Astro.locals.starlightRoute;
-const filePath = entry.filePath;
+// Data-driven pages (the per-entry controlled-content profiles) have no
+// markdown source, so they point the history at the JSON they render.
+const filePath = Astro.locals.revisionSource ?? entry.filePath;
 
 type Revision = { hash: string; date: string; author: string; reason: string };
 
 let revisions: Revision[] = [];
 let dirty = false;
 let repoUrl = "https://github.com/CatShark-TreeHouse/wiki";
+// The path GitHub knows the file by, which is relative to the repository
+// root rather than to the Astro project inside it.
+let repoPath = filePath;
 
 if (filePath) {
   const abs = path.resolve(filePath);
@@ -36,6 +41,12 @@ if (filePath) {
       encoding: "utf8",
     }).trim();
     dirty = status.length > 0;
+    const tracked = execFileSync(
+      "git",
+      ["ls-files", "--full-name", "--", abs],
+      { cwd, encoding: "utf8" },
+    ).trim();
+    if (tracked) repoPath = tracked.split("\n")[0];
   } catch {
     // Not a git checkout (or git missing): show nothing rather than fail.
     revisions = [];
@@ -44,8 +55,8 @@ if (filePath) {
 
 const count = revisions.length;
 const latest = revisions[0];
-const historyUrl = filePath
-  ? `${repoUrl}/commits/main/${filePath.replace(/^\.?\//, "")}`
+const historyUrl = repoPath
+  ? `${repoUrl}/commits/main/${repoPath.replace(/^\.?\//, "")}`
   : repoUrl;
 ---
 
