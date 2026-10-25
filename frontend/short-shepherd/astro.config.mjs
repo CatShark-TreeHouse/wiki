@@ -83,6 +83,12 @@ export default defineConfig({
             { label: "FAQ", slug: "community/faq" },
           ],
         },
+        {
+          label: "Sections",
+          items: [
+            { label: "Pacific Northwest", slug: "sections/pacific-northwest" },
+          ],
+        },
       ],
     }),
   ],

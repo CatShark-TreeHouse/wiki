@@ -17,12 +17,13 @@ nature of adult spaces. It is final and not going to change.
 
 ## Chats & Channels in the Network
 
-| Name               | Type             |                                                                           Link |
-| :----------------- | :--------------- | -----------------------------------------------------------------------------: |
-| CatShark TreeHouse | Telegram Chat    |                                         [Join](https://t.me/CatSharkTreeHouse) |
-| Zuri Posting       | Telegram Channel |                                        [Join](https://channel.zuricheetah.com) |
-| CatShark TreeHouse | Discord Server   |                                         [Join](https://discord.gg/sharkcorner) |
-| CatShark TreeHouse | VRChat Group     | [Join](https://vrchat.com/home/group/grp_45309de5-40b7-42f8-b6a6-51a9ae8c756f) |
+| Name                                     | Type             |                                                                           Link |
+| :--------------------------------------- | :--------------- | -----------------------------------------------------------------------------: |
+| CatShark TreeHouse                       | Telegram Chat    |                                         [Join](https://t.me/CatSharkTreeHouse) |
+| Zuri Posting                             | Telegram Channel |                                        [Join](https://channel.zuricheetah.com) |
+| CatShark TreeHouse                       | Discord Server   |                                         [Join](https://discord.gg/sharkcorner) |
+| CatShark TreeHouse                       | VRChat Group     | [Join](https://vrchat.com/home/group/grp_45309de5-40b7-42f8-b6a6-51a9ae8c756f) |
+| [PNW Furs](/sections/pacific-northwest/) | Telegram Chat    |                                               [Join](https://t.me/CatSharkPNW) |
 
 ## Where to Go from Here
 
