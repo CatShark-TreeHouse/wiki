@@ -369,10 +369,8 @@ people roleplaying.
 
 Suffering with no frame is rape, whatever the caption says. "This is CNC"
 written next to a post is not a frame; the piece has to carry the signal
-itself. A character who was drugged, or is too drunk to know what is
-happening, counts as suffering whether or not it shows. Unsure? Ask a
-moderator first, as [§ 11.2](/rules/network-rules/#112-ask-before-posting)
-says.
+itself. Unsure? Ask a moderator first, as
+[§ 11.2](/rules/network-rules/#112-ask-before-posting) says.
 
 ## Amendment Log
 
