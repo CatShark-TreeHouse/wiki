@@ -1,0 +1,201 @@
+---
+// The changelog: one entry per pull request merged into main, newest first,
+// rendered from src/data/changelog.json. The page description is the latest
+// entry, so a link to the list previews with what changed most recently;
+// each entry also has a page of its own (/changelog/<pr>/) whose preview
+// stays fixed. Tapping an entry opens it in a dialog here and pushes that
+// URL, which keeps the address bar shareable.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { changeViews, describeLatest } from "../../lib/changelog";
+import { linkRules } from "../../lib/rules";
+
+// The list's own history is the history of this page.
+Astro.locals.revisionSource = "src/data/changelog.json";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+// Each entry carries its slug and permalink so the dialog and the per-entry
+// page agree on both; the summary is pre-rendered with its § links.
+const items = changeViews(base).map((entry) => ({
+  ...entry,
+  summaryHtml: linkRules(base, entry.summary),
+}));
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Changelog",
+    description: describeLatest(),
+    tableOfContents: false,
+    prev: false,
+    next: false,
+  }}
+>
+  <p>
+    Every change to this wiki lands through a pull request on
+    <a
+      href="https://github.com/CatShark-TreeHouse/wiki/pulls?q=is%3Apr+is%3Amerged"
+      >GitHub</a
+    >; this page lists them, newest first. Tap an entry to open it on its own,
+    with a link you can share. Rule changes are also recorded in the
+    <a href={`${base}/rules/network-rules/#amendment-log`}>Amendment Log</a>,
+    and every page shows its own revision history under its title.
+  </p>
+  <ol id="cs-changelog" class="cs-changelog not-content">
+    {
+      items.map((e) => (
+        <li class="cs-change" data-slug={e.slug}>
+          <div class="cs-change-head">
+            <time datetime={e.date}>{e.date}</time>
+            {e.pr != null ? (
+              <a class="cs-change-pr" href={e.prHref}>
+                #{e.pr}
+              </a>
+            ) : null}
+            {e.latest ? <span class="cs-badge latest">Latest</span> : null}
+          </div>
+          <h2 class="cs-change-title">
+            <a class="cs-change-link" href={e.href}>
+              {e.title}
+            </a>
+          </h2>
+          <p class="cs-change-summary" set:html={e.summaryHtml} />
+        </li>
+      ))
+    }
+  </ol>
+</StarlightPage>
+
+<dialog
+  id="cs-change-modal"
+  class="cs-modal"
+  aria-labelledby="cs-change-modal-title"
+>
+  <div class="cs-card cs-change-card not-content">
+    <div class="cs-change-head">
+      <time id="cs-change-modal-date"></time>
+      <a id="cs-change-modal-pr" class="cs-change-pr" href="" hidden></a>
+      <span id="cs-change-modal-latest" class="cs-badge latest" hidden
+        >Latest</span
+      >
+      <button
+        id="cs-change-modal-close"
+        class="cs-modal-close"
+        type="button"
+        aria-label="Close"
+      >
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        >
+          <path d="M6 6l12 12M18 6L6 18"></path>
+        </svg>
+      </button>
+    </div>
+    <p class="cs-change-title" id="cs-change-modal-title"></p>
+    <p class="cs-change-summary" id="cs-change-modal-summary"></p>
+    <p class="cs-card-note">
+      One pull request, one entry.
+      <a id="cs-change-modal-link" class="cs-modal-link" href=""
+        >Open the entry's own page</a
+      >
+    </p>
+  </div>
+</dialog>
+
+<script is:inline define:vars={{ items }}>
+  // Entries are real links to their own page, so a middle-click or a copied
+  // link still works; a plain tap anywhere on an entry opens the dialog here
+  // and pushes that same URL, which keeps the address bar shareable.
+  const list = document.getElementById("cs-changelog");
+  const modal = document.getElementById("cs-change-modal");
+  const fields = {
+    date: document.getElementById("cs-change-modal-date"),
+    pr: document.getElementById("cs-change-modal-pr"),
+    latest: document.getElementById("cs-change-modal-latest"),
+    title: document.getElementById("cs-change-modal-title"),
+    summary: document.getElementById("cs-change-modal-summary"),
+    link: document.getElementById("cs-change-modal-link"),
+  };
+  const bySlug = new Map(items.map((item) => [item.slug, item]));
+  const listUrl = location.pathname + location.search;
+  // Set while a restore is in flight, so the several ways of closing the
+  // dialog cannot each push the browser back.
+  let restoring = false;
+
+  function openEntry(slug, push) {
+    const item = bySlug.get(slug);
+    if (!item) return;
+    fields.date.textContent = item.date;
+    fields.date.dateTime = item.date;
+    if (item.pr != null) {
+      fields.pr.textContent = "#" + item.pr;
+      fields.pr.href = item.prHref;
+      fields.pr.hidden = false;
+    } else {
+      fields.pr.hidden = true;
+    }
+    fields.latest.hidden = !item.latest;
+    fields.title.textContent = item.title;
+    // Built at build time from the JSON, escaped and with § links added.
+    fields.summary.innerHTML = item.summaryHtml;
+    fields.link.href = item.href;
+    if (push) history.pushState({ csChange: slug }, "", item.href);
+    if (!modal.open) modal.showModal();
+  }
+
+  // Put the list URL back after the dialog is dismissed: step back over the
+  // entry we pushed, or rewrite the URL if the browser refuses the traversal.
+  function restoreListUrl() {
+    if (restoring) return;
+    if (location.pathname + location.search === listUrl) return;
+    restoring = true;
+    if (history.state && history.state.csChange) history.back();
+    else history.replaceState(null, "", listUrl);
+    setTimeout(() => {
+      if (location.pathname + location.search !== listUrl)
+        history.replaceState(null, "", listUrl);
+      restoring = false;
+    }, 200);
+  }
+
+  function closeEntry() {
+    restoreListUrl();
+    if (modal.open) modal.close();
+  }
+
+  list.addEventListener("click", (event) => {
+    // The PR number and § references inside an entry keep their own targets.
+    const link = event.target.closest("a");
+    if (link && !link.classList.contains("cs-change-link")) return;
+    const entry = event.target.closest(".cs-change[data-slug]");
+    if (!entry) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+      return;
+    if (event.button !== 0) return;
+    event.preventDefault();
+    openEntry(entry.dataset.slug, true);
+  });
+
+  document
+    .getElementById("cs-change-modal-close")
+    .addEventListener("click", closeEntry);
+
+  // Clicking the backdrop (anything outside the card) closes the dialog.
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeEntry();
+  });
+
+  // Escape: the dialog closes itself, so only the URL needs restoring. The
+  // "close" event covers any other way it might be dismissed.
+  modal.addEventListener("cancel", restoreListUrl);
+  modal.addEventListener("close", restoreListUrl);
+
+  window.addEventListener("popstate", (event) => {
+    const slug = event.state && event.state.csChange;
+    if (slug) openEntry(slug, false);
+    else if (modal.open) modal.close();
+  });
+</script>
