@@ -89,6 +89,7 @@ export default defineConfig({
             { label: "Pacific Northwest", slug: "sections/pacific-northwest" },
           ],
         },
+        { label: "Changelog", link: "/changelog/" },
       ],
     }),
   ],

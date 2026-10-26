@@ -12,6 +12,7 @@ and edited through pull requests; it deploys to GitHub Pages.
 | `frontend/short-shepherd/src/content/docs`   | The pages (Markdown / MDX)                              |
 | `frontend/short-shepherd/src/data`           | Data files: controlled-content lists, staff, bans       |
 | `frontend/short-shepherd/src/components`     | Components that render those data files                 |
+| `frontend/short-shepherd/src/pages`          | Data-driven pages: controlled-entry profiles, changelog |
 | `.github/workflows`                          | CI (format, check, build) and the GitHub Pages deploy   |
 
 ## Development
@@ -40,5 +41,7 @@ Everything is set through environment variables:
 - `main` is protected: **no direct pushes**.
 - Every change lands through a **squash-merged pull request**.
 - CI must pass before a PR can merge: `prettier --check`, `astro check`, `astro build`.
+- Every PR adds an entry to `frontend/short-shepherd/src/data/changelog.json` (newest first,
+  with the PR number); the Changelog page and its link preview are built from it.
 
 Run `just fmt` before pushing to keep CI green.
