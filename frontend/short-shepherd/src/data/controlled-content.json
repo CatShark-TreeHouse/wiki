@@ -115,7 +115,7 @@
     "alias": "Rape",
     "type": "tag",
     "status": "banned",
-    "reason": null,
+    "reason": "Suffering played straight, with nothing in the piece showing it is play. See § 18 of the Network Rules.",
     "added": "2026-07-13"
   },
   {
@@ -145,5 +145,12 @@
     "status": "controlled",
     "reason": "Rare kink. Can be considered uncomfortable.",
     "added": "2026-07-13"
+  },
+  {
+    "alias": "CNC",
+    "type": "tag",
+    "status": "controlled",
+    "reason": "Consensual non-consent in which a character is shown suffering, with a frame inside the piece showing it is play. See § 18 of the Network Rules.",
+    "added": "2026-10-26"
   }
 ]

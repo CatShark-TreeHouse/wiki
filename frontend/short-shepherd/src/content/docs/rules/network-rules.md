@@ -27,6 +27,7 @@ before posting.
   <li><a href="#15-no-ai-art"><span class="cs-num">15</span> <span>No AI "Art"</span></a></li>
   <li><a href="#16-repeat-offenders"><span class="cs-num">16</span> <span>Repeat Offenders</span></a></li>
   <li><a href="#17-limited-ex-post-facto"><span class="cs-num">17</span> <span>Limited Ex Post Facto</span></a></li>
+  <li><a href="#18-no-rape"><span class="cs-num">18</span> <span>No Rape</span></a></li>
 </ol>
 
 ## How the Rules Are Written
@@ -321,9 +322,60 @@ If offenses that were not known at the time come to light after a case is
 closed, they form a new case. Only the new facts are judged. This is rare
 and is meant to stay rare.
 
+### <span class="cs-num">18</span> <span class="cs-title">No Rape</span>
+
+#### <span class="cs-num">18.1</span> Rape Is Banned
+
+Depictions of rape are not allowed anywhere in the network, spoilered or not.
+Rape is on the [banned list](/controlled/), so posting it also breaks
+[§ 13.3](/rules/network-rules/#133-tags).
+
+#### <span class="cs-num">18.2</span> Consensual Non-Consent Is Allowed
+
+Consensual non-consent (CNC) is play in which a character acts as though they
+do not want what is happening, while everyone involved has agreed to it. CNC
+is welcome here. Because CNC and rape can look alike on the surface, the
+clauses below say how the two are told apart.
+
+#### <span class="cs-num">18.3</span> The Line Is Suffering
+
+What matters is not whether a character says no, but whether anyone in the
+piece is shown suffering: fear, crying, begging for it to stop, a struggle
+meant to be real. No suffering means no spoiler (§ 18.4). Suffering with a
+frame that shows it is play means controlled (§ 18.5). Suffering with no such
+frame is rape (§ 18.6). Authority (a boss, a guard, a teacher) is not a
+category of its own: the same test applies.
+
+#### <span class="cs-num">18.4</span> Open: Nobody Is Suffering
+
+These are CNC and need no spoiler, as long as nobody in the piece is shown
+suffering: punishment a character asked for, surprise sex and free use between
+partners, bratting and playing hard to get, chase and primal play, restraint,
+somnophilia, dubious consent, heat and instinct, hypnosis and mind control,
+and danger play, where the other party is bigger or dangerous and the
+character wants them anyway (Mal0 stepping out of the TV).
+
+#### <span class="cs-num">18.5</span> Controlled: Suffering, Framed as Play
+
+A piece that shows suffering played straight, but also shows that it is play,
+is controlled: post it only behind a spoiler, with a content warning, as the
+`CNC` entry of the [controlled list](/controlled/) requires
+([§ 13.4](/rules/network-rules/#134-spoiler-controlled-content)). A frame is
+something inside the post itself: a negotiation scene, a safeword, aftercare,
+a character breaking character, or an out-of-character note between the
+people roleplaying.
+
+#### <span class="cs-num">18.6</span> Banned: Suffering, No Frame
+
+Suffering with no frame is rape, whatever the caption says. "This is CNC"
+written next to a post is not a frame; the piece has to carry the signal
+itself. Unsure? Ask a moderator first, as
+[§ 11.2](/rules/network-rules/#112-ask-before-posting) says.
+
 ## Amendment Log
 
 | Date       | Rule         | Change                                                                                                                                         |
 | :--------- | :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------- |
 | 2026-08-20 | § 2.5, § 2.6 | Added: discrimination by ethnicity is explicitly prohibited, whichever group is being talked about. See [incident 260819](/incidents/260819/). |
 | 2026-08-20 | § 4.4, § 4.5 | Added: remain civil when met with disagreement. See [incident 260819](/incidents/260819/).                                                     |
+| 2026-10-26 | § 18         | Added: rape is banned, consensual non-consent is allowed, and depicted suffering draws the line between open, controlled and banned.           |
