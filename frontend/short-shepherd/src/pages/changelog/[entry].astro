@@ -1,0 +1,38 @@
+---
+// A page per changelog entry, so a change can be linked and embedded on its
+// own ("/changelog/26/"). Its title, description and Open Graph tags are
+// fixed to that entry, so a link shared in Discord or Telegram keeps its
+// preview when newer entries land.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import ChangeCard from "../../components/ChangeCard.astro";
+import { changeViews, type ChangeView } from "../../lib/changelog";
+
+export function getStaticPaths() {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return changeViews(base).map((entry) => ({
+    params: { entry: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: ChangeView };
+// The list's own history is the history of this page.
+Astro.locals.revisionSource = "src/data/changelog.json";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<StarlightPage
+  frontmatter={{
+    title: entry.title,
+    description: entry.description,
+    tableOfContents: false,
+    prev: false,
+    next: false,
+    head: [
+      { tag: "meta", attrs: { property: "og:title", content: entry.ogTitle } },
+    ],
+  }}
+>
+  <ChangeCard entry={entry} />
+  <p><a href={`${base}/changelog/`}>Back to the changelog</a></p>
+</StarlightPage>
