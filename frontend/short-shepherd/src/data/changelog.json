@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-10-26",
+    "pr": 26,
+    "title": "Changelog page",
+    "summary": "This page: one entry per merged pull request, newest first, built from changelog.json. Its link preview shows the latest change."
+  },
+  {
+    "date": "2026-10-26",
     "pr": 25,
     "title": "§ 18 renamed to No Non-Consensual Content",
     "summary": "The rule gets a definition in § 18.1 and no longer leans on a word that can bring back past experiences. The banned tag is now NonCon."
