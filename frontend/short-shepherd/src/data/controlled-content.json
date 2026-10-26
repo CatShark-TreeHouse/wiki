@@ -112,17 +112,17 @@
     "added": "2026-07-13"
   },
   {
-    "alias": "Rape",
+    "alias": "NonCon",
     "type": "tag",
     "status": "banned",
-    "reason": "Suffering played straight, with nothing in the piece showing it is play. See § 18 of the Network Rules.",
+    "reason": "Non-consensual content: suffering played straight, with nothing in the piece showing it is play. See § 18 of the Network Rules.",
     "added": "2026-07-13"
   },
   {
     "alias": "RealFeral",
     "type": "tag",
     "status": "banned",
-    "reason": "Feral depicting real animals. Can be considered soft zoo; also falls into rape. Fantastical creatures (gryphons, dragons) are generally allowed since they do not exist and are depicted as intelligent, consensual creatures.",
+    "reason": "Feral depicting real animals. Can be considered soft zoo; also falls under non-consensual content (§ 18). Fantastical creatures (gryphons, dragons) are generally allowed since they do not exist and are depicted as intelligent, consensual creatures.",
     "added": "2026-07-13"
   },
   {
