@@ -1,0 +1,52 @@
+---
+// The changelog: one entry per pull request merged into main, newest first,
+// rendered from src/data/changelog.json. The page description is the latest
+// entry, so a link shared in Discord or Telegram previews with what changed
+// most recently.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { entries, describeLatest, prHref } from "../lib/changelog";
+import { linkRules } from "../lib/rules";
+
+// The list's own history is the history of this page.
+Astro.locals.revisionSource = "src/data/changelog.json";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "Changelog",
+    description: describeLatest(),
+    tableOfContents: false,
+    prev: false,
+    next: false,
+  }}
+>
+  <p>
+    Every change to this wiki lands through a pull request on
+    <a
+      href="https://github.com/CatShark-TreeHouse/wiki/pulls?q=is%3Apr+is%3Amerged"
+      >GitHub</a
+    >; this page lists them, newest first. Rule changes are also recorded in the
+    <a href={`${base}/rules/network-rules/#amendment-log`}>Amendment Log</a>,
+    and every page shows its own revision history under its title.
+  </p>
+  <ol class="cs-changelog not-content">
+    {
+      entries.map((e, i) => (
+        <li class="cs-change">
+          <div class="cs-change-head">
+            <time datetime={e.date}>{e.date}</time>
+            {e.pr != null ? (
+              <a class="cs-change-pr" href={prHref(e.pr)}>
+                #{e.pr}
+              </a>
+            ) : null}
+            {i === 0 ? <span class="cs-badge latest">Latest</span> : null}
+          </div>
+          <h2 class="cs-change-title">{e.title}</h2>
+          <p class="cs-change-summary" set:html={linkRules(base, e.summary)} />
+        </li>
+      ))
+    }
+  </ol>
+</StarlightPage>
