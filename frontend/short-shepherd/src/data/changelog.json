@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-10-26",
+    "pr": 27,
+    "title": "A page per changelog entry",
+    "summary": "Tapping an entry opens it on its own, with a link of its own whose preview stays fixed when newer entries land."
+  },
+  {
+    "date": "2026-10-26",
     "pr": 26,
     "title": "Changelog page",
     "summary": "This page: one entry per merged pull request, newest first, built from changelog.json. Its link preview shows the latest change."
