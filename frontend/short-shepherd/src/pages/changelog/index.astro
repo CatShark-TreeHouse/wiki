@@ -1,6 +1,7 @@
 ---
-// The changelog: one change per pull request merged into main, grouped by
-// day, newest first, rendered from src/data/changelog.json. The page
+// The changelog: the network's major events (new rules, sections, staff
+// joining or leaving, bans, bewares, incidents), grouped by day, newest
+// first, rendered from src/data/changelog.json. The page
 // description is the newest day, so a link to the list previews with what
 // changed most recently; each day also has a page of its own
 // (/changelog/<date>/) whose preview stays fixed. Tapping a day opens it in
@@ -36,14 +37,13 @@ const items = dayViews(base).map((day) => ({
   }}
 >
   <p>
-    Every change to this wiki lands through a pull request on{" "}
-    <a
-      href="https://github.com/CatShark-TreeHouse/wiki/pulls?q=is%3Apr+is%3Amerged"
-      >GitHub</a
-    >; this page lists them by day, newest first. Tap a day to open it on its
-    own, with a link you can copy. Rule changes are also recorded in the{" "}
-    <a href={`${base}/rules/network-rules/#amendment-log`}>Amendment Log</a>,
-    and every page shows its own revision history under its title.
+    What matters to members, by day, newest first: new rules, new sections,
+    staff joining or leaving, bans, bewares and incidents. Tap a day to open it
+    on its own, with a link you can copy. Smaller and technical changes are not
+    listed; the full history is on{" "}
+    <a href="https://github.com/CatShark-TreeHouse/wiki/commits/main/">GitHub</a
+    >, and rule changes are also recorded in the{" "}
+    <a href={`${base}/rules/network-rules/#amendment-log`}>Amendment Log</a>.
   </p>
   <ol id="cs-changelog" class="cs-changelog not-content">
     {

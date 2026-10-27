@@ -1,12 +1,12 @@
-// The changelog: one change per pull request merged into main, grouped by
-// day. A day is the unit that gets a page (/changelog/2026-10-26/), a dialog
+// The changelog: the network's major events, each pointing at the pull
+// request that landed it, grouped by day. A day is the unit that gets a page (/changelog/2026-10-26/), a dialog
 // and a shareable link, so its slug, permalink, heading and the description
 // that doubles as its link preview are all computed here, in one place.
 import items from "../data/changelog.json";
 
 export type Change = {
   date: string;
-  /** The pull request that landed the change; null for the initial commit. */
+  /** The pull request that landed the change; null when there was none. */
   pr: number | null;
   title: string;
   summary: string;
