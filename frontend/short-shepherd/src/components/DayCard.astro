@@ -5,6 +5,7 @@
 import { prHref, type DayView } from "../lib/changelog";
 import { linkRules } from "../lib/rules";
 import CopyLink from "./CopyLink.astro";
+import TelegramCopy from "./TelegramCopy.astro";
 
 interface Props {
   day: DayView;
@@ -12,6 +13,20 @@ interface Props {
 
 const { day } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const changes = day.changes.map((c) => ({
+  pr: c.pr,
+  prHref: c.pr != null ? prHref(c.pr) : null,
+  title: c.title,
+  summaryHtml: linkRules(base, c.summary),
+}));
+// What the Telegram button formats: the same data the card shows.
+const dayData = JSON.stringify({
+  date: day.date,
+  heading: day.heading,
+  count: day.count,
+  href: day.href,
+  changes,
+});
 ---
 
 <div class="cs-card cs-change-card not-content">
@@ -22,23 +37,24 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   </div>
   <ul class="cs-day-changes">
     {
-      day.changes.map((c) => (
+      changes.map((c) => (
         <li class="cs-day-change" id={c.pr != null ? `pr-${c.pr}` : undefined}>
           <p class="cs-day-change-title">
-            {c.pr != null ? (
-              <a class="cs-change-pr" href={prHref(c.pr)}>
+            {c.pr != null && c.prHref ? (
+              <a class="cs-change-pr" href={c.prHref}>
                 #{c.pr}
               </a>
             ) : null}
             <span>{c.title}</span>
           </p>
-          <p class="cs-change-summary" set:html={linkRules(base, c.summary)} />
+          <p class="cs-change-summary" set:html={c.summaryHtml} />
         </li>
       ))
     }
   </ul>
   <p class="cs-card-note cs-card-actions">
     <CopyLink href={day.href} />
+    <TelegramCopy day={dayData} />
     <a href={`${base}/changelog/`}>Back to the changelog</a>
   </p>
 </div>

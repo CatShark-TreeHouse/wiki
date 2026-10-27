@@ -7,6 +7,7 @@
 // a dialog here and pushes that URL, which keeps the address bar shareable.
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import CopyLink from "../../components/CopyLink.astro";
+import TelegramCopy from "../../components/TelegramCopy.astro";
 import { dayViews, describeLatest, prHref } from "../../lib/changelog";
 import { linkRules } from "../../lib/rules";
 
@@ -111,6 +112,7 @@ const items = dayViews(base).map((day) => ({
     <ul id="cs-change-modal-changes" class="cs-day-changes"></ul>
     <p class="cs-card-note cs-card-actions">
       <CopyLink href="" />
+      <TelegramCopy />
       <a id="cs-change-modal-link" class="cs-modal-link" href=""
         >Open the day's page</a
       >
@@ -131,6 +133,7 @@ const items = dayViews(base).map((day) => ({
     changes: document.getElementById("cs-change-modal-changes"),
     link: document.getElementById("cs-change-modal-link"),
     copy: modal.querySelector("button[data-copy-link]"),
+    telegram: modal.querySelector("button[data-telegram]"),
   };
   const bySlug = new Map(items.map((item) => [item.slug, item]));
   const listUrl = location.pathname + location.search;
@@ -178,6 +181,7 @@ const items = dayViews(base).map((day) => ({
     fields.changes.innerHTML = item.changes.map(changeHtml).join("");
     fields.link.href = item.href;
     fields.copy.dataset.copyLink = item.href;
+    fields.telegram.dataset.day = JSON.stringify(item);
     if (push) history.pushState({ csChange: slug }, "", item.href);
     if (!modal.open) modal.showModal();
   }

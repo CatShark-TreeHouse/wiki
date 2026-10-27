@@ -1,0 +1,170 @@
+---
+// "Format this for Telegram": copies one changelog day as rich text, so a
+// paste into Telegram lands as a formatted announcement (bold titles, the
+// PR numbers and § references as links). The clipboard gets both text/html
+// and text/plain; Telegram's clients read the former, anything else falls
+// back to the latter. The day's data rides on data-day as JSON; the dialog
+// on the list page rewrites it when it opens a day.
+interface Props {
+  day?: string;
+  label?: string;
+}
+
+const { day = "", label = "Format this for Telegram" } = Astro.props;
+---
+
+<button type="button" class="cs-copy-link" data-telegram data-day={day}>
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M22 2L11 13"></path>
+    <path d="M22 2l-7 20-4-9-9-4z"></path>
+  </svg>
+  <span>{label}</span>
+</button>
+
+<script>
+  type Change = {
+    pr: number | null;
+    prHref: string | null;
+    title: string;
+    summaryHtml: string;
+  };
+  type Day = {
+    date: string;
+    heading: string;
+    count: string;
+    href: string;
+    changes: Change[];
+  };
+
+  function esc(value: string): string {
+    return value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function absolute(href: string): string {
+    return new URL(href, location.href).href;
+  }
+
+  /** Site-relative hrefs (the § links) become absolute, as a chat needs. */
+  function absolutize(html: string): string {
+    return html.replace(
+      /href="(\/[^"]*)"/g,
+      (_, path) => `href="${absolute(path)}"`,
+    );
+  }
+
+  function plain(html: string): string {
+    const el = document.createElement("div");
+    el.innerHTML = html;
+    return el.textContent ?? "";
+  }
+
+  /** The wiki link comes first: Telegram previews the first link it finds. */
+  function render(day: Day): { html: string; text: string } {
+    const url = absolute(day.href);
+    const shown = url.replace(/^https?:\/\//, "");
+    const html: string[] = [
+      `📣 <b>${esc(`Wiki changes, ${day.heading}`)}</b>`,
+      `<a href="${esc(url)}">${esc(shown)}</a>`,
+      "",
+    ];
+    const text: string[] = [`📣 Wiki changes, ${day.heading}`, url, ""];
+    for (const c of day.changes) {
+      const pr =
+        c.pr != null && c.prHref
+          ? ` (<a href="${esc(c.prHref)}">#${c.pr}</a>)`
+          : "";
+      html.push(`• <b>${esc(c.title)}</b>${pr}`, absolutize(c.summaryHtml), "");
+      text.push(
+        `• ${c.title}${c.pr != null ? ` (#${c.pr})` : ""}`,
+        plain(c.summaryHtml),
+        "",
+      );
+    }
+    while (html[html.length - 1] === "") html.pop();
+    while (text[text.length - 1] === "") text.pop();
+    return { html: html.join("<br>"), text: text.join("\n") };
+  }
+
+  async function copyRich(html: string, text: string): Promise<boolean> {
+    try {
+      if ("ClipboardItem" in window && navigator.clipboard?.write) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": new Blob([html], { type: "text/html" }),
+            "text/plain": new Blob([text], { type: "text/plain" }),
+          }),
+        ]);
+        return true;
+      }
+    } catch {
+      // Fall through to the selection-based copy.
+    }
+    // Copying a selection puts both flavours on the clipboard in most
+    // browsers; the last resort is plain text alone.
+    const host = document.createElement("div");
+    host.innerHTML = html;
+    host.setAttribute("contenteditable", "true");
+    host.style.position = "fixed";
+    host.style.opacity = "0";
+    document.body.append(host);
+    const range = document.createRange();
+    range.selectNodeContents(host);
+    const selection = window.getSelection();
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch {
+      ok = false;
+    }
+    selection?.removeAllRanges();
+    host.remove();
+    if (ok) return true;
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function copyForTelegram(button: HTMLButtonElement) {
+    const label = button.querySelector("span");
+    const original = label?.textContent ?? "";
+    let ok = false;
+    try {
+      const day = JSON.parse(button.dataset.day || "null") as Day | null;
+      if (day) {
+        const { html, text } = render(day);
+        ok = await copyRich(html, text);
+      }
+    } catch {
+      ok = false;
+    }
+    if (label)
+      label.textContent = ok ? "Copied for Telegram!" : "Could not copy";
+    window.setTimeout(() => {
+      if (label) label.textContent = original;
+    }, 1800);
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>("button[data-telegram]");
+    if (button) void copyForTelegram(button);
+  });
+</script>
