@@ -1,0 +1,44 @@
+---
+// One changelog day as a card. Rendered on the day's own page
+// (/changelog/<date>/); the dialog on the list page builds the same markup
+// in the browser, so both share the .cs-card and .cs-day-* styles.
+import { prHref, type DayView } from "../lib/changelog";
+import { linkRules } from "../lib/rules";
+import CopyLink from "./CopyLink.astro";
+
+interface Props {
+  day: DayView;
+}
+
+const { day } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<div class="cs-card cs-change-card not-content">
+  <div class="cs-change-head">
+    <time datetime={day.date}>{day.heading}</time>
+    <span>{day.count}</span>
+    {day.latest ? <span class="cs-badge latest">Latest</span> : null}
+  </div>
+  <ul class="cs-day-changes">
+    {
+      day.changes.map((c) => (
+        <li class="cs-day-change" id={c.pr != null ? `pr-${c.pr}` : undefined}>
+          <p class="cs-day-change-title">
+            {c.pr != null ? (
+              <a class="cs-change-pr" href={prHref(c.pr)}>
+                #{c.pr}
+              </a>
+            ) : null}
+            <span>{c.title}</span>
+          </p>
+          <p class="cs-change-summary" set:html={linkRules(base, c.summary)} />
+        </li>
+      ))
+    }
+  </ul>
+  <p class="cs-card-note cs-card-actions">
+    <CopyLink href={day.href} />
+    <a href={`${base}/changelog/`}>Back to the changelog</a>
+  </p>
+</div>

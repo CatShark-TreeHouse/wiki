@@ -1,22 +1,27 @@
 ---
-// The changelog: one entry per pull request merged into main, newest first,
-// rendered from src/data/changelog.json. The page description is the latest
-// entry, so a link to the list previews with what changed most recently;
-// each entry also has a page of its own (/changelog/<pr>/) whose preview
-// stays fixed. Tapping an entry opens it in a dialog here and pushes that
-// URL, which keeps the address bar shareable.
+// The changelog: one change per pull request merged into main, grouped by
+// day, newest first, rendered from src/data/changelog.json. The page
+// description is the newest day, so a link to the list previews with what
+// changed most recently; each day also has a page of its own
+// (/changelog/<date>/) whose preview stays fixed. Tapping a day opens it in
+// a dialog here and pushes that URL, which keeps the address bar shareable.
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-import { changeViews, describeLatest } from "../../lib/changelog";
+import CopyLink from "../../components/CopyLink.astro";
+import { dayViews, describeLatest, prHref } from "../../lib/changelog";
 import { linkRules } from "../../lib/rules";
 
 // The list's own history is the history of this page.
 Astro.locals.revisionSource = "src/data/changelog.json";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-// Each entry carries its slug and permalink so the dialog and the per-entry
-// page agree on both; the summary is pre-rendered with its § links.
-const items = changeViews(base).map((entry) => ({
-  ...entry,
-  summaryHtml: linkRules(base, entry.summary),
+// Each day carries its slug and permalink so the dialog and the per-day page
+// agree on both; summaries are pre-rendered with their § links.
+const items = dayViews(base).map((day) => ({
+  ...day,
+  changes: day.changes.map((c) => ({
+    ...c,
+    prHref: c.pr != null ? prHref(c.pr) : null,
+    summaryHtml: linkRules(base, c.summary),
+  })),
 }));
 ---
 
@@ -30,34 +35,43 @@ const items = changeViews(base).map((entry) => ({
   }}
 >
   <p>
-    Every change to this wiki lands through a pull request on
+    Every change to this wiki lands through a pull request on{" "}
     <a
       href="https://github.com/CatShark-TreeHouse/wiki/pulls?q=is%3Apr+is%3Amerged"
       >GitHub</a
-    >; this page lists them, newest first. Tap an entry to open it on its own,
-    with a link you can share. Rule changes are also recorded in the
+    >; this page lists them by day, newest first. Tap a day to open it on its
+    own, with a link you can copy. Rule changes are also recorded in the{" "}
     <a href={`${base}/rules/network-rules/#amendment-log`}>Amendment Log</a>,
     and every page shows its own revision history under its title.
   </p>
   <ol id="cs-changelog" class="cs-changelog not-content">
     {
-      items.map((e) => (
-        <li class="cs-change" data-slug={e.slug}>
+      items.map((day) => (
+        <li class="cs-change" data-slug={day.slug}>
           <div class="cs-change-head">
-            <time datetime={e.date}>{e.date}</time>
-            {e.pr != null ? (
-              <a class="cs-change-pr" href={e.prHref}>
-                #{e.pr}
-              </a>
-            ) : null}
-            {e.latest ? <span class="cs-badge latest">Latest</span> : null}
+            <span>{day.count}</span>
+            {day.latest ? <span class="cs-badge latest">Latest</span> : null}
           </div>
           <h2 class="cs-change-title">
-            <a class="cs-change-link" href={e.href}>
-              {e.title}
+            <a class="cs-change-link" href={day.href}>
+              <time datetime={day.date}>{day.heading}</time>
             </a>
           </h2>
-          <p class="cs-change-summary" set:html={e.summaryHtml} />
+          <ul class="cs-day-changes">
+            {day.changes.map((c) => (
+              <li class="cs-day-change">
+                <p class="cs-day-change-title">
+                  {c.pr != null ? (
+                    <a class="cs-change-pr" href={c.prHref}>
+                      #{c.pr}
+                    </a>
+                  ) : null}
+                  <span>{c.title}</span>
+                </p>
+                <p class="cs-change-summary" set:html={c.summaryHtml} />
+              </li>
+            ))}
+          </ul>
         </li>
       ))
     }
@@ -67,12 +81,12 @@ const items = changeViews(base).map((entry) => ({
 <dialog
   id="cs-change-modal"
   class="cs-modal"
-  aria-labelledby="cs-change-modal-title"
+  aria-labelledby="cs-change-modal-date"
 >
   <div class="cs-card cs-change-card not-content">
     <div class="cs-change-head">
       <time id="cs-change-modal-date"></time>
-      <a id="cs-change-modal-pr" class="cs-change-pr" href="" hidden></a>
+      <span id="cs-change-modal-count"></span>
       <span id="cs-change-modal-latest" class="cs-badge latest" hidden
         >Latest</span
       >
@@ -94,30 +108,29 @@ const items = changeViews(base).map((entry) => ({
         </svg>
       </button>
     </div>
-    <p class="cs-change-title" id="cs-change-modal-title"></p>
-    <p class="cs-change-summary" id="cs-change-modal-summary"></p>
-    <p class="cs-card-note">
-      One pull request, one entry.
+    <ul id="cs-change-modal-changes" class="cs-day-changes"></ul>
+    <p class="cs-card-note cs-card-actions">
+      <CopyLink href="" />
       <a id="cs-change-modal-link" class="cs-modal-link" href=""
-        >Open the entry's own page</a
+        >Open the day's page</a
       >
     </p>
   </div>
 </dialog>
 
 <script is:inline define:vars={{ items }}>
-  // Entries are real links to their own page, so a middle-click or a copied
-  // link still works; a plain tap anywhere on an entry opens the dialog here
+  // Days are real links to their own page, so a middle-click or a copied
+  // link still works; a plain tap anywhere on a day opens the dialog here
   // and pushes that same URL, which keeps the address bar shareable.
   const list = document.getElementById("cs-changelog");
   const modal = document.getElementById("cs-change-modal");
   const fields = {
     date: document.getElementById("cs-change-modal-date"),
-    pr: document.getElementById("cs-change-modal-pr"),
+    count: document.getElementById("cs-change-modal-count"),
     latest: document.getElementById("cs-change-modal-latest"),
-    title: document.getElementById("cs-change-modal-title"),
-    summary: document.getElementById("cs-change-modal-summary"),
+    changes: document.getElementById("cs-change-modal-changes"),
     link: document.getElementById("cs-change-modal-link"),
+    copy: modal.querySelector("button[data-copy-link]"),
   };
   const bySlug = new Map(items.map((item) => [item.slug, item]));
   const listUrl = location.pathname + location.search;
@@ -125,29 +138,52 @@ const items = changeViews(base).map((entry) => ({
   // dialog cannot each push the browser back.
   let restoring = false;
 
-  function openEntry(slug, push) {
+  function esc(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function changeHtml(c) {
+    const pr =
+      c.pr != null
+        ? '<a class="cs-change-pr" href="' +
+          esc(c.prHref) +
+          '">#' +
+          c.pr +
+          "</a>"
+        : "";
+    return (
+      '<li class="cs-day-change"><p class="cs-day-change-title">' +
+      pr +
+      "<span>" +
+      esc(c.title) +
+      "</span></p>" +
+      // Built at build time from the JSON, escaped and with § links added.
+      '<p class="cs-change-summary">' +
+      c.summaryHtml +
+      "</p></li>"
+    );
+  }
+
+  function openDay(slug, push) {
     const item = bySlug.get(slug);
     if (!item) return;
-    fields.date.textContent = item.date;
+    fields.date.textContent = item.heading;
     fields.date.dateTime = item.date;
-    if (item.pr != null) {
-      fields.pr.textContent = "#" + item.pr;
-      fields.pr.href = item.prHref;
-      fields.pr.hidden = false;
-    } else {
-      fields.pr.hidden = true;
-    }
+    fields.count.textContent = item.count;
     fields.latest.hidden = !item.latest;
-    fields.title.textContent = item.title;
-    // Built at build time from the JSON, escaped and with § links added.
-    fields.summary.innerHTML = item.summaryHtml;
+    fields.changes.innerHTML = item.changes.map(changeHtml).join("");
     fields.link.href = item.href;
+    fields.copy.dataset.copyLink = item.href;
     if (push) history.pushState({ csChange: slug }, "", item.href);
     if (!modal.open) modal.showModal();
   }
 
   // Put the list URL back after the dialog is dismissed: step back over the
-  // entry we pushed, or rewrite the URL if the browser refuses the traversal.
+  // day we pushed, or rewrite the URL if the browser refuses the traversal.
   function restoreListUrl() {
     if (restoring) return;
     if (location.pathname + location.search === listUrl) return;
@@ -161,31 +197,31 @@ const items = changeViews(base).map((entry) => ({
     }, 200);
   }
 
-  function closeEntry() {
+  function closeDay() {
     restoreListUrl();
     if (modal.open) modal.close();
   }
 
   list.addEventListener("click", (event) => {
-    // The PR number and § references inside an entry keep their own targets.
+    // The PR numbers and § references inside a day keep their own targets.
     const link = event.target.closest("a");
     if (link && !link.classList.contains("cs-change-link")) return;
-    const entry = event.target.closest(".cs-change[data-slug]");
-    if (!entry) return;
+    const day = event.target.closest(".cs-change[data-slug]");
+    if (!day) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
       return;
     if (event.button !== 0) return;
     event.preventDefault();
-    openEntry(entry.dataset.slug, true);
+    openDay(day.dataset.slug, true);
   });
 
   document
     .getElementById("cs-change-modal-close")
-    .addEventListener("click", closeEntry);
+    .addEventListener("click", closeDay);
 
   // Clicking the backdrop (anything outside the card) closes the dialog.
   modal.addEventListener("click", (event) => {
-    if (event.target === modal) closeEntry();
+    if (event.target === modal) closeDay();
   });
 
   // Escape: the dialog closes itself, so only the URL needs restoring. The
@@ -195,7 +231,7 @@ const items = changeViews(base).map((entry) => ({
 
   window.addEventListener("popstate", (event) => {
     const slug = event.state && event.state.csChange;
-    if (slug) openEntry(slug, false);
+    if (slug) openDay(slug, false);
     else if (modal.open) modal.close();
   });
 </script>

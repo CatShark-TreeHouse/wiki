@@ -11,5 +11,5 @@ Astro + Starlight site in `frontend/short-shepherd/`; `just check` runs what CI 
 ## Commits
 - PRs merge via **Squash and merge** only (other methods are disabled), so `main` keeps **one commit per PR**; the branch itself may carry several granular commits. Merged branches auto-delete.
 - Required CI checks (`format` · `lint` · `test`) must pass before merge.
-- Every PR adds an entry to `frontend/short-shepherd/src/data/changelog.json` (newest first, with the PR number); `/changelog/` and its link preview are built from it.
+- Every PR adds a change to `frontend/short-shepherd/src/data/changelog.json` (newest first, with the PR number). `/changelog/` groups changes by day; each day has its own page and link preview.
 - Local `/understand` + `/remember` briefings live in `.understand/` (tracked in the repo).

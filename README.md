@@ -41,7 +41,8 @@ Everything is set through environment variables:
 - `main` is protected: **no direct pushes**.
 - Every change lands through a **squash-merged pull request**.
 - CI must pass before a PR can merge: `prettier --check`, `astro check`, `astro build`.
-- Every PR adds an entry to `frontend/short-shepherd/src/data/changelog.json` (newest first,
-  with the PR number); the Changelog page and its link preview are built from it.
+- Every PR adds a change to `frontend/short-shepherd/src/data/changelog.json` (newest first,
+  with the PR number). The Changelog page groups changes by day; each day has a page and a
+  link preview of its own.
 
 Run `just fmt` before pushing to keep CI green.

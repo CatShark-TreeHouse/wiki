@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-10-26",
+    "pr": 28,
+    "title": "Changelog by day, with a Copy link button",
+    "summary": "Changes are grouped by day. Each day has its own page and dialog, a Copy link button, and a link preview that stays fixed."
+  },
+  {
+    "date": "2026-10-26",
     "pr": 27,
     "title": "A page per changelog entry",
     "summary": "Tapping an entry opens it on its own, with a link of its own whose preview stays fixed when newer entries land."

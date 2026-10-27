@@ -1199,11 +1199,78 @@ mobile-starlight-toc nav {
   text-underline-offset: 0.2em;
 }
 
-/* The card form (per-entry page and dialog) has no spine or dot. */
-.cs-change-card .cs-change-title {
-  margin: 0.5rem 0 0.4rem;
-}
-
 .cs-change-card .cs-change-head time {
   color: var(--sl-color-gray-2);
+}
+
+/* ── Changelog days: the changes inside a day, and the card's action row ─ */
+
+.cs-day-changes {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cs-day-change-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0;
+  font-weight: 650;
+  line-height: 1.35;
+  color: var(--sl-color-white);
+}
+
+.cs-day-change-title .cs-change-pr {
+  font-size: var(--sl-text-xs);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-day-change .cs-change-summary {
+  margin-top: 0.15rem;
+}
+
+.cs-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.cs-card-actions .cs-modal-link {
+  margin-inline-start: 0;
+}
+
+.cs-copy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--sl-color-hairline);
+  background: var(--cs-card-raised);
+  color: var(--sl-color-white);
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    transform 0.12s ease;
+}
+
+.cs-copy-link:hover {
+  border-color: var(--sl-color-accent);
+  transform: translateY(-1px);
+}
+
+.cs-copy-link svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--sl-color-accent);
 }

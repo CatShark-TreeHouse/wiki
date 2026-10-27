@@ -1,0 +1,36 @@
+---
+// A page per changelog day, so a day's changes can be linked and embedded on
+// their own ("/changelog/2026-10-26/"). Its title, description and Open
+// Graph tags are fixed to that day, so a link shared in Discord or Telegram
+// keeps its preview when newer days land.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import DayCard from "../../components/DayCard.astro";
+import { dayViews, type DayView } from "../../lib/changelog";
+
+export function getStaticPaths() {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return dayViews(base).map((day) => ({
+    params: { day: day.slug },
+    props: { day },
+  }));
+}
+
+const { day } = Astro.props as { day: DayView };
+// The list's own history is the history of this page.
+Astro.locals.revisionSource = "src/data/changelog.json";
+---
+
+<StarlightPage
+  frontmatter={{
+    title: day.ogTitle,
+    description: day.description,
+    tableOfContents: false,
+    prev: false,
+    next: false,
+    head: [
+      { tag: "meta", attrs: { property: "og:title", content: day.ogTitle } },
+    ],
+  }}
+>
+  <DayCard day={day} />
+</StarlightPage>
