@@ -1,12 +1,10 @@
-// The changelog entries (one per pull request merged into main) plus the
-// derived bits the list, its dialog and the per-entry page all need: the
-// slug that makes a permalink ("/changelog/26/") is computed in exactly one
-// place, and the page descriptions double as link previews in Discord and
-// Telegram.
+// The changelog: one change per pull request merged into main, grouped by
+// day. A day is the unit that gets a page (/changelog/2026-10-26/), a dialog
+// and a shareable link, so its slug, permalink, heading and the description
+// that doubles as its link preview are all computed here, in one place.
 import items from "../data/changelog.json";
-import { entrySlug } from "./entries";
 
-export type ChangelogEntry = {
+export type Change = {
   date: string;
   /** The pull request that landed the change; null for the initial commit. */
   pr: number | null;
@@ -14,64 +12,88 @@ export type ChangelogEntry = {
   summary: string;
 };
 
-export type ChangeView = ChangelogEntry & {
+export type Day = {
+  /** ISO date; also the slug. */
+  date: string;
+  /** Newest pull request first. */
+  changes: Change[];
+};
+
+export type DayView = Day & {
   slug: string;
   href: string;
-  prHref: string | null;
-  /** True for the newest entry only. */
+  /** "October 26, 2026" */
+  heading: string;
+  /** "3 changes" */
+  count: string;
+  /** True for the newest day only. */
   latest: boolean;
-  /** The per-entry page description: fixed, so an old link keeps its preview. */
+  /** The day page's description: fixed, so an old link keeps its preview. */
   description: string;
   ogTitle: string;
 };
 
 const REPO = "https://github.com/CatShark-TreeHouse/wiki";
 
-/** Newest first, whatever order the file is in. */
-export const entries = (items as ChangelogEntry[])
+/** Every change, newest first, whatever order the file is in. */
+export const changes = (items as Change[])
   .slice()
   .sort((a, b) => b.date.localeCompare(a.date) || (b.pr ?? 0) - (a.pr ?? 0));
 
-export const latest = entries[0];
+/** Days, newest first, each holding its changes newest first. */
+export const days: Day[] = [];
+for (const change of changes) {
+  const last = days[days.length - 1];
+  if (last && last.date === change.date) last.changes.push(change);
+  else days.push({ date: change.date, changes: [change] });
+}
+
+export const latest = days[0];
 
 export function prHref(pr: number): string {
   return `${REPO}/pull/${pr}`;
 }
 
-/** The PR number when there is one (stable even if the title is reworded). */
-export function changeSlug(entry: ChangelogEntry): string {
-  return entry.pr != null
-    ? String(entry.pr)
-    : entrySlug(`${entry.date} ${entry.title}`);
+export function headingFor(date: string): string {
+  return new Date(`${date}T00:00:00Z`).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    timeZone: "UTC",
+  });
 }
 
-function endSentence(text: string): string {
-  return /[.!?]$/.test(text) ? text : `${text}.`;
+export function countFor(day: Day): string {
+  const n = day.changes.length;
+  return n === 1 ? "1 change" : `${n} changes`;
 }
 
-export function toView(
-  entry: ChangelogEntry,
-  base: string,
-  isLatest: boolean,
-): ChangeView {
-  const slug = changeSlug(entry);
+/** "3 changes: first title; second title; third title." */
+export function summarize(day: Day): string {
+  const titles = day.changes.map((c) => c.title).join("; ");
+  return `${countFor(day)}: ${titles}.`;
+}
+
+export function toView(day: Day, base: string, isLatest: boolean): DayView {
+  const heading = headingFor(day.date);
   return {
-    ...entry,
-    slug,
-    href: `${base}/changelog/${slug}/`,
-    prHref: entry.pr != null ? prHref(entry.pr) : null,
+    ...day,
+    slug: day.date,
+    href: `${base}/changelog/${day.date}/`,
+    heading,
+    count: countFor(day),
     latest: isLatest,
-    description: `${entry.date}: ${endSentence(entry.summary)}`,
-    ogTitle: `Changelog: ${entry.title}`,
+    description: `Changelog for ${heading}. ${summarize(day)}`,
+    ogTitle: `Changelog, ${heading}`,
   };
 }
 
-/** Every entry as a view, newest first, for the list and the static routes. */
-export function changeViews(base: string): ChangeView[] {
-  return entries.map((entry, i) => toView(entry, base, i === 0));
+/** Every day as a view, newest first, for the list and the static routes. */
+export function dayViews(base: string): DayView[] {
+  return days.map((day, i) => toView(day, base, i === 0));
 }
 
-/** "Latest change, 2026-10-26: <title>. <summary>" (the list page's preview). */
+/** The list page's description (and link preview): the newest day. */
 export function describeLatest(): string {
-  return `Latest change, ${latest.date}: ${latest.title}. ${endSentence(latest.summary)}`;
+  return `Latest changes, ${headingFor(latest.date)}. ${summarize(latest)}`;
 }

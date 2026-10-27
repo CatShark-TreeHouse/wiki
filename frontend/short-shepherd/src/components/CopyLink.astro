@@ -1,0 +1,73 @@
+---
+// A "Copy link" button: puts the absolute URL of data-copy-link on the
+// clipboard and says so in place for a moment. The dialog on the changelog
+// page rewrites data-copy-link when it opens a day, so one handler serves
+// every button on the page.
+interface Props {
+  href: string;
+  label?: string;
+}
+
+const { href, label = "Copy link" } = Astro.props;
+---
+
+<button type="button" class="cs-copy-link" data-copy-link={href}>
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"></path>
+    <path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"></path>
+  </svg>
+  <span>{label}</span>
+</button>
+
+<script>
+  function legacyCopy(text: string): boolean {
+    const field = document.createElement("textarea");
+    field.value = text;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.append(field);
+    field.select();
+    let ok = false;
+    try {
+      ok = document.execCommand("copy");
+    } catch {
+      ok = false;
+    }
+    field.remove();
+    return ok;
+  }
+
+  async function copyLink(button: HTMLButtonElement) {
+    const url = new URL(button.dataset.copyLink || "", location.href).href;
+    const label = button.querySelector("span");
+    const original = label?.textContent ?? "";
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(url);
+      ok = true;
+    } catch {
+      ok = legacyCopy(url);
+    }
+    if (label) label.textContent = ok ? "Copied!" : "Could not copy";
+    if (!ok) window.prompt("Copy this link", url);
+    window.setTimeout(() => {
+      if (label) label.textContent = original;
+    }, 1600);
+  }
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>("button[data-copy-link]");
+    if (button) void copyLink(button);
+  });
+</script>
