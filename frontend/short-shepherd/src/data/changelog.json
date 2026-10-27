@@ -1,63 +1,21 @@
 [
   {
     "date": "2026-10-26",
-    "pr": 30,
-    "title": "Format this for Telegram",
-    "summary": "A button on each changelog day copies the day's changes as rich text, wiki link first, ready to paste as an announcement in Telegram."
-  },
-  {
-    "date": "2026-10-26",
-    "pr": 29,
-    "title": "The banned tag is Rape again",
-    "summary": "The controlled list names the kink Rape, as before; the rule keeps the title No Non-Consensual Content and § 18.1 points at that entry."
-  },
-  {
-    "date": "2026-10-26",
-    "pr": 28,
-    "title": "Changelog by day, with a Copy link button",
-    "summary": "Changes are grouped by day. Each day has its own page and dialog, a Copy link button, and a link preview that stays fixed."
-  },
-  {
-    "date": "2026-10-26",
-    "pr": 27,
-    "title": "A page per changelog entry",
-    "summary": "Tapping an entry opens it on its own, with a link of its own whose preview stays fixed when newer entries land."
-  },
-  {
-    "date": "2026-10-26",
-    "pr": 26,
-    "title": "Changelog page",
-    "summary": "This page: one entry per merged pull request, newest first, built from changelog.json. Its link preview shows the latest change."
-  },
-  {
-    "date": "2026-10-26",
-    "pr": 25,
-    "title": "§ 18 renamed to No Non-Consensual Content",
-    "summary": "The rule gets a definition in § 18.1 and no longer leans on a word that can bring back past experiences. The banned tag is now NonCon."
-  },
-  {
-    "date": "2026-10-26",
     "pr": 24,
-    "title": "§ 18: consent in content",
-    "summary": "Non-consensual content is banned and consensual non-consent (CNC) is allowed. Whether anyone in the piece is shown suffering decides between open, controlled and banned. The controlled list gains a CNC entry."
+    "title": "New rule: § 18 No Non-Consensual Content",
+    "summary": "Non-consensual content is banned and consensual non-consent (CNC) is allowed. Whether anyone in the piece is shown suffering draws the line between open, controlled and banned. The controlled list gains a CNC entry."
   },
   {
     "date": "2026-10-25",
     "pr": 23,
     "title": "Pacific Northwest section",
-    "summary": "A new Sections group opens with a Pacific Northwest page: the PNW Furs Telegram link and the Seattle Fur/Pup and Gay Seattle calendars, embedded live. PNW Furs is also listed among the chats on the Welcome page."
+    "summary": "A new Sections area opens with a Pacific Northwest page: the PNW Furs Telegram and the Seattle Fur/Pup and Gay Seattle calendars. PNW Furs is also listed among the chats on the Welcome page."
   },
   {
     "date": "2026-10-09",
     "pr": 22,
     "title": "Stephie the Deer and Neceet are banned",
     "summary": "The character Stephie the Deer and the artist Neceet join the banned list for cub."
-  },
-  {
-    "date": "2026-09-02",
-    "pr": 21,
-    "title": "A page for every controlled entry",
-    "summary": "Clicking a name on Banned & Controlled opens its profile, and each entry has its own page under /controlled/ whose link preview states the reason."
   },
   {
     "date": "2026-09-02",
@@ -74,91 +32,67 @@
   {
     "date": "2026-08-28",
     "pr": 18,
-    "title": "VRChat group on the Welcome page",
-    "summary": "The VRChat group is listed among the network's chats."
+    "title": "VRChat group",
+    "summary": "The network's VRChat group is listed among the chats on the Welcome page."
   },
   {
     "date": "2026-08-28",
     "pr": 17,
     "title": "Cirrus co-heads Discord Moderation",
-    "summary": "A team can have more than one Head Admin; Cirrus joins Discord Moderation as one."
+    "summary": "Cirrus joins Nimbus as Head Admin of Discord Moderation."
   },
   {
     "date": "2026-08-21",
     "pr": 16,
-    "title": "AshenDerg entry approved; Klauth joins Telegram Moderation",
-    "summary": "Staff approval of the AshenDerg beware is recorded. Klauth joins Telegram Moderation as an admin."
-  },
-  {
-    "date": "2026-08-21",
-    "pr": 15,
-    "title": "AshenDerg invites into the channel",
-    "summary": "The beware records that AshenDerg invites people into the channel; ownership of it is not established."
+    "title": "Klauth joins Telegram Moderation",
+    "summary": "Klauth returns to the roster as an admin on Telegram Moderation. Staff approval of the AshenDerg beware is recorded."
   },
   {
     "date": "2026-08-21",
     "pr": 14,
-    "title": "AshenDerg beware",
-    "summary": "AshenDerg, a second identity of RuneDerg, gets a beware entry with an aliases row and is banned."
-  },
-  {
-    "date": "2026-08-21",
-    "pr": 13,
-    "title": "Repository conventions",
-    "summary": "Housekeeping: contributor conventions, a directory map, and CI split into format, lint and test checks."
-  },
-  {
-    "date": "2026-08-20",
-    "pr": 12,
-    "title": "Patel evidence anonymized",
-    "summary": "The other party in Patel's evidence appears as Member at their request, with typed transcripts in place of screenshots. § references in Bans and Bewares now link to the clause."
-  },
-  {
-    "date": "2026-08-20",
-    "pr": 11,
-    "title": "Bewares: a page per person",
-    "summary": "Bewares becomes an overview with a page per person. Patel's entry describes the recurring self-harm tactic and the deflection of blame, with the exported DM transcript as evidence."
+    "title": "AshenDerg: beware and ban",
+    "summary": "AshenDerg, a second identity of RuneDerg, gets a beware entry and is banned for commissioning and sharing sexual art of underage characters."
   },
   {
     "date": "2026-08-20",
     "pr": 10,
-    "title": "Basil on five more teams",
-    "summary": "Basil is added to five more moderation teams."
+    "title": "Basil joins five more teams",
+    "summary": "Basil is added to five more staff teams."
   },
   {
     "date": "2026-08-20",
     "pr": 9,
     "title": "Bewares page",
-    "summary": "A new Bewares page for behaviour patterns the team has verified, starting with Patel."
+    "summary": "A new page for behaviour patterns the team has verified, starting with Patel: manipulation in private messages."
   },
   {
     "date": "2026-08-20",
     "pr": 8,
-    "title": "CatShark TreeHouse on the Welcome page",
-    "summary": "The chat is renamed CatShark TreeHouse and the Telegram and Discord links point at the new places."
+    "title": "The network is CatShark TreeHouse",
+    "summary": "The chat is renamed CatShark TreeHouse. The Telegram chat lives at t.me/CatSharkTreeHouse and the Discord server is linked from the Welcome page."
   },
   {
     "date": "2026-08-20",
     "pr": 7,
     "title": "Incident 260819 statement",
-    "summary": "The statement on incident 260819 is published."
+    "summary": "The statement on incident 260819 (Latte v. Reggie) is published."
   },
   {
     "date": "2026-08-20",
     "pr": 6,
-    "title": "The wiki launches",
-    "summary": "The Network Rules become numbered clauses with an amendment log and gain § 1.5, § 2.5, § 2.6, § 4.4, § 4.5, § 13 and § 17. New pages: Moderation Strategy, incident 260819, the ban register, the staff roster with team charts, and Banned & Controlled as a static list edited through pull requests (spoilered becomes controlled). Every page shows its revision history, the site wears the gold and charcoal theme, and it deploys to GitHub Pages. The Telegram bot and API are retired."
+    "title": "Bans after incident 260819",
+    "summary": "Patel and Halley are banned, and Latte for one week, following incident 260819."
   },
   {
-    "date": "2026-06-17",
-    "pr": 1,
-    "title": "CI on Node 22",
-    "summary": "Housekeeping: the checks run on Node 22."
+    "date": "2026-08-20",
+    "pr": 6,
+    "title": "Staff roster reorganized",
+    "summary": "Owners are Zuri, Cirrus and Nimbus. Teams are organized per platform, each with a Head Admin. Dess, Oggie, Ollie, Kalsie, Edu and Klauth left and Polymorph retired. Basil joins Discord Moderation as an admin and Reggie as a moderator."
   },
   {
-    "date": "2026-06-17",
-    "pr": null,
-    "title": "Project created",
-    "summary": "The repository starts with a Rust backend, the Astro site and CI."
+    "date": "2026-08-20",
+    "pr": 6,
+    "title": "The wiki opens",
+    "summary": "The Network Rules become numbered clauses with an amendment log, with new clauses on ethnicity (§ 2.5, § 2.6), civility (§ 4.4, § 4.5), accepted IDs (§ 1.5), the controlled-content lists (§ 13) and limited ex post facto (§ 17). New pages: Moderation Strategy, incident 260819, the ban register, the staff roster, and Banned & Controlled."
   }
 ]

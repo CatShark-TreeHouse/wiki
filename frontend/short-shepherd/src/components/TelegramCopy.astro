@@ -75,11 +75,15 @@ const { day = "", label = "Format this for Telegram" } = Astro.props;
     const url = absolute(day.href);
     const shown = url.replace(/^https?:\/\//, "");
     const html: string[] = [
-      `📣 <b>${esc(`Wiki changes, ${day.heading}`)}</b>`,
+      `📣 <b>${esc(`CatShark TreeHouse news, ${day.heading}`)}</b>`,
       `<a href="${esc(url)}">${esc(shown)}</a>`,
       "",
     ];
-    const text: string[] = [`📣 Wiki changes, ${day.heading}`, url, ""];
+    const text: string[] = [
+      `📣 CatShark TreeHouse news, ${day.heading}`,
+      url,
+      "",
+    ];
     for (const c of day.changes) {
       const pr =
         c.pr != null && c.prHref
