@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-10-26",
+    "pr": 30,
+    "title": "Format this for Telegram",
+    "summary": "A button on each changelog day copies the day's changes as rich text, wiki link first, ready to paste as an announcement in Telegram."
+  },
+  {
+    "date": "2026-10-26",
     "pr": 29,
     "title": "The banned tag is Rape again",
     "summary": "The controlled list names the kink Rape, as before; the rule keeps the title No Non-Consensual Content and § 18.1 points at that entry."
