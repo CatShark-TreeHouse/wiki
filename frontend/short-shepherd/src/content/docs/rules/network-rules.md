@@ -329,7 +329,7 @@ and is meant to stay rare.
 Non-consensual content is a sexual act done to a character who is shown
 suffering it (afraid, crying, begging for it to stop, fighting a struggle
 meant to be real) with nothing in the piece showing that it is play. It is
-not allowed anywhere in the network, spoilered or not. It is the `NonCon`
+not allowed anywhere in the network, spoilered or not. It is the `Rape`
 entry of the [banned list](/controlled/), so posting it also breaks
 [§ 13.3](/rules/network-rules/#133-tags).
 

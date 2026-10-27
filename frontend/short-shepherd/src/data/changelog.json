@@ -1,6 +1,12 @@
 [
   {
     "date": "2026-10-26",
+    "pr": 29,
+    "title": "The banned tag is Rape again",
+    "summary": "The controlled list names the kink Rape, as before; the rule keeps the title No Non-Consensual Content and § 18.1 points at that entry."
+  },
+  {
+    "date": "2026-10-26",
     "pr": 28,
     "title": "Changelog by day, with a Copy link button",
     "summary": "Changes are grouped by day. Each day has its own page and dialog, a Copy link button, and a link preview that stays fixed."
