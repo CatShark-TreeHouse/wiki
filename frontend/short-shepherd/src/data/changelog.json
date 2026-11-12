@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-11-12",
+    "pr": 32,
+    "title": "Age verification: accepted IDs and how to send them",
+    "summary": "§ 1.5 now accepts a national ID, a passport, a driving license or VRChat age verification. An ID is sent as one single photo: everything but the date of birth may be covered, next to a paper with your Telegram username and the current date. How to Join shows an example."
+  },
+  {
     "date": "2026-10-26",
     "pr": 24,
     "title": "New rule: § 18 No Non-Consensual Content",

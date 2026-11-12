@@ -5,3 +5,4 @@ node_modules/
 public/evidence/
 # /chart node files are not site content.
 NODE.md
+NODE.inf.json
