@@ -78,9 +78,12 @@ Verification is done once and is valid in every chat of the network.
 
 #### <span class="cs-num">1.5</span> Accepted Forms of ID
 
-A driving license or a national ID that shows your date of birth. Staff do
-not store your documentation; delete it from the chat yourself once you are
-verified.
+A national ID, a passport or a driving license that shows your date of birth,
+or VRChat age verification. A document is sent as
+[one photo](/start-here/joining/#how-to-send-your-id): everything but the date
+of birth may be covered, next to a paper with your Telegram username and the
+current date. Staff do not store your documentation; delete it from
+the chat yourself once you are verified.
 
 ### <span class="cs-num">2</span> <span class="cs-title">No Discrimination</span>
 

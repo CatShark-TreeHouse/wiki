@@ -1,0 +1,73 @@
+---
+// What a valid verification looks like, in two pictures: the ID with
+// everything covered except the date of birth, then the ID and the note
+// together in a single photo.
+import { Image } from "astro:assets";
+import idCard from "../assets/verification-id.png";
+import proofPhoto from "../assets/verification-photo.png";
+---
+
+<div class="cs-verify not-content">
+  <figure>
+    <Image
+      src={idCard}
+      alt="An example ID card with the name, address and other details covered by grey bars. Only the date of birth is left readable."
+      widths={[480, 720, 1007]}
+      sizes="(min-width: 50rem) 22rem, 100vw"
+    />
+    <figcaption>
+      <strong>1. Your ID.</strong> Cover anything you like, as long as the{" "}
+      <strong>date of birth</strong> stays readable.
+    </figcaption>
+  </figure>
+  <figure>
+    <Image
+      src={proofPhoto}
+      alt="A camera pointed at a table where the ID card lies next to a piece of paper with a Telegram username and the date written on it."
+      widths={[480, 670]}
+      sizes="(min-width: 50rem) 22rem, 100vw"
+    />
+    <figcaption>
+      <strong>2. One single photo.</strong> The ID next to a paper with your{
+        " "
+      }
+      <strong>Telegram username</strong> and the current{" "}
+      <strong>date</strong>.
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .cs-verify {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .cs-verify figure {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--sl-color-hairline);
+    border-radius: var(--cs-radius);
+    background: var(--cs-card);
+  }
+  .cs-verify img {
+    display: block;
+    width: 100%;
+    height: 15rem;
+    padding: 0.75rem;
+    object-fit: contain;
+  }
+  .cs-verify figcaption {
+    padding: 0.75rem 1rem 0.9rem;
+    border-top: 1px solid var(--sl-color-hairline);
+    color: var(--sl-color-gray-2);
+    font-size: var(--sl-text-sm);
+    line-height: 1.55;
+  }
+  .cs-verify figcaption strong {
+    color: var(--sl-color-white);
+  }
+</style>
