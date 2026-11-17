@@ -24,6 +24,25 @@ const note = NOTES[entry.status];
     <span class:list={["cs-pill", entry.type]}>{entry.typeLabel}</span>
     <span class:list={["cs-badge", entry.status]}>{entry.statusLabel}</span>
   </div>
+  {
+    entry.images.length > 0 && (
+      <div class="cs-card-images">
+        {entry.images.map((image) => (
+          <figure>
+            <a href={image.src} target="_blank" rel="noopener">
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )
+  }
   <dl class="cs-card-facts">
     <dt>Reason</dt>
     <dd>

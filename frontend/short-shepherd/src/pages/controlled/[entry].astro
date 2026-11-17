@@ -20,6 +20,21 @@ const { entry } = Astro.props as { entry: EntryView };
 Astro.locals.revisionSource = "src/data/controlled-content.json";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const ogTitle = `${entry.alias} (${entry.status} ${entry.typeLabel.toLowerCase()})`;
+// A link preview needs absolute image URLs. Every picture is offered; Discord
+// and Telegram show the first one, so the order in the data matters.
+const ogImages = entry.images.flatMap((image) => [
+  {
+    tag: "meta" as const,
+    attrs: {
+      property: "og:image",
+      content: Astro.site ? new URL(image.src, Astro.site).href : image.src,
+    },
+  },
+  {
+    tag: "meta" as const,
+    attrs: { property: "og:image:alt", content: image.alt },
+  },
+]);
 ---
 
 <StarlightPage
@@ -29,7 +44,10 @@ const ogTitle = `${entry.alias} (${entry.status} ${entry.typeLabel.toLowerCase()
     tableOfContents: false,
     prev: false,
     next: false,
-    head: [{ tag: "meta", attrs: { property: "og:title", content: ogTitle } }],
+    head: [
+      { tag: "meta", attrs: { property: "og:title", content: ogTitle } },
+      ...ogImages,
+    ],
   }}
 >
   <EntryCard entry={entry} />

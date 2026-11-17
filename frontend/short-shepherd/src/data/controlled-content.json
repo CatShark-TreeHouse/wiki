@@ -74,7 +74,24 @@
     "type": "artist",
     "status": "banned",
     "reason": "AI images (§ 15): makes and uses AI-generated art and promotes it on stream. Furry musician and VTuber behind the character NIIC. Same handle on X, Twitch and TikTok; NIICmusic on Facebook, NIIC on YouTube.",
-    "added": "2026-11-17"
+    "added": "2026-11-17",
+    "images": [
+      {
+        "src": "entry-images/niic-avatar.jpg",
+        "alt": "Headshot of NIIC, a green and white dog with headphones around the neck, smirking.",
+        "caption": "The NIICdog profile picture."
+      },
+      {
+        "src": "entry-images/niic-megaplex-pandapaco.jpg",
+        "alt": "Megaplex guests of honor poster: a green dog in a cap plays guitar on a stage next to a blushing panda.",
+        "caption": "NIIC is the green dog on the right. Art by Paco Panda."
+      },
+      {
+        "src": "entry-images/niic-headshot-thanshuhai.jpg",
+        "alt": "Painted headshot of NIIC, a green and white dog with green headphones, winking.",
+        "caption": "Art by Thanshuhai."
+      }
+    ]
   },
   {
     "alias": "GearFox",
@@ -102,7 +119,24 @@
     "type": "character",
     "status": "banned",
     "reason": "The green dog of NIICdog, also called NIIC the Singing Dog. Banned with its owner over AI images (§ 15).",
-    "added": "2026-11-17"
+    "added": "2026-11-17",
+    "images": [
+      {
+        "src": "entry-images/niic-avatar.jpg",
+        "alt": "Headshot of NIIC, a green and white dog with headphones around the neck, smirking.",
+        "caption": "The NIICdog profile picture."
+      },
+      {
+        "src": "entry-images/niic-megaplex-pandapaco.jpg",
+        "alt": "Megaplex guests of honor poster: a green dog in a cap plays guitar on a stage next to a blushing panda.",
+        "caption": "NIIC is the green dog on the right. Art by Paco Panda."
+      },
+      {
+        "src": "entry-images/niic-headshot-thanshuhai.jpg",
+        "alt": "Painted headshot of NIIC, a green and white dog with green headphones, winking.",
+        "caption": "Art by Thanshuhai."
+      }
+    ]
   },
   {
     "alias": "Cub",
