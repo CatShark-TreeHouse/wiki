@@ -70,6 +70,13 @@
     "added": "2026-07-13"
   },
   {
+    "alias": "NIICdog",
+    "type": "artist",
+    "status": "banned",
+    "reason": "AI images (§ 15): makes and uses AI-generated art and promotes it on stream. Furry musician and VTuber behind the character NIIC. Same handle on X, Twitch and TikTok; NIICmusic on Facebook, NIIC on YouTube.",
+    "added": "2026-11-17"
+  },
+  {
     "alias": "GearFox",
     "type": "character",
     "status": "banned",
@@ -89,6 +96,13 @@
     "status": "banned",
     "reason": "Alias of GearFox",
     "added": "2026-07-13"
+  },
+  {
+    "alias": "NIIC",
+    "type": "character",
+    "status": "banned",
+    "reason": "The green dog of NIICdog, also called NIIC the Singing Dog. Banned with its owner over AI images (§ 15).",
+    "added": "2026-11-17"
   },
   {
     "alias": "Cub",
