@@ -3,12 +3,21 @@
 // makes a permalink ("/controlled/lugiem/") is computed in exactly one place.
 import items from "../data/controlled-content.json";
 
+/** A reference picture on an entry, so readers know what to look for. `src`
+ *  is a path under `public/` (or a full URL); `caption` is shown below it. */
+export type EntryImage = {
+  src: string;
+  alt: string;
+  caption?: string;
+};
+
 export type ControlledEntry = {
   alias: string;
   type: string;
   status: string;
   reason: string | null;
   added: string;
+  images?: EntryImage[];
 };
 
 export type EntryView = ControlledEntry & {
@@ -17,6 +26,8 @@ export type EntryView = ControlledEntry & {
   typeLabel: string;
   statusLabel: string;
   description: string;
+  /** Always present, with `src` already carrying the site base. */
+  images: EntryImage[];
 };
 
 const TYPE_LABELS: Record<string, string> = {
@@ -60,6 +71,10 @@ export function toView(entry: ControlledEntry, base: string): EntryView {
     typeLabel: TYPE_LABELS[entry.type] ?? entry.type,
     statusLabel: entry.status.charAt(0).toUpperCase() + entry.status.slice(1),
     description: describe(entry),
+    images: (entry.images ?? []).map((image) => ({
+      ...image,
+      src: /^https?:/.test(image.src) ? image.src : `${base}/${image.src}`,
+    })),
   };
 }
 

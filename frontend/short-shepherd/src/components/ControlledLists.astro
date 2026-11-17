@@ -69,6 +69,7 @@ const items = entryViews(base);
         </svg>
       </button>
     </div>
+    <div class="cs-card-images" id="cs-modal-images" hidden></div>
     <dl class="cs-card-facts">
       <dt>Reason</dt>
       <dd id="cs-modal-reason"></dd>
@@ -644,6 +645,7 @@ const items = entryViews(base);
     name: document.getElementById("cs-modal-name"),
     type: document.getElementById("cs-modal-type"),
     status: document.getElementById("cs-modal-status"),
+    images: document.getElementById("cs-modal-images"),
     reason: document.getElementById("cs-modal-reason"),
     added: document.getElementById("cs-modal-added"),
     note: document.getElementById("cs-modal-note"),
@@ -663,6 +665,25 @@ const items = entryViews(base);
     modalFields.type.className = "cs-pill " + (item.type ?? "");
     modalFields.status.textContent = item.statusLabel ?? "";
     modalFields.status.className = "cs-badge " + (item.status ?? "");
+    // Same markup as EntryCard.astro, so the shared .cs-card-images styles fit.
+    const images = Array.isArray(item.images) ? item.images : [];
+    modalFields.images.hidden = images.length === 0;
+    modalFields.images.innerHTML = images
+      .map(
+        (image) =>
+          '<figure><a href="' +
+          esc(image.src) +
+          '" target="_blank" rel="noopener"><img src="' +
+          esc(image.src) +
+          '" alt="' +
+          esc(image.alt ?? "") +
+          '" loading="lazy" decoding="async" /></a>' +
+          (image.caption
+            ? "<figcaption>" + esc(image.caption) + "</figcaption>"
+            : "") +
+          "</figure>",
+      )
+      .join("");
     modalFields.reason.textContent = item.reason || "none recorded";
     modalFields.reason.classList.toggle("cs-none", !item.reason);
     modalFields.reason.classList.toggle("cs-reason", !item.reason);

@@ -46,7 +46,8 @@ the full history of any entry can be read back on
 [GitHub](https://github.com/CatShark-TreeHouse/wiki/commits/main/frontend/short-shepherd/src/data/controlled-content.json).
 
 Entries are added with a single-word alias (for example `NozomyArts`), a
-type, a status, an optional reason, and the date they were added. Removing
+type, a status, an optional reason, and the date they were added. An entry
+can also carry reference pictures, so you know what to look for. Removing
 an entry is also a revision, so the history shows when something stopped
 being controlled and why.
 
