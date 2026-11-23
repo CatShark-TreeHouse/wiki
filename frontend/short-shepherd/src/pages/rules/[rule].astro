@@ -1,0 +1,86 @@
+---
+// A page per rule ("/rules/19/") and per clause ("/rules/19.3/"), cut out of
+// the Network Rules page. A link to an anchor on that page always previews
+// as "Network Rules", because the part after "#" never reaches the server;
+// these pages carry the rule's own title and text in their description and
+// Open Graph tags, which is what Discord and Telegram show.
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import CopyLink from "../../components/CopyLink.astro";
+import { compiledContent } from "../../content/docs/rules/network-rules.md";
+import {
+  plainText,
+  ruleRefs,
+  ruleSection,
+  type RuleRef,
+} from "../../lib/rules";
+
+type Props = {
+  ref: RuleRef;
+  parent: RuleRef | null;
+  body: string;
+  description: string;
+};
+
+export async function getStaticPaths() {
+  const html = await compiledContent();
+  return ruleRefs.map((ref) => {
+    const parent = ref.parent
+      ? (ruleRefs.find((r) => r.num === ref.parent) ?? null)
+      : null;
+    // A rule's preview is its first clause: the rule's core statement.
+    const first = ref.parent
+      ? ref
+      : (ruleRefs.find((r) => r.parent === ref.num) ?? ref);
+    return {
+      params: { rule: ref.num },
+      props: {
+        ref,
+        parent,
+        body: ruleSection(html, ref),
+        // Asides (the "For the Record" note) stay out of the preview.
+        description: plainText(
+          ruleSection(html, first).replace(/<aside[\s\S]*?<\/aside>/g, ""),
+        ),
+      } satisfies Props,
+    };
+  });
+}
+
+const { ref, parent, body, description } = Astro.props as Props;
+// The rules page's own history is the history of this page.
+Astro.locals.revisionSource = "src/content/docs/rules/network-rules.md";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const title = `§ ${ref.num} ${ref.title}`;
+const ogTitle = parent ? `${title} (${parent.title})` : title;
+---
+
+<StarlightPage
+  frontmatter={{
+    title,
+    description,
+    tableOfContents: false,
+    prev: false,
+    next: false,
+    pagefind: false,
+    head: [{ tag: "meta", attrs: { property: "og:title", content: ogTitle } }],
+  }}
+>
+  {
+    parent && (
+      <p>
+        A clause of{" "}
+        <a href={`${base}/rules/${parent.num}/`}>
+          § {parent.num} {parent.title}
+        </a>
+        .
+      </p>
+    )
+  }
+  <Fragment set:html={body} />
+  <p class="cs-card-note cs-card-actions">
+    <CopyLink href={`${base}/rules/${ref.num}/`} />
+    <a href={`${base}/rules/network-rules/#${ref.anchor}`}>
+      Read it in the Network Rules
+    </a>
+  </p>
+</StarlightPage>

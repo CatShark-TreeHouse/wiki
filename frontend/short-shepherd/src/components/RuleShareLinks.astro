@@ -1,0 +1,25 @@
+---
+// Points the link icon beside every rule and clause heading at that rule's
+// own page ("/rules/19.3/") instead of at the anchor. Copying an anchor link
+// into Discord or Telegram previews as the whole Network Rules page; the
+// rule's own page previews as the rule. Rendered by PageTitle, so it runs on
+// the Network Rules page and on the rule pages cut out of it.
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<script is:inline define:vars={{ base }}>
+  // PageTitle sits above the content, so wait for the headings to exist.
+  document.addEventListener("DOMContentLoaded", () => {
+    for (const num of document.querySelectorAll(
+      ".sl-markdown-content :is(h3, h4) > .cs-num",
+    )) {
+      const n = num.textContent.trim();
+      const link = num.parentElement.parentElement.querySelector(
+        ":scope > a.sl-anchor-link",
+      );
+      if (!link || !/^\d+(\.\d+)?$/.test(n)) continue;
+      link.href = `${base}/rules/${n}/`;
+      link.title = `§ ${n} on its own page: copy this link to share the rule`;
+    }
+  });
+</script>
