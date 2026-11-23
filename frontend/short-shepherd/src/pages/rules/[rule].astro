@@ -2,8 +2,9 @@
 // A page per rule ("/rules/19/") and per clause ("/rules/19.3/"), cut out of
 // the Network Rules page. A link to an anchor on that page always previews
 // as "Network Rules", because the part after "#" never reaches the server;
-// these pages carry the rule's own title and text in their description and
-// Open Graph tags, which is what Discord and Telegram show.
+// these pages carry the rule's own title and, as their description, a rule's
+// TL;DR (src/data/rule-summaries.json) or a clause's text, which is what
+// Discord and Telegram show.
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import CopyLink from "../../components/CopyLink.astro";
 import { compiledContent } from "../../content/docs/rules/network-rules.md";
@@ -13,12 +14,15 @@ import {
   ruleSection,
   type RuleRef,
 } from "../../lib/rules";
+import summaries from "../../data/rule-summaries.json";
 
 type Props = {
   ref: RuleRef;
   parent: RuleRef | null;
   body: string;
   description: string;
+  /** A rule's TL;DR; null on a clause page. */
+  summary: string | null;
 };
 
 export async function getStaticPaths() {
@@ -27,10 +31,17 @@ export async function getStaticPaths() {
     const parent = ref.parent
       ? (ruleRefs.find((r) => r.num === ref.parent) ?? null)
       : null;
-    // A rule's preview is its first clause: the rule's core statement.
-    const first = ref.parent
-      ? ref
-      : (ruleRefs.find((r) => r.parent === ref.num) ?? ref);
+    // A rule previews as its TL;DR, and a rule without one fails the build,
+    // so a new rule cannot ship with an empty preview. A clause is short
+    // enough to preview as its own text.
+    const summary = ref.parent
+      ? null
+      : ((summaries as Record<string, string>)[ref.num] ?? null);
+    if (!ref.parent && !summary) {
+      throw new Error(
+        `Rule ${ref.num} has no TL;DR in src/data/rule-summaries.json`,
+      );
+    }
     return {
       params: { rule: ref.num },
       props: {
@@ -38,15 +49,18 @@ export async function getStaticPaths() {
         parent,
         body: ruleSection(html, ref),
         // Asides (the "For the Record" note) stay out of the preview.
-        description: plainText(
-          ruleSection(html, first).replace(/<aside[\s\S]*?<\/aside>/g, ""),
-        ),
+        description:
+          summary ??
+          plainText(
+            ruleSection(html, ref).replace(/<aside[\s\S]*?<\/aside>/g, ""),
+          ),
+        summary,
       } satisfies Props,
     };
   });
 }
 
-const { ref, parent, body, description } = Astro.props as Props;
+const { ref, parent, body, description, summary } = Astro.props as Props;
 // The rules page's own history is the history of this page.
 Astro.locals.revisionSource = "src/content/docs/rules/network-rules.md";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -73,6 +87,13 @@ const ogTitle = parent ? `${title} (${parent.title})` : title;
           § {parent.num} {parent.title}
         </a>
         .
+      </p>
+    )
+  }
+  {
+    summary && (
+      <p>
+        <strong>TL;DR:</strong> {summary}
       </p>
     )
   }
