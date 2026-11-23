@@ -28,6 +28,7 @@ before posting.
   <li><a href="#16-repeat-offenders"><span class="cs-num">16</span> <span>Repeat Offenders</span></a></li>
   <li><a href="#17-limited-ex-post-facto"><span class="cs-num">17</span> <span>Limited Ex Post Facto</span></a></li>
   <li><a href="#18-no-non-consensual-content"><span class="cs-num">18</span> <span>No Non-Consensual Content</span></a></li>
+  <li><a href="#19-keep-the-vibe"><span class="cs-num">19</span> <span>Keep the Vibe</span></a></li>
 </ol>
 
 ## How the Rules Are Written
@@ -378,11 +379,44 @@ Suffering with no frame is non-consensual content, whatever the caption says.
 the signal itself. Unsure? Ask a moderator first, as
 [§ 11.2](/rules/network-rules/#112-ask-before-posting) says.
 
+### <span class="cs-num">19</span> <span class="cs-title">Keep the Vibe</span>
+
+#### <span class="cs-num">19.1</span> Conduct Detrimental to the Community
+
+A member may be removed from the network without having broken any other
+rule. Where a member's overall conduct makes others feel uncomfortable or
+unsafe, is malicious, or is otherwise detrimental to the community as a
+whole, this rule may be invoked.
+
+#### <span class="cs-num">19.2</span> Two-Thirds Majority Required
+
+A ban under this rule requires the approval of a two-thirds majority of the
+admins. No admin may invoke it alone.
+
+#### <span class="cs-num">19.3</span> Behavior Over Time
+
+This rule requires a sustained pattern of seriously harmful behavior over
+time. A single incident, however badly it was received, is never enough. It
+is a measure of last resort, reserved for exceptional cases.
+
+#### <span class="cs-num">19.4</span> Not a Ban Over Opinions
+
+Nobody is banned under this rule for what they think. Disagreeing with
+members or staff, holding an unpopular opinion, or simply being disliked is
+not grounds for invoking it. The rule judges how a member behaves toward
+others, not their views (see § 4.6).
+
+#### <span class="cs-num">19.5</span> Expected Conduct
+
+Members are expected to treat one another with courtesy and respect at all
+times.
+
 ## Amendment Log
 
-| Date       | Rule         | Change                                                                                                                                                 |
-| :--------- | :----------- | :----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 2026-08-20 | § 2.5, § 2.6 | Added: discrimination by ethnicity is explicitly prohibited, whichever group is being talked about. See [incident 260819](/incidents/260819/).         |
-| 2026-08-20 | § 4.4, § 4.5 | Added: remain civil when met with disagreement. See [incident 260819](/incidents/260819/).                                                             |
-| 2026-10-26 | § 18         | Added: non-consensual content is banned, consensual non-consent is allowed, and depicted suffering draws the line between open, controlled and banned. |
-| 2026-10-26 | § 18         | Reworded: renamed to No Non-Consensual Content, with a definition in § 18.1, so the rule does not lean on a word that can bring back past experiences. |
+| Date       | Rule         | Change                                                                                                                                                                                                     |
+| :--------- | :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-08-20 | § 2.5, § 2.6 | Added: discrimination by ethnicity is explicitly prohibited, whichever group is being talked about. See [incident 260819](/incidents/260819/).                                                             |
+| 2026-08-20 | § 4.4, § 4.5 | Added: remain civil when met with disagreement. See [incident 260819](/incidents/260819/).                                                                                                                 |
+| 2026-10-26 | § 18         | Added: non-consensual content is banned, consensual non-consent is allowed, and depicted suffering draws the line between open, controlled and banned.                                                     |
+| 2026-10-26 | § 18         | Reworded: renamed to No Non-Consensual Content, with a definition in § 18.1, so the rule does not lean on a word that can bring back past experiences.                                                     |
+| 2026-11-22 | § 19         | Added: Keep the Vibe. A two-thirds majority of the admins may ban a member whose behavior over time is detrimental to the community, even where no other rule was broken. It is never a ban over opinions. |

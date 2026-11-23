@@ -1,5 +1,11 @@
 [
   {
+    "date": "2026-11-22",
+    "pr": 36,
+    "title": "New rule: § 19 Keep the Vibe",
+    "summary": "A member whose behavior over time makes others feel uncomfortable or unsafe, or is otherwise detrimental to the community, may be banned by a two-thirds majority of the admins, even where no other rule was broken. It takes a sustained pattern, not a single incident, and it is never a ban over differing opinions."
+  },
+  {
     "date": "2026-11-17",
     "pr": 34,
     "title": "NIIC is banned",
